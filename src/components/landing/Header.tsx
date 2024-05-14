@@ -2,7 +2,9 @@ import Image from "next/image"
 import Link from "next/link"
 import Search from "../search/Search"
 
-const Header = () => {
+const Header =async () => {
+    
+    
   return (
     <header className="py-4 shadow-sm bg-white">
         <div className="container flex items-center justify-between">

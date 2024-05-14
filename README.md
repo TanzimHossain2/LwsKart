@@ -45,6 +45,8 @@ _(To be filled)_
   - Internationalization
   - Product search (by title, tag, description)
   - Product filtering (by category, price, size)
+- **Extra Features**:
+   - BreadCrumb Navigation
   - ...and more to be added soon
 
 ## Technologies
