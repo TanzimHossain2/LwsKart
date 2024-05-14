@@ -54,8 +54,10 @@ _(To be filled)_
 - Next.js
 - TypeScript
 - Tailwind CSS
-- MongoDB
-- Next-Auth
+- MongoDB 
+- Next-Auth (for authentication)
+- React Hook Form (for form validation)
+- Zod (for validation)
 - ...and more to be added soon
 
 ## Installation

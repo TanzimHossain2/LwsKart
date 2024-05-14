@@ -1,7 +1,32 @@
+"use client";
+import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form"
+
+type Inputs = {
+  email: string;
+  password: string;
+  remember?: boolean;
+}
+
 const LoginForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError
+  } = useForm<Inputs>({
+    defaultValues: {
+      email: "",
+      password: "",
+      remember: false,
+    },
+  });
+
+  const onSubmit: SubmitHandler<Inputs> = async()=>{}
+
   return (
     <>
-      <form action="#" method="post" autoComplete="off">
+      <form  autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-2">
           <div>
             <label htmlFor="email" className="text-gray-600 mb-2 block">
@@ -9,10 +34,18 @@ const LoginForm = () => {
             </label>
             <input
               type="email"
-              name="email"
+              
               id="email"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
               placeholder="youremail.@domain.com"
+              {...register('email',{
+                required: 'Email is required',
+                pattern: /^\S+@\S+$/i,
+                minLength: {
+                  value: 3,
+                  message: 'Email must have at least 3 characters'
+                }
+              })}
             />
           </div>
           <div>
@@ -21,10 +54,16 @@ const LoginForm = () => {
             </label>
             <input
               type="password"
-              name="password"
               id="password"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
               placeholder="*******"
+              {...register('password',{
+                required: 'Password is required',
+                minLength: {
+                  value: 3,
+                  message: 'Password must have at least 3 characters'
+                }
+              })}
             />
           </div>
         </div>
@@ -32,9 +71,12 @@ const LoginForm = () => {
           <div className="flex items-center">
             <input
               type="checkbox"
-              name="remember"
+           
               id="remember"
               className="text-primary focus:ring-0 rounded-sm cursor-pointer"
+              {
+                ...register('remember')
+              }
             />
             <label
               htmlFor="remember"
@@ -43,9 +85,9 @@ const LoginForm = () => {
               Remember me
             </label>
           </div>
-          <a href="#" className="text-primary">
+          <Link href="/forget" className="text-primary">
             Forgot password
-          </a>
+          </Link>
         </div>
         <div className="mt-4">
           <button
