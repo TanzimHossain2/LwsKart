@@ -1,40 +1,34 @@
 import { hashMatched } from "@/utils/hashing";
-import { z } from "zod";
 import { getUserByEmail } from "../../services/user";
-
-const authSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
-
-interface AuthData {
-  email: string;
-  password: string;
-}
+import { LoginSchema } from "@/schemas";
+import * as z from "zod";
 
 export const loginUser = async ({
   email,
   password,
-}: AuthData): Promise<any> => {
+}: z.infer<typeof LoginSchema>): Promise<any> => {
   try {
-    const validatedData = authSchema.parse({ email, password });
+    const validatedData = LoginSchema.parse({ email, password });
+
+    if (!validatedData) {
+      return null;
+    } 
 
     // check if user exists
     const user = await getUserByEmail(validatedData.email);
 
-    if (!user) {
-      throw new Error("Invalid Credentials");
+    if (!user || !user.password) {
+      return null;
     }
 
     // Check if password matches
     const passwordMatch = await hashMatched(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("Invalid Credentials");
+      return null;
     }
-    
+
     return user;
-    
   } catch (err) {
     throw new Error(String(err));
   }

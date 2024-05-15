@@ -1,7 +1,5 @@
-
 import { MongoClient, ServerApiVersion } from "mongodb"
-import mongoose, {Mongoose} from "mongoose";
- 
+
 if (!process.env.MONGO_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGO_URI"')
 }

@@ -1,18 +1,26 @@
 "use server"
 
 import { signIn  } from "@/auth"
+import { LoginSchema } from "@/schemas";
+import { AuthError } from "next-auth";
+import * as z from 'zod';
 
-type IFormData = {
-    email: string;
-    password: string;
-}
+export async function login(values: z.infer<typeof LoginSchema>){
 
-export async function login(formData:IFormData){
     try {
+        // Validate the fields
+        const validateFields = LoginSchema.safeParse(values);
+
+        if(!validateFields.success){
+            return {
+                error: "Invalid Fields!"
+            }
+        }
 
         const response = await signIn("credentials",{
-            email: formData.email.toLowerCase(),
-            password: formData.password
+            email: values.email.toLowerCase(),
+            password: values.password,
+            redirect: false
         });
 
         if(!response){
@@ -26,8 +34,22 @@ export async function login(formData:IFormData){
         }
 
     } catch (err) {
-        return {
-            error: (err as Error).message
+        if (err instanceof AuthError) {
+            switch (err.type) {
+                case "CredentialsSignin" : {
+                    return {
+                        error: "Invalid Credentials!"
+                    }
+                }
+
+                default: {
+                    return {
+                        error: "Something went wrong!"
+                    }
+                }
+            }
         }
+
+        throw err;
     }
 }

@@ -33,7 +33,7 @@ const LoginForm = () => {
       if (res.user) {
         console.log(res.user);
       } else {
-        console.log(res.error.message);
+        console.log(res.error);
       }
     } catch (err) {
       // React Toastify will add here
