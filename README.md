@@ -45,6 +45,8 @@ _(To be filled)_
   - Internationalization
   - Product search (by title, tag, description)
   - Product filtering (by category, price, size)
+- **Extra Features**:
+   - BreadCrumb Navigation
   - ...and more to be added soon
 
 ## Technologies
@@ -52,8 +54,10 @@ _(To be filled)_
 - Next.js
 - TypeScript
 - Tailwind CSS
-- MongoDB
-- Next-Auth
+- MongoDB 
+- Next-Auth (for authentication)
+- React Hook Form (for form validation)
+- Zod (for validation)
 - ...and more to be added soon
 
 ## Installation

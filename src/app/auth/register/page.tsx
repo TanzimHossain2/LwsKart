@@ -17,7 +17,7 @@ const RegistrationPage = () => {
 
         <p className="mt-4 text-center text-gray-600">
           Already have account?{" "}
-          <Link href="/login" className="text-primary">
+          <Link href="/auth/login" className="text-primary">
             Login now
           </Link>
         </p>
