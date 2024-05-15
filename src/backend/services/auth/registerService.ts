@@ -18,6 +18,5 @@ export const registerUser = async ( userData:RegisterData ) => {
         
     } catch (err) {
        throw new Error((err as Error).message);
-        
     }
 }

@@ -15,7 +15,7 @@ const LoginPage = () => {
         <SocialLogin mode="login" />
         <p className="mt-4 text-center text-gray-600">
           Don't have account?{" "}
-          <Link href="/register" className="text-primary">
+          <Link href="/auth/register" className="text-primary">
             Register now
           </Link>
         </p>

@@ -1,19 +1,21 @@
 "use client";
+import { login } from "@/app/action/loginAction";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useRouter } from "next/navigation";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
   email: string;
   password: string;
   remember?: boolean;
-}
+};
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setError
+    setError,
   } = useForm<Inputs>({
     defaultValues: {
       email: "",
@@ -22,11 +24,26 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async()=>{}
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const res:any = await login(data);
+
+      if (res.user) {
+        console.log(res.user);
+      } else {
+        console.log(res.error.message);
+      }
+    } catch (err) {
+      // React Toastify will add here
+      console.log((err as Error).message);
+    }
+  };
 
   return (
     <>
-      <form  autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-2">
           <div>
             <label htmlFor="email" className="text-gray-600 mb-2 block">
@@ -34,20 +51,25 @@ const LoginForm = () => {
             </label>
             <input
               type="email"
-              
               id="email"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
               placeholder="youremail.@domain.com"
-              {...register('email',{
-                required: 'Email is required',
+              {...register("email", {
+                required: "Email is required",
                 pattern: /^\S+@\S+$/i,
                 minLength: {
                   value: 3,
-                  message: 'Email must have at least 3 characters'
-                }
+                  message: "Email must have at least 3 characters",
+                },
               })}
             />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
+
           <div>
             <label htmlFor="password" className="text-gray-600 mb-2 block">
               Password
@@ -57,26 +79,29 @@ const LoginForm = () => {
               id="password"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
               placeholder="*******"
-              {...register('password',{
-                required: 'Password is required',
+              {...register("password", {
+                required: "Password is required",
                 minLength: {
-                  value: 3,
-                  message: 'Password must have at least 3 characters'
-                }
+                  value: 6,
+                  message: "Password must have at least 6 characters",
+                },
               })}
             />
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
         </div>
+
         <div className="flex items-center justify-between mt-6">
           <div className="flex items-center">
             <input
               type="checkbox"
-           
               id="remember"
               className="text-primary focus:ring-0 rounded-sm cursor-pointer"
-              {
-                ...register('remember')
-              }
+              {...register("remember")}
             />
             <label
               htmlFor="remember"
@@ -89,6 +114,7 @@ const LoginForm = () => {
             Forgot password
           </Link>
         </div>
+
         <div className="mt-4">
           <button
             type="submit"

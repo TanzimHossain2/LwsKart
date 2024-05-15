@@ -47,7 +47,7 @@ const Navbar = () => {
             <Link href="/about-us" className="text-gray-200 hover:text-white transition">About us</Link>
             <Link href="/contact-us" className="text-gray-200 hover:text-white transition">Contact us</Link>
           </div>
-          <Link href="/login" className="text-gray-200 hover:text-white transition">Login</Link>
+          <Link href="/auth/login" className="text-gray-200 hover:text-white transition">Login</Link>
         </div>
       </div>
     </nav>

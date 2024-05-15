@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema<IUser>({
     username: { 
         type: String,
     },
+    name: { 
+        type: String, 
+        required: true 
+    },
     email: { 
         type: String, 
         required: true, 
@@ -33,7 +37,7 @@ const userSchema = new mongoose.Schema<IUser>({
         type: Boolean, 
         default: false 
     },
-}, { timestamps: true });
+});
 
 
 userSchema.pre<IUser>('save', async function (next) {

@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 
 
 export interface IUser extends Document {
+  name: string;
   username: string;
   email: string;
   image: string;
@@ -11,6 +12,4 @@ export interface IUser extends Document {
   refreshToken: string;
   emailVerified: boolean;
   role: string;
-  createdAt: Date;
-  updatedAt: Date;
 }

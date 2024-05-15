@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
   name: string;
@@ -8,17 +8,14 @@ type Inputs = {
   password: string;
   confirm: string;
   aggrement: boolean;
-}
-
-
-
+};
 
 const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setError
+    setError,
   } = useForm<Inputs>({
     defaultValues: {
       name: "",
@@ -31,42 +28,35 @@ const RegistrationForm = () => {
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<Inputs> =async (data) => {
-
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (data.password !== data.confirm) {
-      setError('confirm', {
-        type: 'manual',
-        message: 'Passwords do not match',
+      setError("confirm", {
+        type: "manual",
+        message: "Passwords do not match",
       });
       return;
     }
 
     try {
-
-      const res = await fetch('/api/auth/register',{
-        method: 'POST',
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
-      
-      if(res.status === 201) {
-        console.log('User created successfully');
-        router.push('/login');
 
+      if (res.status === 201) {
+        console.log("User created successfully");
+        router.push("/auth/login");
       } else {
         console.log(res.statusText);
         // React Toastify will add here
       }
-      
     } catch (err) {
       console.log(err);
-      
     }
-
-  }
-
+  };
 
   return (
     <>
@@ -78,15 +68,20 @@ const RegistrationForm = () => {
             </label>
             <input
               type="text"
-              
               id="name"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
               placeholder="Enter your full name"
-              {...register("name",{required:"Name is required", minLength:{ 
-                value: 3, 
-                message: "Name must have at least 3 characters"} })}
+              {...register("name", {
+                required: "Name is required",
+                minLength: {
+                  value: 3,
+                  message: "Name must have at least 3 characters",
+                },
+              })}
             />
-            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+            )}
           </div>
 
           <div>
@@ -95,16 +90,23 @@ const RegistrationForm = () => {
             </label>
             <input
               type="email"
-             
               id="email"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
               placeholder="youremail.@domain.com"
-              {...register("email",{required:  " Email is required" , pattern:/^\S+@\S+$/i, minLength:{
-                value: 3, 
-                message: "Email must have at least 3 characters"
-              }})}
-            /> 
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+              {...register("email", {
+                required: " Email is required",
+                pattern: /^\S+@\S+$/i,
+                minLength: {
+                  value: 3,
+                  message: "Email must have at least 3 characters",
+                },
+              })}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -116,12 +118,19 @@ const RegistrationForm = () => {
               id="password"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
               placeholder="*******"
-              {...register("password",{required:  " Password is required" , minLength:{
-                value: 6, 
-                message: "Password must have at least 6 characters"
-              }})}
+              {...register("password", {
+                required: " Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must have at least 6 characters",
+                },
+              })}
             />
-            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -133,15 +142,20 @@ const RegistrationForm = () => {
               id="confirm"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
               placeholder="*******"
-              {...register("confirm",{required:  " Confirm Password is required" , minLength:{
-                value: 6, 
-                message: "Confirm Password must have at least 6 characters"
-              }})}
-
+              {...register("confirm", {
+                required: " Confirm Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Confirm Password must have at least 6 characters",
+                },
+              })}
             />
-            {errors.confirm && <p className="text-red-500 text-xs mt-1">{errors.confirm.message}</p>}
+            {errors.confirm && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.confirm.message}
+              </p>
+            )}
           </div>
-
         </div>
 
         <div className="mt-6">
@@ -150,7 +164,7 @@ const RegistrationForm = () => {
               type="checkbox"
               id="aggrement"
               className="text-primary focus:ring-0 rounded-sm cursor-pointer"
-              {...register("aggrement",{required:  " Aggrement is required" })}
+              {...register("aggrement", { required: " Aggrement is required" })}
             />
             <label
               htmlFor="aggrement"
@@ -161,7 +175,11 @@ const RegistrationForm = () => {
                 terms & conditions
               </a>
             </label>
-            {errors.aggrement && <p className="text-red-500 text-xs mt-1">{errors.aggrement.message}</p>}
+            {errors.aggrement && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.aggrement.message}
+              </p>
+            )}
           </div>
         </div>
         <div className="mt-4">

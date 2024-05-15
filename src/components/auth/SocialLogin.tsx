@@ -1,26 +1,22 @@
-"use client"
+"use client";
 
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import appConfig from "@/config";
-
 
 type SocialLoginsProps = {
   mode: "login" | "register";
-}
+};
 
-type socialMode = 'faceBook' | 'google';
+type socialMode = "faceBook" | "google";
 
-const SocialLogin : React.FC <SocialLoginsProps> = ({ mode }) => {
-
-  const handleAuth = (social : socialMode) : void =>{
-    if(social === 'faceBook'){
-      signIn("facebook", { callbackUrl: `${appConfig.baseUrl}`})
-    }else{
-      signIn("google", { callbackUrl: `${appConfig.baseUrl}`})
+const SocialLogin: React.FC<SocialLoginsProps> = ({ mode }) => {
+  const handleAuth = (social: socialMode): void => {
+    if (social === "faceBook") {
+      signIn("facebook", { callbackUrl: `${appConfig.baseUrl}` });
+    } else {
+      signIn("google", { callbackUrl: `${appConfig.baseUrl}` });
     }
-
-  }
+  };
 
   return (
     <>
@@ -32,13 +28,13 @@ const SocialLogin : React.FC <SocialLoginsProps> = ({ mode }) => {
       </div>
       <div className="mt-4 flex gap-4">
         <button
-          onClick={() => handleAuth('faceBook')}
+          onClick={() => handleAuth("faceBook")}
           className="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700"
         >
           facebook
         </button>
         <button
-          onClick={() => handleAuth('google')}
+          onClick={() => handleAuth("google")}
           className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500"
         >
           google

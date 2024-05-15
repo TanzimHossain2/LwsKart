@@ -1,6 +1,9 @@
 import { generateHash } from "@/utils/hashing";
 import { z } from "zod";
-import { registerUser } from "../services/auth";
+
+
+import { registerUser } from "@/backend/services/auth";
+import { existingUserCheck } from "@/backend/services/user";
 
 const schema = z.object({
   name: z.string(),
@@ -21,12 +24,21 @@ export const register = async ({
 }: RegisterData): Promise<any> => {
   try {
     const validatedData = schema.parse({ name, email, password });
+
+    // Check if user already exists
+    const userExists = await existingUserCheck(validatedData.email.toLowerCase());
+    
+    if (userExists) {
+      throw new Error("User already exists");
+    }
+
+
     const hashedPassword = await generateHash(password);
 
     // Register user
     const newUser = await registerUser({
       name: validatedData.name,
-      email: validatedData.email,
+      email: validatedData.email.toLowerCase(),
       password: hashedPassword,
     });
    
