@@ -9,8 +9,9 @@ interface IAppConfig {
     baseUrl: string;
 }
 
+
 const appConfig: IAppConfig = {
-    baseUrl: process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_BASE_URL,
+    baseUrl: process.env.NODE_ENV === "development" ? "http://localhost:3000" :  process.env.NEXT_PUBLIC_BASE_URL ?? "", 
 }
 
 Object.freeze(appConfig);
