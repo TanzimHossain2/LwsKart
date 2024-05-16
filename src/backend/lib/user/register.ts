@@ -1,9 +1,10 @@
 import { generateHash } from "@/utils/hashing";
-import { z } from "zod";
+import * as z from 'zod';
 
 
 import { registerUser } from "@/backend/services/auth";
 import { existingUserCheck } from "@/backend/services/user";
+import { generateVerificationToken } from "./tokens";
 
 const schema = z.object({
   name: z.string(),
@@ -11,17 +12,14 @@ const schema = z.object({
   password: z.string().min(6),
 });
 
-interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-}
+
 
 export const register = async ({
   name,
   email,
   password,
-}: RegisterData): Promise<any> => {
+}: z.infer<typeof schema>
+) => {
   try {
     const validatedData = schema.parse({ name, email, password });
 
@@ -41,8 +39,13 @@ export const register = async ({
       email: validatedData.email.toLowerCase(),
       password: hashedPassword,
     });
-   
-    return newUser;
+    
+    // Generate verification token
+    const verificationToken = await generateVerificationToken(validatedData.email.toLowerCase());
+    console.log(verificationToken);
+    
+    return {success: "Confirmation email sent!"};
+
 
   } catch (error) {
     if (error instanceof z.ZodError) {

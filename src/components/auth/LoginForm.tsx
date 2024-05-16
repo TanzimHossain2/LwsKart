@@ -1,13 +1,17 @@
 "use client";
 import { login } from "@/app/action/loginAction";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import FormError from "./FormError";
+import FormSuccess from "./FormSuccess";
 
 type Inputs = {
   email: string;
   password: string;
   remember?: boolean;
+  error?: string;
+  success?: string;
 };
 
 const LoginForm = () => {
@@ -21,19 +25,29 @@ const LoginForm = () => {
       email: "",
       password: "",
       remember: false,
+      error: "",
+      success: "",
     },
   });
 
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Your account is already linked with another provider"
+      : "";
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const res:any = await login(data);
-
-      if (res.user) {
-        console.log(res.user);
+      const res = await login(data);
+      if (res.user || res.success) {
+        console.log(res?.user);
+        setError("success", { type: "manual", message: res?.success });
       } else {
-        console.log(res.error);
+        console.log(res?.error);
+        setError("error", {
+          type: "manual",
+          message: res?.error,
+        });
       }
     } catch (err) {
       // React Toastify will add here
@@ -43,7 +57,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+      <form autoComplete="on" onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-2">
           <div>
             <label htmlFor="email" className="text-gray-600 mb-2 block">
@@ -113,6 +127,16 @@ const LoginForm = () => {
           <Link href="/forget" className="text-primary">
             Forgot password
           </Link>
+        </div>
+
+        <div className="mt-4" {...register("error")}>
+          {errors?.error || urlError ? (
+            <FormError message={errors.error?.message || urlError} />
+          ) : null}
+
+          {errors?.success ? (
+            <FormSuccess message={errors.success?.message} />
+          ) : null}
         </div>
 
         <div className="mt-4">
