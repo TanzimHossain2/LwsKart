@@ -24,6 +24,7 @@ _(To be filled)_
   - Social media login
   - Email verification
   - Access Token & Refresh Token management
+  - Forgot password
 - **User Profile Management**:
   - Edit user profile
   - Update address

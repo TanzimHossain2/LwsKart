@@ -1,5 +1,5 @@
-import { verificationTokenModel } from "@/backend/schema";
-import { getVerficationTokenByEmail } from "@/backend/services/token";
+import { PasswordResetToken, verificationTokenModel } from "@/backend/schema";
+import { getPasswordResetTokenByEmail, getVerficationTokenByEmail } from "@/backend/services/token";
 import { v4 as uuidv4 } from "uuid";
 
 export const generateVerificationToken = async (email: string) => {
@@ -26,3 +26,31 @@ export const generateVerificationToken = async (email: string) => {
 
     return newVerificationToken;
 };
+
+export const generatePasswordResetToken = async (email: string) => {
+  const token = uuidv4();
+  const expires = new Date(new Date().getTime() + 30 * 60 * 1000); // 30 minutes
+  const existingToken = await getPasswordResetTokenByEmail(email);
+
+  if (existingToken) {
+    try {
+      await PasswordResetToken.deleteOne({ _id: existingToken._id });
+      console.log("Existing token deleted successfully");
+    } catch (error) {
+      console.error("Error deleting existing token:", error);
+      throw error;
+    }
+  }
+
+  console.log("Creating new password reset token");
+  console.log(email, token, expires);
+  
+  
+  const newPasswordResetToken = await PasswordResetToken.create({
+    email,
+    token,
+    expires,
+  });
+
+  return newPasswordResetToken;
+}

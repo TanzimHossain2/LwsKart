@@ -1,16 +1,11 @@
+import { IVerificationToken } from "@/interfaces";
 import mongoose, { Model, Schema } from "mongoose";
-
-export interface IVerificationToken extends Document {
-  id: string;
-  email: string;
-  token: string;
-  expires: Date;
-}
 
 const verificationTokenSchema = new mongoose.Schema<IVerificationToken>({
   email: {
     type: String,
     required: true,
+    trim: true,
   },
   token: {
     type: String,

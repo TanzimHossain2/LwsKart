@@ -124,7 +124,7 @@ const LoginForm = () => {
               Remember me
             </label>
           </div>
-          <Link href="/forget" className="text-primary">
+          <Link href="/auth/reset" className="text-primary">
             Forgot password
           </Link>
         </div>
