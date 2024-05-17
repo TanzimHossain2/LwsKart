@@ -1,5 +1,6 @@
 import { IUser } from '@/interfaces';
 import mongoose, { Model, Schema } from 'mongoose';
+import TwoFactorConfirmation from './TwoFactorConfirmatio.model';
 
 const userSchema = new mongoose.Schema<IUser>({
     username: { 
@@ -24,17 +25,19 @@ const userSchema = new mongoose.Schema<IUser>({
         type: String,
         default: "/images/avatar.png"
     },
-    
     role: {
         type: String,
         enum: ['admin', 'user'],
         default: 'user'
     },
-    accessToken: { 
-        type: String 
+    isTwoFactorEnabled: { 
+        type: Boolean, 
+        default: false 
     },
-    refreshToken: { 
-        type: String 
+    twoFactorAuth: {
+        type: Schema.Types.ObjectId,
+        ref: 'twofactorconfirmations',
+        default: null
     },
     emailVerified: { 
         type: Boolean, 
@@ -42,12 +45,18 @@ const userSchema = new mongoose.Schema<IUser>({
     },
 });
 
-
+// Middleware to set username before saving
 userSchema.pre<IUser>('save', async function (next) {
     if (!this.username) {
         const count = await this.model('users').countDocuments();
         this.username = `lKR-${count + 1}-${this.email.split('@')[0].replace(/[^\w\s]/gi, '')}`;
     }
+    next();
+});
+
+// Middleware to handle cascading delete
+userSchema.pre<IUser>('deleteOne', { document: true }, async function (next) {
+    await TwoFactorConfirmation.deleteOne({ userId: this._id });
     next();
 });
 

@@ -3,7 +3,8 @@ import NextAuth from "next-auth";
 import authConfig from "./auth.config";
 import clientPromise from "./lib/db";
 import { getUserById } from "./backend/services/user";
-import { userModel } from "./backend/schema";
+import { TwoFactorConfirmationModel, userModel } from "./backend/schema";
+import { getTwoFactorConfirmationByUserId } from "./backend/services/token";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
@@ -30,7 +31,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return false
       }
 
-      //TODO: Add 2FA check here
+      
+      //prevent sign in when 2FA is enabled
+      if(existingUser?.isTwoFactorEnabled){
+        const twoFactorConfirmation  = await getTwoFactorConfirmationByUserId(existingUser._id);
+        if(!twoFactorConfirmation){
+          return false
+        }
+
+        //Delete 2FA confirmation  for next sign in
+        await TwoFactorConfirmationModel.deleteOne({userId: twoFactorConfirmation._id});
+      }
+      
 
        return  true
     },

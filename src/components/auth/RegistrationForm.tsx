@@ -14,6 +14,7 @@ const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setError,
   } = useForm<Inputs>({
@@ -47,6 +48,7 @@ const RegistrationForm = () => {
       });
 
       if (res.status === 201) {
+        reset();
         console.log("User created successfully");
         router.push("/auth/login");
       } else {

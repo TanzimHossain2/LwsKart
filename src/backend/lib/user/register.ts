@@ -4,7 +4,7 @@ import * as z from 'zod';
 
 import { registerUser } from "@/backend/services/auth";
 import { existingUserCheck } from "@/backend/services/user";
-import { generateVerificationToken } from "./tokens";
+import { generateVerificationToken } from "../token"; 
 
 const schema = z.object({
   name: z.string(),

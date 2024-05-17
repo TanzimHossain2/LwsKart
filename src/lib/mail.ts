@@ -42,3 +42,22 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
         `
     })
 }
+
+
+export const sendTwoFactorEmail = async (email: string, token: string) => {
+    await resend.emails.send({
+        from: "lwsKart@resend.dev",
+        to: email,
+        subject: "Two-factor authentication code",
+        html: `
+            <h1>Two-factor authentication code</h1>
+            <p>Your two-factor authentication code is:</p>
+            <h2>${token}</h2>
+
+            <p>If you didn't request this code, you can safely ignore this email.</p>
+
+            <p>Thanks,</p>
+            <p>Your friends at lwsKart</p>
+        `
+    })
+}

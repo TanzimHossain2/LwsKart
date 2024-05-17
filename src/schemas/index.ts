@@ -28,7 +28,10 @@ export const ResetSchema = emailSchema.merge(statusSchema);
 
 export const newPasswordSchema = passwordSchema.merge(statusSchema);
 
-export const LoginSchema = emailSchema.merge(passwordSchema).merge(statusSchema);
+export const LoginSchema = z.object({
+    code: z.optional(z.string()),
+    remember: z.optional(z.boolean()),
+}).merge(emailSchema).merge(passwordSchema).merge(statusSchema);
 
 export const RegisterSchema = z.object({
     name: z.string().min(3, {
