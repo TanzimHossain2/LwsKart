@@ -1,3 +1,4 @@
+import { dbConnect } from "@/backend/db/connectDb";
 import { userModel } from "../../schema";
 
 interface RegisterData {
@@ -5,8 +6,10 @@ interface RegisterData {
     email: string;
     password: string;
   }
+  
 
 export const registerUser = async ( userData:RegisterData ) => {
+    await dbConnect();
     try {
         const user = await userModel.create(userData);
 

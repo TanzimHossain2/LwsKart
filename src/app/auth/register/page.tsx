@@ -1,7 +1,8 @@
 import RegistrationForm from "@/components/auth/RegistrationForm";
 import SocialLogin from "@/components/auth/SocialLogin";
+import Loading from "@/components/shared/loading";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 
 const RegistrationPage = () => {
   return (
@@ -11,10 +12,10 @@ const RegistrationPage = () => {
           Create an account
         </h2>
         <p className="text-gray-600 mb-6 text-sm">Register for new cosutumer</p>
-        <RegistrationForm />
-
-        <SocialLogin mode="register" />
-
+        <Suspense fallback={<Loading />}>
+          <RegistrationForm />
+          <SocialLogin mode="register" />
+        </Suspense>
         <p className="mt-4 text-center text-gray-600">
           Already have account?{" "}
           <Link href="/auth/login" className="text-primary">

@@ -26,6 +26,11 @@ export const getUserByUsername = async (username: string) => {
 };
 
 export const getUserById = async (id : string) => {
+
+  if (!id) {
+    return null;
+  }
+
   try {
 
     await dbConnect();

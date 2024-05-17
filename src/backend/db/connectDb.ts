@@ -3,6 +3,30 @@ import mongoose, { Connection } from "mongoose";
 const MONGO_URI = process.env.MONGO_URI as string;
 const cached: { connection?: Connection; promise?: Promise<Connection> } = {};
 
+const MAX_RETRIES = 5;
+const RETRY_DELAY = 5000; // 5 seconds
+
+async function connectWithRetry(attempt = 1): Promise<Connection> {
+  const opts = {
+    bufferCommands: false,
+  };
+
+  try {
+    await mongoose.connect(MONGO_URI, opts);
+    return mongoose.connection;
+  } catch (err) {
+    if (attempt <= MAX_RETRIES) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      console.error(`MongoDB connection unsuccessful, retrying in ${RETRY_DELAY / 1000} seconds... (Attempt ${attempt} of ${MAX_RETRIES})`, errorMessage);
+      await new Promise(res => setTimeout(res, RETRY_DELAY));
+      return connectWithRetry(attempt + 1);
+    } else {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      throw new Error(`Failed to connect to MongoDB after ${MAX_RETRIES} attempts: ${errorMessage}`);
+    }
+  }
+}
+
 export async function dbConnect(): Promise<Connection> {
   if (!MONGO_URI) {
     throw new Error(
@@ -15,10 +39,7 @@ export async function dbConnect(): Promise<Connection> {
   }
 
   if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-    cached.promise = mongoose.connect(MONGO_URI, opts).then(() => mongoose.connection) as Promise<Connection>;
+    cached.promise = connectWithRetry();
   }
 
   try {

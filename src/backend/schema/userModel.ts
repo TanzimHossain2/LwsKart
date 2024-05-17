@@ -1,21 +1,24 @@
-import { IUser } from '@/interfaces/User';
+import { IUser } from '@/interfaces';
 import mongoose, { Model, Schema } from 'mongoose';
 
 const userSchema = new mongoose.Schema<IUser>({
     username: { 
         type: String,
+        trim: true,
     },
     name: { 
         type: String, 
-        required: true 
+        required: true,
+        trim: true,
     },
     email: { 
         type: String, 
         required: true, 
-        unique: true
+        unique: true,
+        trim: true,
     },
     password: { 
-        type: String, 
+        type: String,
     },
     image: { 
         type: String,
