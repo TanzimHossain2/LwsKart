@@ -4,10 +4,10 @@ import { getUserByEmail } from "@/backend/services/user"
 import { ResetSchema } from "@/schemas"
 import { sendPasswordResetEmail } from '@/lib/mail';
 import { generatePasswordResetToken } from '@/backend/lib/user/tokens';
+import { dbConnect } from '@/backend/db/connectDb';
 
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
-    
     const validateFields = ResetSchema.safeParse(values);
 
     if (!validateFields.success) {

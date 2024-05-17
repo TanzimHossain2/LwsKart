@@ -42,8 +42,7 @@ export async function login(values: z.infer<typeof LoginSchema>){
                     error: "Something went wrong!"
                 }
             }
-            console.log(verificationToken);
-            
+
 
             await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
