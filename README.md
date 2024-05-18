@@ -25,6 +25,7 @@ _(To be filled)_
   - Email verification
   - Access Token & Refresh Token management
   - Forgot password
+  - 2FA (Two-Factor Authentication)
 - **User Profile Management**:
   - Edit user profile
   - Update address

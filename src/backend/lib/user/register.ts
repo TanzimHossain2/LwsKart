@@ -4,12 +4,13 @@ import * as z from 'zod';
 
 import { registerUser } from "@/backend/services/auth";
 import { existingUserCheck } from "@/backend/services/user";
-import { generateVerificationToken } from "./tokens";
+import { generateVerificationToken } from "../token"; 
 
 const schema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string().min(6),
+  number: z.string().min(10).max(14)
 });
 
 
@@ -18,10 +19,11 @@ export const register = async ({
   name,
   email,
   password,
+  number
 }: z.infer<typeof schema>
 ) => {
   try {
-    const validatedData = schema.parse({ name, email, password });
+    const validatedData = schema.parse({ name, email, password, number });
 
     // Check if user already exists
     const userExists = await existingUserCheck(validatedData.email.toLowerCase());
@@ -38,6 +40,7 @@ export const register = async ({
       name: validatedData.name,
       email: validatedData.email.toLowerCase(),
       password: hashedPassword,
+      number: validatedData.number
     });
     
     // Generate verification token

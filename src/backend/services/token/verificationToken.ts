@@ -1,10 +1,12 @@
 import { dbConnect } from "@/backend/db/connectDb";
-import { verificationTokenModel } from "@/backend/schema";
+import { db } from "@/backend/schema";
+
 
 export const getVerficationTokenByEmail = async (email: string) => {
   try {
     await dbConnect();
-    const verificationToken = await verificationTokenModel.findOne({ email });
+
+    const verificationToken = await db.verificationToken.findOne({ email });
     return verificationToken;
   } catch (err) {
     return null;
@@ -15,7 +17,9 @@ export const getVerficationTokenByToken = async (token: string) => {
   try {
     await dbConnect();
 
-    const verificationToken = await verificationTokenModel.findOne({token: token });
+    const verificationToken = await db.verificationToken.findOne({
+      token: token,
+    });
 
     return verificationToken;
   } catch (err) {
@@ -23,4 +27,4 @@ export const getVerficationTokenByToken = async (token: string) => {
   }
 };
 
-// const distroyVerificationToken = 
+// const distroyVerificationToken =

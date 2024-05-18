@@ -8,12 +8,14 @@ type Inputs = {
   password: string;
   confirm: string;
   aggrement: boolean;
+  number: string;
 };
 
 const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setError,
   } = useForm<Inputs>({
@@ -23,6 +25,7 @@ const RegistrationForm = () => {
       password: "",
       confirm: "",
       aggrement: false,
+      number: "",
     },
   });
 
@@ -47,6 +50,7 @@ const RegistrationForm = () => {
       });
 
       if (res.status === 201) {
+        reset();
         console.log("User created successfully");
         router.push("/auth/login");
       } else {
@@ -153,6 +157,36 @@ const RegistrationForm = () => {
             {errors.confirm && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.confirm.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="number" className="text-gray-600 mb-2 block">
+              Phone number
+            </label>
+
+            <input
+              type="text"
+              id="number"
+              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+              placeholder="+880 180 000 1111"
+              {...register("number", {
+                required: " Phone number is required",
+                minLength: {
+                  value: 10,
+                  message: "Phone number must have at least 10 characters",
+                },
+                maxLength: {
+                  value: 14,
+                  message: "Phone number must have at most 14 characters",
+                },
+              })}
+            />
+
+            {errors.number && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.number.message}
               </p>
             )}
           </div>

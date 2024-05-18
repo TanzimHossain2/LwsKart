@@ -1,6 +1,6 @@
 "use server"
 
-import { userModel } from "@/backend/schema"
+import { db } from "@/backend/schema";
 import { getVerficationTokenByToken } from "@/backend/services/token"
 import { getUserByEmail } from "@/backend/services/user"
 
@@ -31,7 +31,8 @@ export const newVerification = async (token: string) => {
         }
     }
 
-    await userModel.updateOne({ _id: existingUser._id }, { emailVerified: true, email: existingToken.email });
+   
+    await  db.user.updateOne({ _id: existingUser._id }, { emailVerified: true, email: existingToken.email });
 
     // Delete the token
     await existingToken.deleteOne({ _id: existingToken._id})

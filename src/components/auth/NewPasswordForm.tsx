@@ -6,7 +6,7 @@ import FormSuccess from "./FormSuccess";
 import { newPasswordSchema } from "@/schemas";
 import * as z from "zod";
 import { useSearchParams } from "next/navigation";
-import { newPassword } from "@/app/action/new-password";
+import { newPassword } from "@/app/action/auth";
 
 const NewPasswordForm = () => {
   const {

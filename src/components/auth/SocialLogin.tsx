@@ -2,7 +2,8 @@
 
 import { signIn } from "next-auth/react";
 import appConfig from "@/config";
-
+import { useSearchParams } from "next/navigation";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 type SocialLoginsProps = {
   mode: "login" | "register";
 };
@@ -10,11 +11,16 @@ type SocialLoginsProps = {
 type socialMode = "faceBook" | "google";
 
 const SocialLogin: React.FC<SocialLoginsProps> = ({ mode }) => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+
   const handleAuth = (social: socialMode): void => {
     if (social === "faceBook") {
-      signIn("facebook", { callbackUrl: `${appConfig.baseUrl}` });
+      signIn("facebook", {
+        callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      });
     } else {
-      signIn("google", { callbackUrl: `${appConfig.baseUrl}` });
+      signIn("google", { callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT });
     }
   };
 

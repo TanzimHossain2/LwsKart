@@ -9,6 +9,9 @@ import { type DefaultSession } from "next-auth";
 export type ExtendedUser = DefaultSession["user"] & {
   role: "admin" | "user";
   username: string;
+  isTwoFactorEnabled: boolean;
+  number: string;
+  isOAuth: boolean;
 };
 
 declare module "next-auth" {
@@ -16,17 +19,19 @@ declare module "next-auth" {
     user: ExtendedUser & DefaultSession["user"];
   }
 
-  interface User {
-    role: "admin" | "user";
-    username: string;
-  }
+
+
 }
 
-import { JWT } from "next-auth/jwt";
+import "next-auth/jwt";
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   interface JWT {
     role?: "admin" | "user";
+    username: string;
+    isTwoFactorEnabled: boolean;
+    number: string;
+    isOAuth: boolean;
   }
 }

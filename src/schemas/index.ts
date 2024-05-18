@@ -1,3 +1,4 @@
+import { newPassword } from '@/app/action/auth/new-password'; 
 import * as z from 'zod';
 
 // Base schema for email
@@ -28,7 +29,10 @@ export const ResetSchema = emailSchema.merge(statusSchema);
 
 export const newPasswordSchema = passwordSchema.merge(statusSchema);
 
-export const LoginSchema = emailSchema.merge(passwordSchema).merge(statusSchema);
+export const LoginSchema = z.object({
+    code: z.optional(z.string()),
+    remember: z.optional(z.boolean()),
+}).merge(emailSchema).merge(passwordSchema).merge(statusSchema);
 
 export const RegisterSchema = z.object({
     name: z.string().min(3, {
@@ -36,3 +40,38 @@ export const RegisterSchema = z.object({
     }),
     agreement: z.boolean(),
 }).merge(emailSchema).merge(passwordSchema).merge(statusSchema);
+
+
+// validate the user input for the settings page
+export const SettingSchema= z.object({
+    name: z.optional(z.string()),
+    email: z.optional(z.string().email()),
+    number: z.optional(z.string().min(10)),
+    isTwoFactorEnabled: z.optional(z.boolean()),
+    role: z.enum(["user", "admin"]),
+    password : z.optional(z.string()),
+    newPassword: z.optional(z.string())
+})
+.refine((data)=>{
+    if( data.password && !data.newPassword){
+        return false
+    }
+    return true
+},{
+    message: "New password is required",
+    path: ["newPassword"]
+})
+.refine((data)=>{
+    if(data.newPassword && !data.password){
+        return false
+    }
+    return true
+}
+,{
+    message: "Current password is required",
+    path: ["password"]
+})
+
+
+
+   

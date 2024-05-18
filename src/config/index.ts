@@ -7,11 +7,15 @@
 
 interface IAppConfig {
     baseUrl: string;
+    fromEmail: string;
 }
+
+const fromEmail = process.env.NODE_ENV === "development" ? "lwsKart@resend.dev" : process.env.NEXT_PUBLIC_DOMAIN_NAME;
 
 
 const appConfig: IAppConfig = {
-    baseUrl: process.env.NODE_ENV === "development" ? "http://localhost:3000" :  process.env.NEXT_PUBLIC_BASE_URL ?? "", 
+    baseUrl: process.env.NODE_ENV === "development" ? "http://localhost:3000" :  process.env.NEXT_PUBLIC_BASE_URL as string,
+    fromEmail: fromEmail  as string,
 }
 
 Object.freeze(appConfig);
