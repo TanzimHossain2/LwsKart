@@ -1,9 +1,5 @@
-import {
-  PasswordResetToken,
-  TwoFactorConfirmationModel,
-  TwoFactorTokenModel,
-  verificationTokenModel,
-} from "@/backend/schema";
+import { db } from "@/backend/schema";
+
 import {
   getPasswordResetTokenByEmail,
   getTwoFactorTokenByEmail,
@@ -19,7 +15,7 @@ export const generateVerificationToken = async (email: string) => {
 
   if (existingToken) {
     try {
-      await verificationTokenModel.deleteOne({ _id: existingToken._id });
+      await db.verificationToken.deleteOne({ _id: existingToken._id });
       console.log("Existing token deleted successfully");
     } catch (error) {
       console.error("Error deleting existing token:", error);
@@ -27,7 +23,7 @@ export const generateVerificationToken = async (email: string) => {
     }
   }
 
-  const newVerificationToken = await verificationTokenModel.create({
+  const newVerificationToken = await db.verificationToken.create({
     email,
     token,
     expires,
@@ -43,7 +39,7 @@ export const generatePasswordResetToken = async (email: string) => {
 
   if (existingToken) {
     try {
-      await PasswordResetToken.deleteOne({ _id: existingToken._id });
+      await db.passwordResetToken.deleteOne({ _id: existingToken._id });
       console.log("Existing token deleted successfully");
     } catch (error) {
       console.error("Error deleting existing token:", error);
@@ -51,7 +47,7 @@ export const generatePasswordResetToken = async (email: string) => {
     }
   }
 
-  const newPasswordResetToken = await PasswordResetToken.create({
+  const newPasswordResetToken = await db.passwordResetToken.create({
     email,
     token,
     expires,
@@ -62,20 +58,22 @@ export const generatePasswordResetToken = async (email: string) => {
 
 export const generateTwoFactorToken = async (email: string) => {
   const token = crypto.randomInt(100_000, 1_000_000).toString();
-  const expires = new Date(new Date().getTime() + 30 * 60 * 1000); // 30 minutes
+  const expires = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes
   const existingToken = await getTwoFactorTokenByEmail(email);
   
   if (existingToken) {
     try {
-      await PasswordResetToken.deleteOne({ _id: existingToken._id });
+      //Fix the deleteOne method
+      await db.passwordResetToken.deleteOne({ _id: existingToken._id });
+      await db.twoFactorToken.deleteOne({ _id: existingToken._id });
       console.log("Existing token deleted successfully");
     } catch (error) {
       console.error("Error deleting existing token:", error);
       throw error;
     }
   }
-  
-  const twoFactorToken = await TwoFactorTokenModel.create({
+
+  const twoFactorToken = await   db.twoFactorToken.create({
     email,
     token,
     expires,

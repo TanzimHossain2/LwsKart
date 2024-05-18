@@ -8,6 +8,7 @@ import Header from "@/components/landing/Header";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/footer";
 import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,17 +23,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await dbConnect();
-  // let user = await auth();
-  // console.log("Layout :", user); 
+  await dbConnect(); 
+  const session = await auth();
+
   return (
     <html lang="en">
       <body className={inter.className}>
+        <SessionProvider session={session}>
         <Header />
         <Navbar />
         {children}
         <Footer />
         <Copyright />
+        </SessionProvider>
       </body>
     </html>
   );

@@ -1,10 +1,11 @@
 import { dbConnect } from "@/backend/db/connectDb";
-import { TwoFactorTokenModel } from "@/backend/schema";
+import { db } from "@/backend/schema";
 
 export const getTwoFactorTokenByToken = async (token: string) => {
   try {
     await dbConnect();
-    return await TwoFactorTokenModel.findOne({ token });
+
+    return await db.twoFactorToken.findOne({ token });
   } catch (err) {
     return null;
   }
@@ -13,9 +14,9 @@ export const getTwoFactorTokenByToken = async (token: string) => {
 export const getTwoFactorTokenByEmail = async (email: string) => {
   try {
     await dbConnect();
-    return await TwoFactorTokenModel.findOne({ email }).sort({
+    return await db.twoFactorToken.findOne({ email }).sort({
       expires: -1,
-    }); 
+    });
   } catch (err) {
     return null;
   }

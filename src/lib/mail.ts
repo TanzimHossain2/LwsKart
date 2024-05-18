@@ -2,11 +2,14 @@ import appConfig from '@/config';
 import { Resend } from 'resend';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// const fromEmail = process.env.NEXT_PUBLIC_DOMAIN_NAME as string;
+const fromEmail = `lwsKart@${process.env.NEXT_PUBLIC_DOMAIN_NAME}`;
+
 export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `${appConfig.baseUrl}/auth/new-verification?token=${token}`;
 
     await resend.emails.send({
-        from: "lwsKart@resend.dev",
+        from: fromEmail,
         to: email,
         subject: "Verify your email address",
         html: `
@@ -27,7 +30,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     const resetLink = `${appConfig.baseUrl}/auth/reset-password?token=${token}`;
 
     await resend.emails.send({
-        from: "lwsKart@resend.dev",
+        from: fromEmail,
         to: email,
         subject: "Reset your password",
         html: `
@@ -46,7 +49,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 
 export const sendTwoFactorEmail = async (email: string, token: string) => {
     await resend.emails.send({
-        from: "lwsKart@resend.dev",
+        from: fromEmail,
         to: email,
         subject: "Two-factor authentication code",
         html: `

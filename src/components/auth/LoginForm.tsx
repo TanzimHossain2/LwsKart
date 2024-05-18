@@ -1,5 +1,5 @@
 "use client";
-import { login } from "@/app/action/loginAction";
+import { login } from "@/app/action/auth";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";

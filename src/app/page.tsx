@@ -5,7 +5,6 @@ import Features from "@/components/features/Features";
 import Ads from "@/components/landing/Ads";
 import NewArrival from "@/components/product/NewArrival";
 import ProductList from "@/components/product/ProductList";
-
 export const metadata: Metadata = {
   title: "Lwskart - Home",
 };

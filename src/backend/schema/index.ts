@@ -1,13 +1,15 @@
-import PasswordResetToken from "./passRest";
-import TwoFactorConfirmationModel from "./TwoFactorConfirmatio.model";
-import TwoFactorTokenModel from "./TwoFactorToken.model";
-import userModel from "./userModel";
-import verificationTokenModel from "./verificationToken";
+import accountModel from "./account.model";
+import PasswordResetToken from "./passRest.model";
+import TwoFactorConfirmationModel from "./TwoFactor-Confirmatio.model";
+import TwoFactorTokenModel from "./TwoFactor-Token.model";
+import userModel from "./user.model";
+import verificationTokenModel from "./verification-Token.model";
 
-export  {
-  userModel,
-  verificationTokenModel,
-  PasswordResetToken,
-  TwoFactorTokenModel,
-  TwoFactorConfirmationModel
+export const db = {
+  user: userModel,
+  verificationToken: verificationTokenModel,
+  passwordResetToken: PasswordResetToken,
+  twoFactorToken: TwoFactorTokenModel,
+  twoFactorConfirmation: TwoFactorConfirmationModel,
+  account: accountModel,
 };

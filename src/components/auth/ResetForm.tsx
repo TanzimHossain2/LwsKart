@@ -5,7 +5,7 @@ import FormError from "./FormError";
 import FormSuccess from "./FormSuccess";
 import { ResetSchema } from "@/schemas";
 import * as z from 'zod';
-import { reset } from "@/app/action/rest";
+import { reset } from "@/app/action/auth";
 
 
 const ResetForm = () => {

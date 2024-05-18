@@ -3,14 +3,20 @@ import BillingAdress from "../address/BillingAdress";
 import ShipingAdress from "../address/ShipingAdress";
 
 import PersonalInfo from "./PersonalInfo";
+import ProfileList from "./ProfileList";
+import { currentUser } from "@/lib/authUser";
 
-const ProfileInfo = () => {
+const ProfileInfo =async () => {
+  const user =await currentUser();
+console.log("current user",user);
+
   return (
     <>
       <BreadCamp />
+          <ProfileList />
       <div className="container  items-start gap-6 pt-4 pb-16">
         <div className="grid grid-cols-3 gap-4 mx-auto max-w-5xl">
-          <PersonalInfo />
+        {user && <PersonalInfo user={user} />}
           <ShipingAdress />
           <BillingAdress />
         </div>

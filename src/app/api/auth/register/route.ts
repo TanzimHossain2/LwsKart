@@ -2,7 +2,7 @@ import { register } from "@/backend/lib/user";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
-  const { name, email, password, confirm, aggrement } = await req.json();
+  const { name, email, password, confirm, aggrement, number } = await req.json();
   try {
 
     if (!aggrement) {
@@ -13,7 +13,7 @@ export const POST = async (req: NextRequest) => {
       return new NextResponse("Passwords do not match", { status: 400, statusText: "Passwords do not match"});
     }
 
-    const result = await register({ name , email, password });
+    const result = await register({ name , email, password, number });
 
     if (result.success) {
       return new NextResponse("User created successfully", { status: 201, statusText: result.success});

@@ -1,6 +1,6 @@
 "use client";
 
-import { newVerification } from "@/app/action/new-Verification";
+import { newVerification } from "@/app/action/auth";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import FormError from "./FormError";

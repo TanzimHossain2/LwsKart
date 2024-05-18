@@ -4,12 +4,15 @@ export interface IUser extends Document {
   name: string;
   username: string;
   email: string;
+  number: string;
   image: string;
   password: string;
   emailVerified: boolean;
   isTwoFactorEnabled: boolean;
   role: string;
   twoFactorAuth: ObjectId;
+  accounts: ObjectId[];
+  isOAuth: boolean;
 }
 
 export interface IAccount extends Document {
@@ -19,8 +22,8 @@ export interface IAccount extends Document {
   providerAccountId: string;
   refresh_Token?: string;
   access_Token?: string;
-  expires_At?: number;
-  token_Type?: string;
+  expires_at?: number;
+  token_type?: string;
   scope?: string;
   id_Token?: string;
   sessionState?: string;
