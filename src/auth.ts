@@ -1,12 +1,57 @@
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
-
+import CredentialProvider from "next-auth/providers/credentials";
 import { getTwoFactorConfirmationByUserId } from "./backend/services/token";
 import { getUserById } from "./backend/services/user";
 import { getAccountByUserId } from "./backend/services/user/account";
 import clientPromise from "./lib/db";
 import { db } from "./backend/schema";
+import { loginUser } from "./backend/lib/user";
+
+
+
+// Define CredentialProvider separately
+const credentialProvider = CredentialProvider({
+  credentials: {
+    email: {},
+    password: {},
+  },
+  async authorize(credentials) {
+    if (!credentials.email || !credentials.password) {
+      return null;
+    }
+
+    try {
+      const user = await loginUser({
+        email: credentials.email as string,
+        password: credentials.password as string,
+      });
+
+      if (!user) {
+        return null;
+      }
+
+      const resUser = {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+        username: user.username,
+      };
+
+      return resUser;
+    } catch (error) {
+      throw error;
+    }
+  },
+});
+
+// Merge CredentialProvider with other providers in authConfig
+authConfig.providers = [...authConfig.providers, credentialProvider];
+
+
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,

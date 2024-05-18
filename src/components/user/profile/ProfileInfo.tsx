@@ -8,7 +8,6 @@ import { currentUser } from "@/lib/authUser";
 
 const ProfileInfo =async () => {
   const user =await currentUser();
-console.log("current user",user);
 
   return (
     <>

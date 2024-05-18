@@ -13,12 +13,15 @@ import {
 } from "@/backend/services/token";
 import { getUserByEmail } from "@/backend/services/user";
 import { sendVerificationEmail, sendTwoFactorEmail } from "@/lib/mail";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema } from "@/schemas";
 import { hashMatched } from "@/utils/hashing";
 import { AuthError } from "next-auth";
 import * as z from "zod";
 
-export async function login(values: z.infer<typeof LoginSchema>) {
+export async function login(values: z.infer<typeof LoginSchema>,
+  callbackUrl? : string | null
+) {
   try {
     // Validate the fields
     const validateFields = LoginSchema.safeParse(values);
@@ -123,7 +126,7 @@ export async function login(values: z.infer<typeof LoginSchema>) {
     const response = await signIn("credentials", {
       email: email.toLowerCase(),
       password: password,
-      redirect: false,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
     if (!response) {

@@ -35,9 +35,11 @@ const LoginForm = () => {
       ? "Your account is already linked with another provider"
       : "";
 
+      const callbackUrl = searchParams.get("callbackUrl");
+
   const onSubmit: SubmitHandler<z.infer<typeof LoginSchema>> = async (data) => {
     try {
-      const res = await login(data);
+      const res = await login(data, callbackUrl);
       
       if (res.success) {
         reset();
