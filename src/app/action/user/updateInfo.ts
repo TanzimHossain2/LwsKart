@@ -7,6 +7,7 @@ import { currentUser } from "@/lib/authUser";
 import { sendVerificationEmail } from "@/lib/mail";
 import { SettingSchema } from "@/schemas";
 import { generateHash, hashMatched } from "@/utils/hashing";
+import { sanitizeData } from "@/utils/sanitizeData.utils";
 import * as z from "zod";
 
 export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
@@ -70,26 +71,20 @@ export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
     values.password = hashedPassword;
     values.newPassword = undefined;
   }
+  
 
-  // sanitize the values object
-  Object.keys(values).forEach((key) => {
-    if (
-      values[key as keyof typeof values] === undefined ||
-      values[key as keyof typeof values] === ""
-    ) {
-      delete values[key as keyof typeof values];
-    }
+  // Sanitize the data
+  const sanitizedValues = sanitizeData(values);
+  //remove newPassword from the sanitized values
+  if (sanitizedValues.newPassword) {
+    delete sanitizedValues.newPassword;
+  }
 
-    if (key === "newPassword") {
-      delete values["newPassword"];
-    }
-  });
-
-  console.log("values", values);
+  console.log("values", sanitizedValues);
 
   const res = await db.user.findByIdAndUpdate(
     dbUser._id,
-    { $set: values },
+    { $set: sanitizedValues },
     { new: true, runValidators: true }
   );
 

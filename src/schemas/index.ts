@@ -44,34 +44,30 @@ export const RegisterSchema = z.object({
 
 // validate the user input for the settings page
 export const SettingSchema= z.object({
-    name: z.optional(z.string()),
-    email: z.optional(z.string().email()),
-    number: z.optional(z.string().min(10)),
-    isTwoFactorEnabled: z.optional(z.boolean()),
+    name: z.string().min(3, 'Name must have at least 3 characters').optional(),
+    email: z.string().email('Invalid email address').optional(),
+    number: z.string().min(10, 'Phone number must have at least 10 characters').max(14, 'Phone number must have at most 14 characters').optional(),
+    isTwoFactorEnabled: z.boolean().optional(),
     role: z.enum(["user", "admin"]),
-    password : z.optional(z.string()),
-    newPassword: z.optional(z.string())
-})
-.refine((data)=>{
-    if( data.password && !data.newPassword){
-        return false
+    password: z.string().min(6, 'Password must have at least 6 characters').optional().or(z.literal('')),
+    newPassword: z.string().min(6, 'New password must have at least 6 characters').optional().or(z.literal('')),
+  }).refine((data) => {
+    if (data.password && !data.newPassword) {
+      return false;
     }
-    return true
-},{
-    message: "New password is required",
-    path: ["newPassword"]
-})
-.refine((data)=>{
-    if(data.newPassword && !data.password){
-        return false
+    return true;
+  }, {
+    message: "New password is required if current password is provided",
+    path: ["newPassword"],
+  }).refine((data) => {
+    if (data.newPassword && !data.password) {
+      return false;
     }
-    return true
-}
-,{
-    message: "Current password is required",
-    path: ["password"]
-})
-
+    return true;
+  }, {
+    message: "Current password is required if new password is provided",
+    path: ["password"],
+  });
 
 
    

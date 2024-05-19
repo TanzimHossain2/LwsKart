@@ -1,40 +1,36 @@
 "use client";
 
-import { updateInfo } from "@/app/action/user/updateInfo";
+import { updateInfo } from "@/app/action/user";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Switch } from "antd";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useSession } from "next-auth/react";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { Alert } from 'antd';
 
 const SettingForm = () => {
   const user = useCurrentUser();
-  const {update, status } = useSession();
+  const { update, status } = useSession();
 
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, control, formState: { errors } } = useForm({
     resolver: zodResolver(SettingSchema),
     defaultValues: {
-      name: user?.name || undefined,
-      email: user?.email || undefined,
+      name: user?.name || '',
+      email: user?.email || '',
       isTwoFactorEnabled: user?.isTwoFactorEnabled || false,
-      role: user?.role || "user",
-      password: undefined,
-      newPassword: undefined,
-      number: user?.number || undefined,
+      role: user?.role || 'user',
+      password: '',
+      newPassword: '',
+      number: user?.number || '',
     },
   });
 
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
+
 
   const onSubmit: SubmitHandler<z.infer<typeof SettingSchema>> = async (
     data
@@ -109,47 +105,17 @@ const SettingForm = () => {
                 )}
               </div>
 
-              <div>
-                <label htmlFor="password" className="text-gray-600 mb-2 block">
-                  Your Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                  placeholder="*******"
-                  {...register("password", {
-                    validate: (value) =>
-                      (value === undefined || value === "" || (value as string).length >= 6) || "Password must have at least 6 characters",
-                  })}
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
+               <div>
+              <label htmlFor="password" className="text-gray-600 mb-2 block">Your Password</label>
+              <input type="password" id="password" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400" placeholder="*******" {...register("password")} />
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+            </div>
 
-              <div>
-                <label htmlFor="confirm" className="text-gray-600 mb-2 block">
-                  Enter New Password
-                </label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                  placeholder="*******"
-                    {...register("newPassword", {
-                      validate: (value) =>
-                        (value === undefined || value === "" || (value as string).length >= 6) || "Password must have at least 6 characters",
-                    })}
-                />
-                {errors.newPassword && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.newPassword.message}
-                  </p>
-                )}
-              </div>
+            <div>
+              <label htmlFor="newPassword" className="text-gray-600 mb-2 block">Enter New Password</label>
+              <input type="password" id="newPassword" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400" placeholder="*******" {...register("newPassword")} />
+              {errors.newPassword && <p className="text-red-500 text-xs mt-1">{errors.newPassword.message}</p>}
+            </div>
             </>
           )}
 
@@ -213,11 +179,20 @@ const SettingForm = () => {
               <Controller
                 name="isTwoFactorEnabled"
                 control={control}
-                render={({ field }) => <Switch {...field} />}
+                render={({ field }) => <Switch {...field}  />}
               />
             </div>
           )}
         </div>
+
+        {
+          success && <Alert message={success} type="success" showIcon closable  />
+        }
+
+        {
+          error && <Alert message={error} type="error" showIcon closable />
+
+        }
 
         <div className="mt-4">
           <button

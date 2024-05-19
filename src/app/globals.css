@@ -1,4 +1,9 @@
-@tailwind base;
+@layer tailwind-base, antd;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
 @tailwind components;
 @tailwind utilities;
 
@@ -16,6 +21,8 @@
     @apply font-roboto;
   }
 }
+
+
 
 @layer components {
   .size-selector input:checked + label {
