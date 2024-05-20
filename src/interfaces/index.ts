@@ -42,3 +42,5 @@ export interface IPasswordReset extends IBaseToken {}
 export interface ITwoFactorToken extends IBaseToken {
   userId: ObjectId;
 }
+
+

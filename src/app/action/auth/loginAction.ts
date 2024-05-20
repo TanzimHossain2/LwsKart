@@ -97,10 +97,14 @@ export async function login(values: z.infer<typeof LoginSchema>,
           };
         }
 
+      
+
+        
+
         await db.twoFactorToken.deleteOne({ _id: twoFactorToken._id });
 
         const existingConfimation = await getTwoFactorConfirmationByUserId(
-          existingUser._id.toString()
+          (existingUser._id as string).toString() 
         );
 
         if (existingConfimation) {

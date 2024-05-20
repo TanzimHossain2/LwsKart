@@ -3,7 +3,7 @@
 import Link from "next/link"
 
 
-const ProfileList = ({user}) => {
+const ProfileList = ({user}:any) => {
   return (
     <>
         <>

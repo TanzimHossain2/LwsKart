@@ -12,7 +12,11 @@ Lwskart is a professional E-commerce application built with Next.js and Tailwind
 
 ## Challenges & Solutions
 
-_(To be filled)_
+- **Challenge 1**: _Authentication & Authorization_
+  - **Solution**: Implemented user registration, login, and forgot password functionality. Used Next-Auth for authentication, social media login, email verification, access token & refresh token management, and 2FA (Two-Factor Authentication). Also, implemented protected routes for authenticated users.
+
+- **Challenge 2**: _Database Design_
+  - **Solution**: Hard to design a product schema. I have designed a product schema with all the necessary fields and relationships.
 
 ## Key Features
 
@@ -30,6 +34,7 @@ _(To be filled)_
   - Edit user profile
   - Update address
 - **Product Management**:
+  - Add new products (admin)
   - Display all products
   - Product details page
   - Display relevant products
@@ -61,6 +66,7 @@ _(To be filled)_
 - Next-Auth (for authentication)
 - React Hook Form (for form validation)
 - Zod (for validation)
+- Axios (for API requests)
 - ...and more to be added soon
 
 ## Installation

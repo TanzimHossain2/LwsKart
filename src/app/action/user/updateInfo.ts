@@ -38,7 +38,7 @@ export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
   if (values.email && values.email !== user.email) {
     const existingUser = await getUserByEmail(values.email);
 
-    if (existingUser && existingUser._id.toString() !== dbUser._id.toString()) {
+    if (existingUser &&( existingUser._id as string).toString() !== (dbUser._id as string).toString()) {
       return {
         error: "Email already exists",
       };

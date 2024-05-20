@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema<IUser>({
   },
   twoFactorAuth: {
     type: Schema.Types.ObjectId,
-    ref: "twofactorconfirmations",
+    ref: "TwoFactorConfirmation",
     default: null,
   },
   emailVerified: {
@@ -58,7 +58,7 @@ const userSchema = new mongoose.Schema<IUser>({
   accounts: [
     {
       type: Schema.Types.ObjectId,
-      ref: "accounts",
+      ref: "account",
     },
   ],
 });
@@ -66,7 +66,7 @@ const userSchema = new mongoose.Schema<IUser>({
 // Middleware to set username before saving
 userSchema.pre<IUser>("save", async function (next) {
   if (!this.username) {
-    const count = await this.model("users").countDocuments();
+    const count = await this.model("user").countDocuments();
     this.username = `lKR-${count + 1}-${this.email
       .split("@")[0]
       .replace(/[^\w\s]/gi, "")}`;
@@ -81,6 +81,6 @@ userSchema.pre<IUser>("deleteOne", { document: true }, async function (next) {
 });
 
 const userModel: Model<IUser> =
-  mongoose.models.users || mongoose.model<IUser>("users", userSchema);
+  mongoose.models.user || mongoose.model<IUser>("user", userSchema);
 
 export default userModel;

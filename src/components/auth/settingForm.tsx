@@ -4,12 +4,12 @@ import { updateInfo } from "@/app/action/user";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Switch } from "antd";
+
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
-import { Alert } from 'antd';
+
 
 const SettingForm = () => {
   const user = useCurrentUser();
@@ -179,20 +179,13 @@ const SettingForm = () => {
               <Controller
                 name="isTwoFactorEnabled"
                 control={control}
-                render={({ field }) => <Switch {...field}  />}
+                render={({ field }) => <h2>Hi</h2> }
               />
             </div>
           )}
         </div>
 
-        {
-          success && <Alert message={success} type="success" showIcon closable  />
-        }
-
-        {
-          error && <Alert message={error} type="error" showIcon closable />
-
-        }
+       
 
         <div className="mt-4">
           <button

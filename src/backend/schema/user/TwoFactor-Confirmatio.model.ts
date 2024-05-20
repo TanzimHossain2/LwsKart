@@ -4,7 +4,7 @@ import mongoose, { Model, Schema } from "mongoose";
 const twoFactorConfirmationSchema = new mongoose.Schema<ITwoFactorToken>({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: "users",
+    ref: "user",
     required: true,
   },
 });

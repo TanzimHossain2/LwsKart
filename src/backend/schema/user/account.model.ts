@@ -4,7 +4,7 @@ import mongoose, { Model, Schema } from 'mongoose';
 const accountSchema = new mongoose.Schema<IAccount>({
     userId: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'user',
         required: true,
     },
     type: {
@@ -42,6 +42,6 @@ const accountSchema = new mongoose.Schema<IAccount>({
     },
 });
 
-const accountModel: Model<IAccount> = mongoose.models.accounts || mongoose.model<IAccount>('accounts', accountSchema);
+const accountModel: Model<IAccount> = mongoose.models.account || mongoose.model<IAccount>('account', accountSchema);
 
 export default accountModel;

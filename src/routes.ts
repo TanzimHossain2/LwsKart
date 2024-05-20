@@ -14,6 +14,9 @@ export const publicRoutes = [
     "/shop",
     "/about-us",
     "/contact-us",
+    "/api/products",
+    "/admin/add-product",
+    "/api/categories"
 ]
 
 
@@ -23,7 +26,10 @@ export const publicRoutes = [
  *  @ type {string[]}
  */
 export const authRoutes = [
-    "/",
+    "/profile",
+    "/cart",
+    "/checkout",
+    "/wishlist",
 ]
 
 
@@ -33,6 +39,7 @@ export const authRoutes = [
  *  @ type {string}
  */
 export const apiAuthPrefix = "/api/auth"
+export const apiPublicPrefix = "/api/products"
 
 
 /**
