@@ -23,7 +23,7 @@ const ProductSchema = new Schema<IProductData>({
 });
 
 // Create indexes for frequently queried fields
-ProductSchema.index({ name: 1 });
+ProductSchema.index({ name: "text", description: "text" });
 ProductSchema.index({ isTrending: 1 });
 ProductSchema.index({ isNewArrival: 1 });
 ProductSchema.index({ sku: 1 }, { unique: true });

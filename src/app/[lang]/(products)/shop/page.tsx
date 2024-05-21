@@ -2,8 +2,11 @@ import DrawerComponent from "@/components/shop/drawer";
 import ProductList from "@/components/product/ProductList";
 import BreadCamp from "@/components/shared/breadCamp";
 import Sidebar from "@/components/shop/Sidebar";
+import { getAllProduct } from "@/backend/services/product";
 
-const ShopPage = () => {
+const ShopPage =async () => {
+  const products = await getAllProduct();
+
   return (
     <>
       <BreadCamp />
@@ -14,7 +17,7 @@ const ShopPage = () => {
         <div className="col-span-3">
         
           <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
-          <ProductList />
+         { products &&  <ProductList products={products}  />}
           </div>
         </div>
       </div>

@@ -18,5 +18,6 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const categories = await getAllCategory();
+
   return NextResponse.json(categories);
 }

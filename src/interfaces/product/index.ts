@@ -15,7 +15,7 @@ interface ICommonFields extends Document {
 
 //Interface for Product Data
 export interface IProductData extends ICommonFields {
-  category: mongoose.Types.ObjectId;
+  category: mongoose.Types.ObjectId | string;
   isTrending: boolean;
   isNewArrival: boolean;
   tags?: string[];
@@ -40,6 +40,8 @@ export interface IProductData extends ICommonFields {
 // Interface for Category
   export interface ICategory extends Document {
     name: string;
+    image: string;
+    icon: string;
     description?: string;
     parent?: mongoose.Types.ObjectId;
     children?: mongoose.Types.ObjectId[];

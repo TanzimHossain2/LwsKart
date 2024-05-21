@@ -1,14 +1,25 @@
-
+import { IProductData } from "@/interfaces/product";
 import ProductCard from "./ProductCard";
 
-const ProductList = () => {
+export type productProps = {
+  products : IProductData[]
+}
+
+const ProductList : React.FC<productProps> = ({ products }) => {
+
   return (
-      <>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-      </>
+    <>
+      {products.length > 0 ? (
+        products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))
+      ) : (
+        <div className="col-span-3">
+          <h1 className="text-2xl text-center">No Product Found</h1>
+        </div>
+      )}
+
+    </>
   );
 };
 

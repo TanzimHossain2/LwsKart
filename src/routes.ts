@@ -5,6 +5,8 @@
  */
 export const publicRoutes = [
     "/",
+    "/en",
+    "/bn",
     "/auth/login",
     "/auth/register",
     "/auth/new-verification",
@@ -14,9 +16,10 @@ export const publicRoutes = [
     "/shop",
     "/about-us",
     "/contact-us",
-    "/api/products",
-    "/admin/add-product",
-    "/api/categories"
+    "/en/admin/add-product",
+    "/en/api/products",
+    "/api/categories",
+    "/en/api/categories",
 ]
 
 
@@ -38,7 +41,7 @@ export const authRoutes = [
  *  Routes that start with this prefix are used for authentication purposes
  *  @ type {string}
  */
-export const apiAuthPrefix = "/api/auth"
+export const apiAuthPrefix = "/en/api/auth"
 export const apiPublicPrefix = "/api/products"
 
 

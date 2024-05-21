@@ -123,7 +123,8 @@ const AddProductForm = () => {
   const fetchCategories = async () => {
     try {
       const response = await axiosInstance.get("/api/categories");
-
+      console.log(response);
+      
       if (response.status === 200) {
         setCategories(response.data);
       }
@@ -136,7 +137,7 @@ const AddProductForm = () => {
     fetchCategories();
   }, []);
 
-  console.log(categories);
+
 
   return (
     <div className="container mx-auto p-4">

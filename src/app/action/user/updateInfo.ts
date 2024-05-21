@@ -80,7 +80,6 @@ export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
     delete sanitizedValues.newPassword;
   }
 
-  console.log("values", sanitizedValues);
 
   const res = await db.user.findByIdAndUpdate(
     dbUser._id,

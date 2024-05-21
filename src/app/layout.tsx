@@ -10,6 +10,7 @@ import Footer from "@/components/landing/footer";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,19 +24,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await dbConnect(); 
+  await dbConnect();
   const session = await auth();
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>
-        <Header />
-        <Navbar />
-        {children}
-        <Footer />
-        <Copyright />
-        </SessionProvider>
+     
+        <SessionProvider session={session}>{children}</SessionProvider>
+
       </body>
     </html>
   );

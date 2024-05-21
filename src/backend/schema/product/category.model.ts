@@ -6,6 +6,8 @@ const CategorySchema = new Schema<ICategory>(
   {
     name: { type: String, required: true, unique: true },
     description: { type: String },
+    image: { type: String, default: "/vercel.svg"},
+    icon: { type: String, default: "/next.svg" },
   },
   { timestamps: true }
 );

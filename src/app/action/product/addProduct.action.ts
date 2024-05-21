@@ -27,6 +27,7 @@ export const adProduct =async (formData: FormData) => {
         description: formData.get('description'),
         price: parseFloat(<string>formData.get('price')),
         stock: parseInt(<string>formData.get('stock')),
+        discountPrice: parseFloat(<string>formData.get('discountPrice')),
         sku: formData.get('sku'),
         brand: formData.get('brand'),
         weight: parseFloat(<string>formData.get('weight')),

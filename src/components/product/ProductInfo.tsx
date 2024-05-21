@@ -1,13 +1,18 @@
+import { IProductData } from "@/interfaces/product"
 import Description from "./Description"
 import ProductDerails from "./ProductDerails"
 import RelatedProductList from "./relatedProduct"
 
-const ProductInfo = () => {
+interface IProductInfo {
+  product: IProductData
+}
+
+const ProductInfo : React.FC<IProductInfo>  = ({product}) => {
   return (
     <>
-    <ProductDerails />
-    <Description />
-    <RelatedProductList />
+    <ProductDerails product={product} />
+    <Description description={product?.description ?? ""}  />
+    <RelatedProductList id={product?.id} />
     </>
   )
 }

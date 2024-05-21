@@ -6,7 +6,6 @@ import { getUserByEmail } from "@/backend/services/user"
 
 export const newVerification = async (token: string) => {
     const existingToken = await getVerficationTokenByToken(token);
-    console.log("existingToken", existingToken);
     
     if(!existingToken){
         return {
@@ -15,7 +14,6 @@ export const newVerification = async (token: string) => {
     }
 
     const hasExpired = new Date() > new Date(existingToken.expires);
-    console.log("hasExpired", hasExpired);
 
     if(hasExpired){
         return {
