@@ -103,7 +103,7 @@ const Navbar = async () => {
               Home
             </Link>
             <Link
-              href="/en/shop"
+              href="/shop"
               className="text-gray-200 hover:text-white transition"
             >
               Shop

@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const NotFound = () => {
   return (
+
     <div>
       <div className="h-screen w-screen bg-gray-50 dark:bg-gray-800 flex items-center">
         <div className="container flex flex-col md:flex-row items-center justify-between px-5 text-gray-700">

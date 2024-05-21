@@ -5,21 +5,6 @@
  */
 export const publicRoutes = [
     "/",
-    "/en",
-    "/bn",
-    "/auth/login",
-    "/auth/register",
-    "/auth/new-verification",
-    "/auth/reset",
-    "/auth/reset-password",
-    "/auth/error",
-    "/shop",
-    "/about-us",
-    "/contact-us",
-    "/en/admin/add-product",
-    "/en/api/products",
-    "/api/categories",
-    "/en/api/categories",
 ]
 
 
@@ -28,12 +13,7 @@ export const publicRoutes = [
  *  These routes 
  *  @ type {string[]}
  */
-export const authRoutes = [
-    "/profile",
-    "/cart",
-    "/checkout",
-    "/wishlist",
-]
+export const authRoutes =  ['/profile', '/settings', '/admin', '/cart', '/wishlist', "/checkout"]
 
 
 /**
@@ -41,7 +21,7 @@ export const authRoutes = [
  *  Routes that start with this prefix are used for authentication purposes
  *  @ type {string}
  */
-export const apiAuthPrefix = "/en/api/auth"
+export const apiAuthPrefix = "/api/auth"
 export const apiPublicPrefix = "/api/products"
 
 

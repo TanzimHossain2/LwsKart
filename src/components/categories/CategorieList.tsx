@@ -1,14 +1,13 @@
 import { getAllCategory } from "@/backend/services/category";
+import { LandingDictionary } from "@/interfaces/lang";
 import Image from "next/image";
 import Link from "next/link";
 
 const CategorieList = async () => {
   const categories = await getAllCategory();
+
   return (
-    <div className="container py-16">
-      <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
-        shop by category
-      </h2>
+    <>
       <div className="grid grid-cols-3 gap-3">
         {categories &&
           categories?.length > 0 &&
@@ -35,7 +34,7 @@ const CategorieList = async () => {
             );
           })}
       </div>
-    </div>
+    </>
   );
 };
 
