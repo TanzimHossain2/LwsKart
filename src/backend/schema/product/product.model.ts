@@ -16,6 +16,7 @@ const ProductSchema = new Schema<IProductData>({
   sku: { type: String, required: true, unique: true },
   brand: { type: String, required: true },
   weight: { type: Number },
+  thumbnail: { type: String },
   averageRating: { type: Number, min: 0, max: 5 },
   reviewCount: { type: Number, default: 0 },
   reviewIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'review' }],
@@ -32,6 +33,15 @@ ProductSchema.index({ brand: 1 });
 
 
 //Todo add pre save hook for slug generation
+
+
+// Add pre-save hook to set the thumbnail
+ProductSchema.pre('save', function (next) {
+  if (this.images && this.images.length > 0) {
+    this.thumbnail = this.images[0];
+  }
+  next();
+});
 
 //Todo add pre remove hook for removing reviews and variants when product is deleted
 

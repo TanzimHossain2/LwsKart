@@ -32,3 +32,5 @@ export const getProductsByCategoryId = async (id: string): Promise<IProductData[
     return null;
   }
 }
+
+

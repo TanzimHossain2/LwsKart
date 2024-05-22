@@ -1,9 +1,52 @@
+"use client";
+import { useEffect, useState } from "react";
+import CategoryCard from "./CategoryCard";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Category = {
-  Categories : any[]
-}
+  Categories: any[];
+};
 
-const CategoryFilter : React.FC <Category> = ({ Categories  }) => {
+const CategoryFilter: React.FC<Category> = ({ Categories }) => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const categoryParam = params.get("category");
+    if (categoryParam) {
+      const decodedCategory = decodeURIComponent(categoryParam);
+      const categoryList = decodedCategory.split("|");
+      setSelectedCategories(categoryList);
+    }
+  }, []);
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleCategoryChange = (categoryId: string, isChecked: boolean) => {
+    if (isChecked) {
+      setSelectedCategories((prevCategories) => [
+        ...prevCategories,
+        categoryId,
+      ]);
+    } else {
+      setSelectedCategories((prevCategories) =>
+        prevCategories.filter((id) => id !== categoryId)
+      );
+    }
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    if (selectedCategories.length > 0) {
+      params.set("category", encodeURI(selectedCategories.join("|")));
+    } else {
+      params.delete("category");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, [selectedCategories, pathname, replace, searchParams]);
+
   return (
     <>
       <div>
@@ -14,23 +57,12 @@ const CategoryFilter : React.FC <Category> = ({ Categories  }) => {
         <div className="space-y-2">
           {Categories.length > 0 &&
             Categories.map((category, index) => (
-              <div key={index} className="flex items-center">
-                <input
-                  type="checkbox"
-                  name={category?.name}
-                  id={category?.name}
-                  className="text-primary focus:ring-0 rounded-sm cursor-pointer"
-                />
-
-                <label
-                  htmlFor={category?.name}
-                  className="text-gray-600 ml-3 cusror-pointer"
-                >
-                  {category?.name}
-                </label>
-
-                <div className="ml-auto text-gray-600 text-sm">(5)</div>
-              </div>
+              <CategoryCard
+                key={index}
+                category={category}
+                onChange={handleCategoryChange}
+                isSelected={selectedCategories.includes(category.id)}
+              />
             ))}
         </div>
       </div>

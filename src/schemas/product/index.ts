@@ -11,6 +11,7 @@ export const productSchema = z.object({
   isNewArrival: z.boolean().default(false),
   tags: z.array(z.string()).optional(),
   images: z.array(z.string()).optional(),
+  thumbnail: z.string().optional(),
   sku: z.string().min(1, { message: 'SKU is required' }),
   brand: z.string().min(1, { message: 'Brand is required' }),
   weight: z.number().positive().optional(),
@@ -26,3 +27,14 @@ export const producInputSchema = z.object({
   discountPrice: z.string().optional(),
   stock: z.string().min(1, { message: 'Stock is required' }), 
 }).merge(productSchema); 
+
+
+export const variantSchema = z.object({
+  productId: z.string().uuid(),
+  variantName: z.string().min(1, { message: 'Variant Name is required' }),
+  sku: z.string().min(1, { message: 'SKU is required' }),
+  price: z.number().positive({ message: 'Price must be a positive number' }),
+  stock: z.number().int().min(0, { message: 'Stock must be a non-negative integer' }),
+  attributes: z.record(z.string()).optional(),
+  images: z.array(z.string()).optional(),
+});

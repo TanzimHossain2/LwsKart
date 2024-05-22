@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Locale, i18n } from '@/i18n.config'
+import { Locale, i18n } from "@/i18n.config";
 import { dbConnect } from "@/backend/db/connectDb";
 import Copyright from "@/components/landing/Copyright";
 import Header from "@/components/landing/Header";
@@ -9,7 +9,7 @@ import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/footer";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-import { getDictionary } from "./dictionaries";
+import GlobalProvider from "@/providers/GlobalProvider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-  return i18n.locales.map(locale => ({ lang: locale }))
+  return i18n.locales.map((locale) => ({ lang: locale }));
 }
 
 export default async function RootLayout({
@@ -33,18 +33,18 @@ export default async function RootLayout({
 }>) {
   await dbConnect();
   const session = await auth();
-  const dictionary = await getDictionary(lang);
- 
   return (
     <html lang={lang}>
       <body className={inter.className}>
-          <SessionProvider session={session}>
+        <SessionProvider session={session}>
+          <GlobalProvider>
             <Header />
             <Navbar />
             {children}
             <Footer />
             <Copyright />
-          </SessionProvider>
+          </GlobalProvider>
+        </SessionProvider>
       </body>
     </html>
   );

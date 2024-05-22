@@ -4,7 +4,10 @@ import BreadCamp from "@/components/shared/breadCamp";
 import Sidebar from "@/components/shop/Sidebar";
 import { getAllProduct } from "@/backend/services/product";
 
-const ShopPage =async () => {
+const ShopPage =async ({searchParams}) => {
+  
+ const search = searchParams?.search;
+  
   const products = await getAllProduct();
 
   return (

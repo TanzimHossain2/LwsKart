@@ -20,6 +20,7 @@ export interface IProductData extends ICommonFields {
   isNewArrival: boolean;
   tags?: string[];
   images: string[];
+  thumbnail?: string;
   discountPrice?: number;
   averageRating?: number;
   reviewCount?: number;
@@ -52,6 +53,7 @@ export interface IProductData extends ICommonFields {
 // Interface for Variant
 export interface IVariant extends ICommonFields {
   productId: mongoose.Types.ObjectId;  
+  name: string;
   variantName: string;
   images: string[];
   attributes: Record<string, string>;

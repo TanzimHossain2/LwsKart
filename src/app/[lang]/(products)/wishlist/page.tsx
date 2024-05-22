@@ -1,4 +1,4 @@
-import CartWishlistList from '@/components/product/CartWishlist'
+import WishlistList from '@/components/product/CartWishlist'
 import BreadCamp from '@/components/shared/breadCamp'
 
 
@@ -6,7 +6,7 @@ const WishListPage = () => {
   return (
     <div>
         <BreadCamp />
-       <CartWishlistList />
+       <WishlistList />
     </div>
   )
 }

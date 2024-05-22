@@ -1,13 +1,13 @@
-import CartWishlistItem from "./CartWishlistItem";
+import WishlistItem from "./WishlistItem";
 
-const CartWishlistList = () => {
+const WishlistList = () => {
   return (
     <div className="container gap-6 pt-4 pb-16">
       <div className="mx-auto space-y-4 max-w-6xl">
-        <CartWishlistItem />
+        <WishlistItem />
       </div>
     </div>
   );
 };
 
-export default CartWishlistList;
+export default WishlistList;

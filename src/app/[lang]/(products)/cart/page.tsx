@@ -1,11 +1,12 @@
-import CartWishlistList from "@/components/product/CartWishlist"
+
+import CartItems from "@/components/product/CartWishlist/CartItems"
 import BreadCamp from "@/components/shared/breadCamp"
 
 const CartPage = () => {
   return (
-    <div>
+    <div className="container ">
         <BreadCamp />
-       <CartWishlistList />
+       <CartItems />
     </div>
   )
 }

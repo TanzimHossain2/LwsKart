@@ -35,8 +35,8 @@ export const addProductData = async (
 
     // Add product data to database
     const newProduct = await addProduct(validatedProductData);
+    return newProduct;
     
-
   } catch (err) {
     if (err instanceof z.ZodError) {
       console.log(err.errors);
