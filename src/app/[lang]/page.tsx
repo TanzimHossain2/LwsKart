@@ -4,7 +4,6 @@ import CategorieList from "@/components/categories/CategorieList";
 import Features from "@/components/features/Features";
 import Ads from "@/components/landing/Ads";
 import NewArrival from "@/components/product/NewArrival";
-import ProductList from "@/components/product/ProductList";
 import TrendingProducts from "@/components/product/TrendingProducts";
 import { getDictionary } from "./dictionaries";
 import { IParams } from "@/interfaces/lang";
@@ -19,10 +18,7 @@ export default async function Home({ params: { lang } }: IParams) {
   return (
     <>
       <Banner dictionary={dictionary.landing} />
-
       <Features text={dictionary.landing} />
-
-     
 
       <div className="container pb-16">
         <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">

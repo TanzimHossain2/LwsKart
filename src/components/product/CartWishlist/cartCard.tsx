@@ -11,10 +11,21 @@ import {
   incrementQty,
 } from "@/redux/slices/cartSlice";
 
-const CartCard = ({ item }) => {
+type CartCardProps = {
+  item: {
+    id: string;
+    title: string;
+    image: string;
+    price: number;
+    qty: number;
+    weight: string;
+  };
+}
+
+const CartCard : React.FC <CartCardProps>   = ({ item }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleDeleteCartItem = (id) => {
+  const handleDeleteCartItem = (id: string): void => {
     dispatch(removeFromCart(id));
     toast.error("Product removed from cart", {
       position: "bottom-right",
@@ -22,11 +33,11 @@ const CartCard = ({ item }) => {
     });
   };
 
-  const handleIncrementQty = (id) => {
+  const handleIncrementQty = (id: string) => {
     dispatch(incrementQty(id));
   };
 
-  const handleDecrementQty = (id) => {
+  const handleDecrementQty = (id: string) => {
     dispatch(decrementQty(id));
   };
 

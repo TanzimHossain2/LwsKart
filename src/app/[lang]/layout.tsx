@@ -10,6 +10,7 @@ import Footer from "@/components/landing/footer";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import GlobalProvider from "@/providers/GlobalProvider";
+import { getDictionary } from "./dictionaries";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,13 +34,15 @@ export default async function RootLayout({
 }>) {
   await dbConnect();
   const session = await auth();
+  const dictionary = await getDictionary(lang);
+
   return (
     <html lang={lang}>
       <body className={inter.className}>
         <SessionProvider session={session}>
           <GlobalProvider>
-            <Header />
-            <Navbar />
+            <Header dictionary={dictionary.page} />
+            <Navbar dictionary={dictionary} />
             {children}
             <Footer />
             <Copyright />
