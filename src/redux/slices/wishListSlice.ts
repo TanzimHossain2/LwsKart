@@ -45,15 +45,9 @@ const wishListSlice = createSlice({
         state.error = null;
       }
     },
-    clearSuccess: (state) => {
-      state.success = null;
-    },
-    clearError: (state) => {
-      state.error = null;
-    },
   },
 });
 
-export const { addToWishList, removeFromWishList, clearSuccess, clearError } = wishListSlice.actions;
+export const { addToWishList, removeFromWishList } = wishListSlice.actions;
 
 export default wishListSlice.reducer;

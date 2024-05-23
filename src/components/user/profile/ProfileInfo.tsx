@@ -7,17 +7,18 @@ import ProfileList from "./ProfileList";
 import { currentUser } from "@/lib/authUser";
 
 const ProfileInfo =async () => {
-  const user =await currentUser();
+  const user = await currentUser();
+  const userId = user?.id || '';
 
   return (
     <>
       <BreadCamp />
-      {user &&  <ProfileList user={user} />  }
+      {user && <ProfileList user={user} />}
       <div className="container  items-start gap-6 pt-4 pb-16">
         <div className="grid grid-cols-3 gap-4 mx-auto max-w-5xl">
-        {user && <PersonalInfo user={user} />}
-          <ShipingAdress />
-          <BillingAdress />
+          {user && <PersonalInfo user={user} />}
+          <ShipingAdress userId={userId} />
+          <BillingAdress userId={userId} />
         </div>
       </div>
     </>

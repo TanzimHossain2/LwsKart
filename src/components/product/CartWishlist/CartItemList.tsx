@@ -4,14 +4,18 @@ import { RootState } from "@/redux/store";
 import CartCard from "./cartCard";
 
 const CartItemList = () => {
-  const cartItems = useSelector((state: RootState) => state.cart);
+  const {
+    items: cartItems,
+    error,
+    status,
+  } = useSelector((state: RootState) => state.cart);
 
   return (
-    <>
+    <div>
       {cartItems.map((item) => (
         <CartCard key={item.id} item={item} />
       ))}
-    </>
+    </div>
   );
 };
 

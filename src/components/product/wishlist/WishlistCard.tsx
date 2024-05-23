@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const WishlistCard = () => {
   return (
@@ -22,12 +23,12 @@ const WishlistCard = () => {
           </p>
         </div>
         <div className="text-primary text-lg font-semibold">$320.00</div>
-        <a
+        <Link
           href="#"
           className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
         >
           add to cart
-        </a>
+        </Link>
 
         <div className="text-gray-600 cursor-pointer hover:text-primary">
           <i className="fa-solid fa-trash"></i>
@@ -53,12 +54,12 @@ const WishlistCard = () => {
           </p>
         </div>
         <div className="text-primary text-lg font-semibold">$320.00</div>
-        <a
+        <Link
           href="#"
           className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
         >
           add to cart
-        </a>
+        </Link>
 
         <div className="text-gray-600 cursor-pointer hover:text-primary">
           <i className="fa-solid fa-trash"></i>

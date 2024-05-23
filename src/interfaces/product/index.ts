@@ -62,8 +62,13 @@ export interface IVariant extends ICommonFields {
 
 // Interface for Cart Item
 export interface ICartItem {
+  toObject(): any;
   productId: mongoose.Types.ObjectId;
   quantity: number;
+  name: string;
+  price: number;
+  image: string;
+  weight: number;
 }
 
 // Interface for Cart
@@ -72,6 +77,15 @@ export interface ICart extends Document {
   items: ICartItem[];
 }
 
+type IWishListItem = {
+  id: string;
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+  weight: string;
+};
 
 // Interface for Wishlist 
 export interface IWishlist extends Document {

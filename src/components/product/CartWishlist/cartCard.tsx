@@ -5,24 +5,26 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { toast } from "react-toastify";
-import {
-  removeFromCart,
-  decrementQty,
-  incrementQty,
-} from "@/redux/slices/cartSlice";
+import { removeFromCart, updateCartItem } from "@/redux/slices/cartSlice";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 type CartCardProps = {
   item: {
     id: string;
-    title: string;
+    name: string;
     image: string;
     price: number;
-    qty: number;
+    quantity: number;
     weight: string;
+    productId: string;
   };
-}
+};
 
-const CartCard : React.FC <CartCardProps>   = ({ item }) => {
+const CartCard: React.FC<CartCardProps> = ({ item }) => {
+  const user = useCurrentUser();
+  const userId = user?.id || "";
+  const productId = item.productId;
+
   const dispatch = useDispatch<AppDispatch>();
 
   const handleDeleteCartItem = (id: string): void => {
@@ -34,11 +36,17 @@ const CartCard : React.FC <CartCardProps>   = ({ item }) => {
   };
 
   const handleIncrementQty = (id: string) => {
-    dispatch(incrementQty(id));
+    dispatch(
+      updateCartItem({ userId, productId, quantity: item.quantity + 1 })
+    );
   };
 
   const handleDecrementQty = (id: string) => {
-    dispatch(decrementQty(id));
+    if (item.quantity > 1) {
+      dispatch(
+        updateCartItem({ userId, productId, quantity: item.quantity - 1 })
+      );
+    }
   };
 
   return (
@@ -57,22 +65,22 @@ const CartCard : React.FC <CartCardProps>   = ({ item }) => {
           />
 
           <div className="flex flex-col">
-            <h2 className="text-gray-800">{item.title}</h2>
+            <h2 className="text-gray-800">{item.name}</h2>
             <small className="text-gray-500">Golden</small>
           </div>
         </div>
 
         <div className=" rounded-xl border border-gray-300 flex gap-3 items-center ">
           <button
-          disabled={item.qty === 1}
+            disabled={item.quantity === 1}
             className="border-r border-gray-300 py-2 px-4 text-gray-600 hover:text-primary transition"
             onClick={() => handleDecrementQty(item.id)}
           >
             <Minus />
           </button>
-          <p className="flex-grow py-2 px-4 text-gray-800">{item.qty}</p>
+          <p className="flex-grow py-2 px-4 text-gray-800">{item.quantity}</p>
           <button
-            className="border-l border-gray-300 py-2 px-4 text-gray-600 hover:text-primary transition"
+            className="border-l border-gray-300 py-2 px-4 text-gray-600 hover:text-primary transition cursor-pointer"
             onClick={() => handleIncrementQty(item.id)}
           >
             <Plus />
@@ -82,8 +90,8 @@ const CartCard : React.FC <CartCardProps>   = ({ item }) => {
         <div className="flex items-center gap-2">
           <div className="text-gray-800 text-lg font-medium">${item.price}</div>
           <button
-            className="text-gray-600 hover:text-primary transition"
-            onClick={() => handleDeleteCartItem(item.id)}
+            className="text-gray-600 hover:text-primary transition cursor-pointer"
+            onClick={() => handleDeleteCartItem(productId)}
           >
             <Trash2 className="w-5 h-5" />
           </button>

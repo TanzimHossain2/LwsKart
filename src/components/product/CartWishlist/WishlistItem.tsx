@@ -1,5 +1,6 @@
 "use client";
 
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { removeFromWishList } from "@/redux/slices/wishListSlice";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -11,19 +12,11 @@ import { toast } from "react-toastify";
 const WishlistItem = () => {
   const wishListItem = useSelector((state: RootState) => state.wishlist.items);
   const dispatch = useDispatch<AppDispatch>();
+  const user = useCurrentUser();
 
   const handleAddToCart = (product: any) => {
-    console.log(product);
-    
-    const data = {
-      id: product.id,
-      title: product.name,
-      price: product.price,
-      qty: 1,
-      image: product?.image,
-      weight: product.weight,
-    };
-    dispatch(addToCart(data));
+  
+    dispatch(addToCart({ userId: user.id, productId: product.id, quantity: 1 }));
 
     toast.success("Product added to cart", {
       position: "bottom-right",

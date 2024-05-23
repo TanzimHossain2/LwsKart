@@ -10,6 +10,7 @@ import VariantModel from "./product/variant.model";
 import ReviewModel from "./product/review.model";
 import WishlistModel from "./product/wishlist.model";
 import CartModel from "./product/cart.model";
+import { BillingAddressModel,ShippingAddressModel } from "./user/adress.model";
 
 export const db = {
   user: userModel,
@@ -24,4 +25,6 @@ export const db = {
   review: ReviewModel,
   wishlist: WishlistModel,
   cart: CartModel,
+  billingAddress: BillingAddressModel,
+  shippingAddress: ShippingAddressModel,
 };

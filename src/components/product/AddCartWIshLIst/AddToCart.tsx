@@ -1,4 +1,5 @@
 "use client";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { AppDispatch } from "@/redux/store";
 import { ShoppingCart } from "lucide-react";
@@ -8,7 +9,7 @@ import { toast } from "react-toastify";
 
 type AddToCartProps = {
   product: any;
-  landingPage?: boolean; // Add landingPage prop
+  landingPage?: boolean;
 };
 
 const AddToCartProduct: React.FC<AddToCartProps> = ({
@@ -16,27 +17,17 @@ const AddToCartProduct: React.FC<AddToCartProps> = ({
   landingPage = false,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const user = useCurrentUser();
 
   const handleAddToCart = (product: any) => {
-    const data = {
-      id: product.id,
-      title: product.name,
-      price: product.price,
-      qty: 1,
-      image: product?.images[0],
-      weight: product.weight,
-    };
+    const userId = user?.id || "";
 
-    dispatch(addToCart(data));
+    dispatch(addToCart({ userId, productId: product.id, quantity: 1 }));
+    
     toast.success("Product added to cart", {
       position: "bottom-right",
       autoClose: 1000,
     });
-
-    dispatch
-
-
-
   };
 
   return (

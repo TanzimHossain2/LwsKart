@@ -8,6 +8,7 @@ import { sendVerificationEmail } from "@/lib/mail";
 import { SettingSchema } from "@/schemas";
 import { generateHash, hashMatched } from "@/utils/hashing";
 import { sanitizeData } from "@/utils/sanitizeData.utils";
+import { revalidatePath } from "next/cache";
 import * as z from "zod";
 
 export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
@@ -38,7 +39,7 @@ export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
   if (values.email && values.email !== user.email) {
     const existingUser = await getUserByEmail(values.email);
 
-    if (existingUser &&( existingUser._id as string).toString() !== (dbUser._id as string).toString()) {
+    if (existingUser &&( existingUser._id as unknown as string).toString() !== (dbUser._id as unknown as string).toString()) {
       return {
         error: "Email already exists",
       };
@@ -92,6 +93,8 @@ export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
       error: "Failed to update user info",
     };
   }
+
+  revalidatePath("/profile");
 
   return {
     success: "User info updated successfully",

@@ -17,9 +17,9 @@ const CheckoutPage = () => {
           <h4 className="text-gray-800 text-lg mb-4 font-medium uppercase">
             order summary
           </h4>
-
           <OrderSummary />
         </div>
+        
       </div>
     </>
   );

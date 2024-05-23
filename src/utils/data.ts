@@ -21,7 +21,27 @@ const modifyArrayData = (data: any[]): any[] => {
       ...rest
     };
   }
+
+
+  const modifyCartData = (items: any[]): any[] => {
+
+    const resData = items.map((item) =>{
+      return {
+        id: item._id.toString(),
+        productId: item.productId.toString(),
+        name:item.name,
+        price:item.price, 
+        quantity: item.quantity,
+        image:item.image,
+        weight:item.weight,
+        stock:item.stock
+      }
+    })
+
+    return resData;
+
+  }
   
   
   
-  export { modifyArrayData, modifyObjData };
+  export { modifyArrayData, modifyObjData, modifyCartData };

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -205,9 +206,9 @@ const RegistrationForm = () => {
               className="text-gray-600 ml-3 cursor-pointer"
             >
               I have read and agree to the{" "}
-              <a href="#" className="text-primary">
+              <Link href="#" className="text-primary">
                 terms & conditions
-              </a>
+              </Link>
             </label>
             {errors.aggrement && (
               <p className="text-red-500 text-xs mt-1">
