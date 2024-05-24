@@ -34,6 +34,7 @@ export const addToCart = async (userId: string, productId: string, quantity: num
             price: product.price,
             image: product.images[0],
             weight: product.weight || 0,
+            stock: product.stock || 0,
           });
       }
 

@@ -62,7 +62,7 @@ const ProductCard: React.FC<IProductCard> = ({ product }) => {
       </div>
 
       <div className="pt-4 pb-3 px-4">
-        <Link href={`/product-details/${product?.id}`}>
+        <Link href={`/product/${product?.id}`}>
           <h4 className="uppercase font-medium text-lg mb-2 text-gray-800 hover:text-primary transition">
             {product?.name}
           </h4>

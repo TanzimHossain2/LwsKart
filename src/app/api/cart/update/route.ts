@@ -22,14 +22,12 @@ export async function PATCH(request: NextRequest) {
       });
     }
 
-    if(res.status === 400) {
+    if (res.status === 400) {
       return new NextResponse(res.error, {
         status: 400,
         statusText: res.error,
       });
     }
-
-
 
     const resData = modifyCartData(res?.data?.items || []);
 

@@ -1,12 +1,15 @@
 import WishlistList from '@/components/product/CartWishlist'
 import BreadCamp from '@/components/shared/breadCamp'
+import { Suspense } from 'react'
 
 
 const WishListPage = () => {
   return (
     <div>
         <BreadCamp />
-       <WishlistList />
+        <Suspense fallback={<div>Loading...</div>}>
+        <WishlistList />
+        </Suspense>
     </div>
   )
 }

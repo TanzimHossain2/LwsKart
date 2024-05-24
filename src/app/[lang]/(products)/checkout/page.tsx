@@ -1,25 +1,28 @@
-import CheckoutForm from "@/components/checkout/CheckoutForm";
-import OrderSummary from "@/components/checkout/OrderSummary";
+import { getShippingAddress } from "@/backend/services/user/getShippingAdress";
+import CheckoutDetails from "@/components/checkout/CheckoutDetails";
 import BreadCamp from "@/components/shared/breadCamp";
+import { IAddress } from "@/interfaces";
+import { currentUser } from "@/lib/authUser";
+import { redirect } from "next/navigation";
 
-const CheckoutPage = () => {
+const CheckoutPage = async () => {
+  const user = await currentUser();
+
+  if (!user) {
+    return null;
+  }
+
+  const Shippingaddress = await getShippingAddress(user.id || "");
+
+  if (!Shippingaddress) {
+    redirect("/profile");
+  }
+
   return (
     <>
       <BreadCamp />
-
       <div className="container grid grid-cols-12 items-start pb-16 pt-4 gap-6">
-        <div className="col-span-8 border border-gray-200 p-4 rounded">
-          <h3 className="text-lg font-medium capitalize mb-4">Checkout</h3>
-          <CheckoutForm />
-        </div>
-
-        <div className="col-span-4 border border-gray-200 p-4 rounded">
-          <h4 className="text-gray-800 text-lg mb-4 font-medium uppercase">
-            order summary
-          </h4>
-          <OrderSummary />
-        </div>
-        
+        <CheckoutDetails address={Shippingaddress?.address as any} />
       </div>
     </>
   );

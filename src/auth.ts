@@ -79,7 +79,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       //prevent sign in when 2FA is enabled
       if (existingUser?.isTwoFactorEnabled) {
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-          (existingUser._id as string)
+          (existingUser._id as unknown as  string)
         );
         if (!twoFactorConfirmation) {
           return false;
@@ -127,7 +127,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return token;
       }
 
-      const existingAccount = await getAccountByUserId(existingUser._id as string);
+      const existingAccount = await getAccountByUserId(existingUser._id as unknown as string);
 
       token.name = existingUser.name;
       token.email = existingUser.email;

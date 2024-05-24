@@ -24,7 +24,6 @@ const modifyArrayData = (data: any[]): any[] => {
 
 
   const modifyCartData = (items: any[]): any[] => {
-
     const resData = items.map((item) =>{
       return {
         id: item._id.toString(),

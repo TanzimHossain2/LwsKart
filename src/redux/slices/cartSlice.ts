@@ -71,7 +71,6 @@ export const updateCartItem = createAsyncThunk(
   }
 );
 
-
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -96,14 +95,17 @@ const cartSlice = createSlice({
         state.error = action.error.message ?? null;
       })
       .addCase(addToCart.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.items = action.payload;
         localStorage.setItem("cart", JSON.stringify(state.items));
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.items = action.payload;
         localStorage.setItem("cart", JSON.stringify(state.items));
       })
       .addCase(updateCartItem.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.items = action.payload;
         localStorage.setItem("cart", JSON.stringify(state.items));
       });

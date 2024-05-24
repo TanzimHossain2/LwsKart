@@ -1,7 +1,7 @@
 import { Document, ObjectId } from "mongoose";
 
 export interface IUser extends Document {
-  _id?: ObjectId;
+  _id: ObjectId;
   name: string;
   username: string;
   email: string;
@@ -17,6 +17,7 @@ export interface IUser extends Document {
 }
 
 export interface IAccount extends Document {
+  _id: ObjectId;
   userId: ObjectId;
   type: string;
   provider: string;
@@ -50,8 +51,8 @@ export interface ITwoFactorToken extends IBaseToken {
 
 export type IdeleveryAt = "home" | "office";
 export interface IAddress extends Document {
-  _id?: ObjectId;
-  userId: ObjectId;
+  _id: ObjectId;
+  userId: IUser;
   name: string;
   country: string;
   streetAddress: string;

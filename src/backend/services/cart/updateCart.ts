@@ -7,6 +7,14 @@ export const updateCart = async (userId: string, productId: string, quantity: nu
     if (quantity <= 0) {
         return { error: "Quantity must be greater than zero", status: 400 };
     }
+
+    const product = await db.product.findById({ _id: productId });
+
+    if (!product) {
+        return { error: "Product not found", status: 404 };
+    }
+
+    
     
     try {
         const cart = await db.cart.findOne({ userId});
@@ -19,6 +27,7 @@ export const updateCart = async (userId: string, productId: string, quantity: nu
 
         if (itemIndex > -1) {
             cart.items[itemIndex].quantity = quantity; 
+            cart.items[itemIndex].stock = product.stock;
             await cart.save();
             return { message: "Cart updated successfully", status: 200, data: cart };
 

@@ -12,6 +12,7 @@ const CartItemSchema = new Schema<ICartItem>({
   price: { type: Number, required: true },
   image: { type: String, required: true },
   weight: { type: Number, required: true },
+  stock: { type: Number},
 });
 
 const CartSchema = new Schema<ICart>(

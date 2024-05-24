@@ -7,6 +7,11 @@ type response = {
 }
 
 export async function getShippingAddress(userId: string) {
+
+  if (!userId) {
+    return null;
+  }
+  
   try {
     await dbConnect();
     const shippingAddress = await db.shippingAddress

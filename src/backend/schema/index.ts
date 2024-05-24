@@ -11,6 +11,7 @@ import ReviewModel from "./product/review.model";
 import WishlistModel from "./product/wishlist.model";
 import CartModel from "./product/cart.model";
 import { BillingAddressModel,ShippingAddressModel } from "./user/adress.model";
+import OrderModel from "./transaction/order.model";
 
 export const db = {
   user: userModel,
@@ -27,4 +28,5 @@ export const db = {
   cart: CartModel,
   billingAddress: BillingAddressModel,
   shippingAddress: ShippingAddressModel,
+  order: OrderModel,
 };

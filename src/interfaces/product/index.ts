@@ -3,6 +3,7 @@ import mongoose, {  Document, ObjectId } from "mongoose";
 
 // Interface for common fields shared by multiple schemas
 interface ICommonFields extends Document {
+  _id: ObjectId;
   name: string;
   description?: string;
   price: number;
@@ -59,25 +60,21 @@ export interface IVariant extends ICommonFields {
   attributes: Record<string, string>;
 }
 
+// --------------------------------------- Cart --------------------------------------- //
 
-// Interface for Cart Item
+// Interface for Cart Item for schema
 export interface ICartItem {
-  toObject(): any;
+  toObject?: any;
   productId: mongoose.Types.ObjectId;
   quantity: number;
   name: string;
   price: number;
   image: string;
   weight: number;
+  stock: number;
 }
 
-// Interface for Cart
-export interface ICart extends Document {
-  userId: mongoose.Types.ObjectId;
-  items: ICartItem[];
-}
-
-type IWishListItem = {
+export interface IproductCart  {
   id: string;
   productId: string;
   name: string;
@@ -85,10 +82,24 @@ type IWishListItem = {
   quantity: number;
   image: string;
   weight: string;
+  stock: number;
 };
+
+// Interface for Cart
+export interface ICart extends Document {
+  userId: mongoose.Types.ObjectId;
+  items: ICartItem[];
+}
+
+// --------------------------------------- Wishlist --------------------------------------- //
+
 
 // Interface for Wishlist 
 export interface IWishlist extends Document {
   userId: mongoose.Types.ObjectId;
   productIds: mongoose.Types.ObjectId[];
 }
+
+
+// --------------------------------------- Product --------------------------------------- //
+

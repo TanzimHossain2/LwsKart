@@ -1,25 +1,14 @@
 "use client";
 
 import { RootState } from "@/redux/store";
-import { calculateShipping, calculateTax } from "@/utils/price-utlis";
+import { calculatePrice } from "@/utils/price-utlis";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
 const CartBilling = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
-
-  const price = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  const weight = cartItems.reduce(
-    (acc, item) => acc + parseInt(item.weight) * item.quantity,
-    0
-  );
-
-  const taxPrice = calculateTax(price);
-  const shippingPrice = calculateShipping(weight);
-  const totalPrice = (price + taxPrice + shippingPrice).toFixed(2);
+  const { price, shippingPrice, taxPrice, totalPrice, weight } =
+    calculatePrice(cartItems);
 
   return (
     <div className="lg:col-span-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-700 text-gray-800 p-5 dark:text-gray-100 font-bold">
@@ -50,7 +39,7 @@ const CartBilling = () => {
       </div>
 
       <Link
-        href="/checkout"
+        href={{ pathname: "/checkout" }}
         className="bg-gray-200 text-gray-900 rounded-lg py-2 px-4 font-normal hover:bg-gray-300 transition"
       >
         Continue to Checkout

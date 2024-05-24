@@ -104,7 +104,7 @@ export async function login(values: z.infer<typeof LoginSchema>,
         await db.twoFactorToken.deleteOne({ _id: twoFactorToken._id });
 
         const existingConfimation = await getTwoFactorConfirmationByUserId(
-          (existingUser._id as string).toString() 
+          (existingUser._id as unknown as string).toString() 
         );
 
         if (existingConfimation) {
@@ -126,6 +126,7 @@ export async function login(values: z.infer<typeof LoginSchema>,
         };
       }
     }
+console.log("xxx",callbackUrl);
 
     const response = await signIn("credentials", {
       email: email.toLowerCase(),

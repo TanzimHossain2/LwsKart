@@ -1,7 +1,6 @@
 import { dbConnect } from "@/backend/db/connectDb";
 import { db } from "@/backend/schema";
 
-
 export async function getBillingAddress(userId: string) {
   try {
     await dbConnect();
@@ -9,8 +8,12 @@ export async function getBillingAddress(userId: string) {
       .findOne({ userId })
       .populate("userId");
 
-      const res = {
-       address: {
+    if (!billingAddress) {
+      return null;
+    }
+
+    const res = {
+      address: {
         id: billingAddress?._id.toString(),
         name: billingAddress?.name,
         country: billingAddress?.country,
@@ -21,19 +24,18 @@ export async function getBillingAddress(userId: string) {
         postalCode: billingAddress?.postalCode,
         state: billingAddress?.state,
         deleveryAt: billingAddress?.deleveryAt,
-       },
-        user: {
-            id: billingAddress?.userId?._id.toString(),
-            name: billingAddress?.userId?.name,
-            email: billingAddress?.userId?.email,
-            image: billingAddress?.userId?.image,
-            role: billingAddress?.userId?.role,
-            isTwoFactorEnabled: billingAddress?.userId?.isTwoFactorEnabled,
-            emailVerified: billingAddress?.userId?.emailVerified,
-            isOAuth: billingAddress?.userId?.isOAuth
-        }
-      }
-
+      },
+      user: {
+        id: billingAddress?.userId?._id.toString(),
+        name: billingAddress?.userId?.name,
+        email: billingAddress?.userId?.email,
+        image: billingAddress?.userId?.image,
+        role: billingAddress?.userId?.role,
+        isTwoFactorEnabled: billingAddress?.userId?.isTwoFactorEnabled,
+        emailVerified: billingAddress?.userId?.emailVerified,
+        isOAuth: billingAddress?.userId?.isOAuth,
+      },
+    };
 
     return res;
   } catch (err) {

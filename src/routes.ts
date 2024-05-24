@@ -5,6 +5,15 @@
  */
 export const publicRoutes = [
     "/",
+    "/auth/login",
+    "/auth/register",
+    "/auth/new-verification",
+    "/auth/reset",
+    "/auth/reset-password",
+    "/auth/error",
+    "/shop",
+    "/about-us",
+    "/contact-us",
 ]
 
 
@@ -13,7 +22,7 @@ export const publicRoutes = [
  *  These routes 
  *  @ type {string[]}
  */
-export const authRoutes =  ['/profile', '/settings', '/admin', '/cart', '/wishlist', "/checkout"]
+export const authRoutes =  ['/profile', '/settings', '/admin', '/cart', '/wishlist', "/checkout",]
 
 
 /**

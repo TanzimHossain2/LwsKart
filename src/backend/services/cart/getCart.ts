@@ -26,7 +26,9 @@ export const getCart = async (userId: string | number) => {
         const products = await ProductModel.find({ _id: { $in: productIds } });
 
         // Map product details to their IDs for quick lookup
+        
         const productMap: Record<string, IProductData> = products.reduce((acc, product) => {
+            // @ts-ignore
             acc[product._id.toString()] = product;
             return acc;
         }, {});
@@ -44,10 +46,7 @@ export const getCart = async (userId: string | number) => {
             ...cart.toObject(),
             items: updatedItems,
         };
-
-        console.log(updatedItems);
         
-
         return { status: 200, data: updatedCart };
 
     } catch (err) {

@@ -1,3 +1,16 @@
+type product = {
+    id: string;
+      productId: string;
+      name: string;
+      price: number;
+      quantity: number;
+      image: string;
+      weight: string;
+      stock: number;
+}
+
+
+
 // Calculate tax
 export const calculateTax = (price: number | string): number => {
     let priceFloat = parseFloat(price as string); // Convert to float
@@ -34,4 +47,24 @@ export const calculateShipping = (weight: number | string): number => {
     }
     
     return parseFloat(shipping.toFixed(2));
+}
+
+
+export const calculatePrice = (productItems: product[])=>{
+
+    const price = productItems.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+    
+      const weight = productItems.reduce(
+        (acc, item) => acc + parseInt(item.weight) * item.quantity,
+        0
+      );
+
+      const taxPrice = calculateTax(price);
+      const shippingPrice = calculateShipping(weight);
+      const totalPrice = (price + taxPrice + shippingPrice).toFixed(2);
+      
+      return {price, weight, taxPrice, shippingPrice, totalPrice}
 }
