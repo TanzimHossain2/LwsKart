@@ -13,7 +13,7 @@ const checkOrderStatus = async (orderId: string) => {
     }
 
     let currentTime = new Date();
-    let orderCreationTime = order.createdAt as Date; 
+    let orderCreationTime = order.createdAt as Date;
     let timeDifference = currentTime.getTime() - orderCreationTime.getTime();
     const timeDifferenceInMinutes = Math.floor(timeDifference / (1000 * 60));
 
@@ -37,7 +37,7 @@ const checkOrderStatus = async (orderId: string) => {
       await session.commitTransaction();
       session.endSession();
 
-     throw new Error("Order cancelled due to inactivity");
+      throw new Error("Order cancelled due to inactivity");
     }
 
     // If the order is not pending for more than 5 minutes, simply commit the transaction
@@ -45,7 +45,6 @@ const checkOrderStatus = async (orderId: string) => {
     session.endSession();
 
     return true;
-
   } catch (error) {
     await session.abortTransaction();
     session.endSession();

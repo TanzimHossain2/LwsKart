@@ -3,6 +3,7 @@ import checkOrderStatus from "./checkOrderStatus";
 import { handlePayment } from "./handlePayment";
 import { currentUser } from "@/lib/authUser";
 import { revalidatePath } from "next/cache";
+import { handleOrderCompletion } from "../invoice";
 
 type PaymentInfo = "cash" | "card" | "paypal" | "crypto";
 
@@ -41,6 +42,8 @@ export const handlePaymentProcessing = async (
     await cart.save();
 
     revalidatePath("/cart");
+
+    await handleOrderCompletion(orderId);
 
     return {
       data: "Payment processed successfully",

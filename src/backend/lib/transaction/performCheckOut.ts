@@ -1,13 +1,10 @@
 import {
-  checkAndReserveStock,
   saveOrder,
 } from "@/backend/services/transaction";
 import { OrderDataSchema } from "@/schemas/transaction";
 import * as z from "zod";
-import checkOrderStatus from "./checkOrderStatus";
-import { handlePayment } from "./handlePayment";
-import { db } from "@/backend/schema";
 import { IOrder } from "@/backend/schema/transaction/order.model";
+import mongoose from "mongoose";
 
 type IData = z.infer<typeof OrderDataSchema>;
 
@@ -19,6 +16,7 @@ export const performCheckOut = async (values: IData, userId: string) => {
     user.id = userId;
 
     const orderData = {
+      userId: new mongoose.Types.ObjectId(user.id),
       user: user,
       products: products,
       totalPrice: totalPrice,

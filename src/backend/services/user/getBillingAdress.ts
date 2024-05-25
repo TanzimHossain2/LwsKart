@@ -2,15 +2,16 @@ import { dbConnect } from "@/backend/db/connectDb";
 import { db } from "@/backend/schema";
 
 export async function getBillingAddress(userId: string) {
+
+  if (!userId) {
+    return null;
+  }
+
   try {
     await dbConnect();
     const billingAddress = await db.billingAddress
       .findOne({ userId })
       .populate("userId");
-
-    if (!billingAddress) {
-      return null;
-    }
 
     const res = {
       address: {

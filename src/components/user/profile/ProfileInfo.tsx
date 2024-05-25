@@ -5,10 +5,15 @@ import ShipingAdress from "../address/ShipingAdress";
 import PersonalInfo from "./PersonalInfo";
 import ProfileList from "./ProfileList";
 import { currentUser } from "@/lib/authUser";
+import { allTransactionData } from "@/backend/services/transaction";
 
-const ProfileInfo =async () => {
+const ProfileInfo = async () => {
   const user = await currentUser();
-  const userId = user?.id || '';
+
+  
+  const userId = user?.id || "";
+  // const allTransaction   = await allTransactionData(userId);
+
 
   return (
     <>

@@ -2,8 +2,8 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 
 export interface IOrder extends Document {
   _id: mongoose.Schema.Types.ObjectId;
+  userId: mongoose.Schema.Types.ObjectId;
   user: {
-    // userId: mongoose.Schema.Types.ObjectId;
     name: string;
     id : string;
     email: string;
@@ -31,8 +31,8 @@ export interface IOrder extends Document {
 }
 
 const orderSchema = new Schema<IOrder>({
+  userId :{ type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
   user: {
-    // userId :{ type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
     name: { type: String, required: true },
     id: { type: String , required: true},
     email: { type: String, required: true },

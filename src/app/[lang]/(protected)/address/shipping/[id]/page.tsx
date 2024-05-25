@@ -5,9 +5,10 @@ const ShippingAdressPage = async ({ params } :any) => {
   const { id } = params;
   const shippingAdress: any = await getShippingAddress(id);
 
+  
   return (
     <div className="container">
-      <AdressForm adress={shippingAdress.address} title="Shipping" />
+      <AdressForm adress={shippingAdress?.address} title="Shipping" />
     </div>
   );
 };

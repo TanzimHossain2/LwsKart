@@ -12,21 +12,22 @@ type AdressProps = {
 };
 
 const AddressForm: React.FC<AdressProps> = ({ adress, title }) => {
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: adress.name || "",
-      phoneNumber: adress.phoneNumber || "",
-      email: adress.email || "",
-      country: adress.country || "",
-      streetAddress: adress.streetAddress || "",
-      city: adress.city || "",
-      postalCode: adress.postalCode || "",
-      state: adress.state || "",
-      deliveryAt: adress.deliveryAt || "",
+      name: adress?.name || "",
+      phoneNumber: adress?.phoneNumber || "",
+      email: adress?.email || "",
+      country: adress?.country || "",
+      streetAddress: adress?.streetAddress || "",
+      city: adress?.city || "",
+      postalCode: adress?.postalCode || "",
+      state: adress?.state || "",
+      deliveryAt: adress?.deliveryAt || "",
     },
   });
 
@@ -34,10 +35,10 @@ const AddressForm: React.FC<AdressProps> = ({ adress, title }) => {
 
   const onSubmit = async (data: any) => {
     let res: any;
+
     try {
       if (title === "Billing") {
         res = await updateAddress(data, adress.id, "billing");
-
         if (res.code === 200) {
           toast.success(res.success, {
             position: "bottom-right",
@@ -51,6 +52,7 @@ const AddressForm: React.FC<AdressProps> = ({ adress, title }) => {
         }
       } else if (title === "Shipping") {
         res = await updateAddress(data, adress.id, "shipping");
+
         if (res.code === 200) {
           toast.success(res.success, {
             position: "bottom-right",

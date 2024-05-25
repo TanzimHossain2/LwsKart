@@ -1,17 +1,13 @@
 import { dbConnect } from "@/backend/db/connectDb";
 import { db } from "@/backend/schema";
 
-type response = {
- address: any,
-    user: any
-}
 
 export async function getShippingAddress(userId: string) {
 
   if (!userId) {
     return null;
   }
-  
+
   try {
     await dbConnect();
     const shippingAddress = await db.shippingAddress
