@@ -49,7 +49,7 @@ export interface ITwoFactorToken extends IBaseToken {
 
 // Adress interface
 
-export type IdeleveryAt = "home" | "office";
+export type IdeliveryAt = "home" | "office";
 export interface IAddress extends Document {
   _id: ObjectId;
   userId: IUser;
@@ -62,5 +62,5 @@ export interface IAddress extends Document {
   postalCode?: string;
   state?: string;
   additionalInfo?: string;
-  deleveryAt: IdeleveryAt;
+  deliveryAt: IdeliveryAt;
 }

@@ -29,7 +29,7 @@ export async function getShippingAddress(userId: string) {
         email: shippingAddress?.email,
         postalCode: shippingAddress?.postalCode,
         state: shippingAddress?.state,
-        deleveryAt: shippingAddress?.deleveryAt,
+        deliveryAt: shippingAddress?.deliveryAt,
       },
       user: {
         id: shippingAddress?.userId?._id.toString(),

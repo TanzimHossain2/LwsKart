@@ -23,7 +23,7 @@ export async function getBillingAddress(userId: string) {
         email: billingAddress?.email,
         postalCode: billingAddress?.postalCode,
         state: billingAddress?.state,
-        deleveryAt: billingAddress?.deleveryAt,
+        deliveryAt: billingAddress?.deliveryAt,
       },
       user: {
         id: billingAddress?.userId?._id.toString(),

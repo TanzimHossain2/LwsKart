@@ -35,7 +35,7 @@ const ShipingAdress =async ({userId}: {userId:string}) => {
         </p>
 
         <p className="text-gray-800">
-          {shippingAdress.address.deleveryAt}
+          {shippingAdress.address.deliveryAt}
         </p>
 
 

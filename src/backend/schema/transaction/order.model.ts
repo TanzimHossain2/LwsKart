@@ -1,7 +1,9 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-interface IOrder extends Document {
+export interface IOrder extends Document {
+  _id: mongoose.Schema.Types.ObjectId;
   user: {
+    // userId: mongoose.Schema.Types.ObjectId;
     name: string;
     id : string;
     email: string;
@@ -24,12 +26,13 @@ interface IOrder extends Document {
   ];
   totalPrice: number;
   paymentMethod: string;
-  status: "pending" | "confirmed" | "cancelled";
+  status: "pending" | "confirmed" | "cancelled" | "failed";
   createdAt: Date;
 }
 
 const orderSchema = new Schema<IOrder>({
   user: {
+    // userId :{ type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
     name: { type: String, required: true },
     id: { type: String , required: true},
     email: { type: String, required: true },
@@ -56,12 +59,12 @@ const orderSchema = new Schema<IOrder>({
   paymentMethod: { type: String, required: true },
   status: {
     type: String,
-    enum: ["pending", "confirmed", "cancelled"],
+    enum: ["pending", "confirmed", "cancelled","failed"],
     default: "pending",
   },
   
   createdAt: { type: Date, default: Date.now },
-});
+}, { timestamps: true });
 
 const OrderModel: Model<IOrder> = mongoose.models.order || mongoose.model<IOrder>("order", orderSchema);
 

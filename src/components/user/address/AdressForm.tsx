@@ -26,7 +26,7 @@ const AddressForm: React.FC<AdressProps> = ({ adress, title }) => {
       city: adress.city || "",
       postalCode: adress.postalCode || "",
       state: adress.state || "",
-      deleveryAt: adress.deleveryAt || "",
+      deliveryAt: adress.deliveryAt || "",
     },
   });
 
@@ -243,7 +243,7 @@ const AddressForm: React.FC<AdressProps> = ({ adress, title }) => {
               <input
                 type="radio"
                 id="home"
-                {...register("deleveryAt", { required: true })}
+                {...register("deliveryAt", { required: true })}
                 value="home"
                 className="mr-2"
               />
@@ -253,13 +253,13 @@ const AddressForm: React.FC<AdressProps> = ({ adress, title }) => {
               <input
                 type="radio"
                 id="office"
-                {...register("deleveryAt", { required: true })}
+                {...register("deliveryAt", { required: true })}
                 value="office"
                 className="mr-2"
               />
               <label htmlFor="office">Delivery at Office</label>
             </div>
-            {errors.deleveryAt && (
+            {errors.deliveryAt && (
               <span className="text-red-500">
                 Please select a delivery location
               </span>

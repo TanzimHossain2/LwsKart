@@ -31,23 +31,23 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
         </div>
 
         <div>
-          <label htmlFor="phone" className="text-gray-600">
+          <label htmlFor="phoneNumber" className="text-gray-600">
             Phone number
           </label>
           <input
             type="string"
-            {...register("phone", {
+            {...register("phoneNumber", {
               required: "This field is required",
               minLength: {
                 value: 10,
                 message: "Phone number must be at least 10 digits",
               },
             })}
-            id="phone"
+            id="phoneNumber"
             className="input-box"
           />
-          {errors.phone && (
-            <span className="text-red-500">{errors.phone.message}</span>
+          {errors.phoneNumber && (
+            <span className="text-red-500">{errors.phoneNumber.message}</span>
           )}
         </div>
 
@@ -67,17 +67,17 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
         </div>
 
         <div>
-        <label htmlFor="region" className="text-gray-600">
+        <label htmlFor="country" className="text-gray-600">
             Country/Region
           </label>
           <input
             type="text"
-            {...register("region")}
-            id="region"
+            {...register("country")}
+            id="country"
             className="input-box"
           />
-          {errors.region && (
-            <span className="text-red-500">{errors.region.message}</span>
+          {errors.country && (
+            <span className="text-red-500">{errors.country.message}</span>
           )}
         </div>
 
@@ -107,7 +107,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
             className="input-box"
           />
           {errors.postalCode && (
-            <span className="text-red-500">{errors.address.message}</span>
+            <span className="text-red-500">{errors.postalCode.message}</span>
           )}
         </div>
 
@@ -144,29 +144,29 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
         <div>
           <label className="text-gray-600">Delivery Location</label>
           <div className="flex items-center space-x-4">
-            <label htmlFor="deleveryAt-home" className="flex items-center">
+            <label htmlFor="deliveryAt-home" className="flex items-center">
               <input
                 type="radio"
-                id="deleveryAt-home"
-                {...register("deleveryAt", { required: "This field is required" })}
+                id="deliveryAt-home"
+                {...register("deliveryAt", { required: "This field is required" })}
                 value="home"
                 className="mr-2 my-2"
               />
               Home
             </label>
-            <label htmlFor="deleveryAt-office" className="flex items-center">
+            <label htmlFor="deliveryAt-office" className="flex items-center">
               <input
                 type="radio"
-                id="deleveryAt-office"
-                {...register("deleveryAt", { required: "This field is required" })}
+                id="deliveryAt-office"
+                {...register("deliveryAt", { required: "This field is required" })}
                 value="office"
                 className="mr-2 my-2"
               />
               Office
             </label>
           </div>
-          {errors.deleveryAt && (
-            <span className="text-red-500">{errors.deleveryAt.message}</span>
+          {errors.deliveryAt && (
+            <span className="text-red-500">{errors.deliveryAt.message}</span>
           )}
         </div>
       </div>

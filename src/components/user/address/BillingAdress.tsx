@@ -38,7 +38,7 @@ const BillingAdress = async ({ userId }: { userId: string }) => {
 
             <p className="text-gray-800">{billingAdress.address.email}</p>
 
-            <p className="text-gray-800">{billingAdress.address.deleveryAt}</p>
+            <p className="text-gray-800">{billingAdress.address.deliveryAt}</p>
           </>
         )}
       </div>

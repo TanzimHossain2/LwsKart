@@ -4,6 +4,10 @@ import {
 } from "@/backend/services/transaction";
 import { OrderDataSchema } from "@/schemas/transaction";
 import * as z from "zod";
+import checkOrderStatus from "./checkOrderStatus";
+import { handlePayment } from "./handlePayment";
+import { db } from "@/backend/schema";
+import { IOrder } from "@/backend/schema/transaction/order.model";
 
 type IData = z.infer<typeof OrderDataSchema>;
 
@@ -22,33 +26,28 @@ export const performCheckOut = async (values: IData, userId: string) => {
       status: "pending",
     };
 
-    await checkAndReserveStock(orderData.products);
-
-    const res = await saveOrder(orderData);
-
-    if (!res) {
-      throw { error: "Order not created", data: null, status: 400 };
+    const newOrder: IOrder = await saveOrder(orderData);
+ 
+    if (!newOrder) {
+      throw new Error("Order not created");
     }
 
     return {
       success: "Order created successfully",
-      orderId: res._id,
+      orderId: newOrder._id.toString(),
       status: 201,
+      paymentMethod: newOrder.paymentMethod,
     };
 
   } catch (err) {
+    console.error(err);
     if (err instanceof z.ZodError) {
       throw {
         error: err.errors.map((err) => err.message),
         data: null,
         status: 400,
       };
-    } else if ((err as Error).message.includes("out of stock")) {
-      console.error((err as Error).message);
-      throw { error: [(err as Error).message], data: null, status: 400 };
-    } else {
-      console.error(err);
-      throw { error: ["Internal Server Error"], data: null, status: 500 };
     }
+    throw new Error("Internal Server Error");
   }
 };

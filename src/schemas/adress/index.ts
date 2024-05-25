@@ -13,5 +13,5 @@ export const AdressSchema = z.object({
     postalCode: z.string().optional(),
     state: z.string().optional(),
     additionalInfo: z.string().optional(),
-    deleveryAt: z.union([z.literal("home"), z.literal("office")])
+    deliveryAt: z.union([z.literal("home"), z.literal("office")])
 }) 

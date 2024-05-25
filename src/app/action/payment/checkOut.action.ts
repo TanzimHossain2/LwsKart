@@ -25,6 +25,7 @@ export const checkOutAction = async (values: IOrderData) => {
     if (res.status === 201) {
       return { error: null, data: res, status: 201 };
     }
+
   } catch (err) {
     console.log(err);
 
@@ -34,7 +35,7 @@ export const checkOutAction = async (values: IOrderData) => {
         data: null,
         status: 400,
       };
-    } 
+    }
     return { error: (err as Error).message, data: null, status: 500 };
   }
 };

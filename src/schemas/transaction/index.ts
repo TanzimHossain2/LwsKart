@@ -1,17 +1,20 @@
 import * as z from "zod";
 
+
+
 export const OrderDataSchema = z.object({
+    _id :  z.string().optional(), 
     user: z.object({
         id: z.string().optional(),
         name: z.string(),
         email: z.string(),
-        phone: z.string(),
+        phoneNumber: z.string(),
         address: z.string(),
         city: z.string(),
         postalCode: z.string(),
         state: z.string(),
-        region: z.string(),
-        deleveryAt: z.string(),
+        country: z.string(),
+        deliveryAt: z.string(),
     }),
     products: z.array(z.object({
         id: z.string(),

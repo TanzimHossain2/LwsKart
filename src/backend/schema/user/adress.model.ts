@@ -36,7 +36,7 @@ const addressSchema = new mongoose.Schema<IAddress>({
     state: String,
     additionalInfo: String,
     
-    deleveryAt: {
+    deliveryAt: {
       type: String,
       enum: ["home", "office"],
       default: "home",

@@ -10,8 +10,9 @@ import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { checkOutAction } from "@/app/action/payment";
 import { IAddress } from "@/interfaces";
+import { toast } from 'react-toastify';
 
-interface AddressProps extends IAddress{
+interface AddressProps extends IAddress {
   id: string;
 }
 
@@ -32,44 +33,45 @@ const CheckoutDetails: React.FC<CheckoutDetailsProps> = ({ address }) => {
     defaultValues: {
       name: address.name || "",
       email: address.email || "",
-      phone: address.phoneNumber || "",
+      phoneNumber: address.phoneNumber || "",
       address: address.streetAddress || "",
       city: address.city || "",
       postalCode: address.postalCode || "",
       state: address.state || "",
-      region: address.country || "",
-      deleveryAt: address.deleveryAt === "home" ? "home" : "office",
+      country: address.country || "",
+      deliveryAt: address.deliveryAt === "home" ? "home" : "office",
     },
   });
 
   const [paymentMethod, setPaymentMethod] = useState<paymentMethod>("cash");
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const { totalPrice } = calculatePrice(cartItems);
 
-  const onSubmit =async (data: any) => {
+  const onSubmit = async (data: any) => {
     const orderData = {
       user: data,
       products: cartItems,
       totalPrice: totalPrice,
-      paymentMethod: paymentMethod, 
+      paymentMethod: paymentMethod,
     };
 
-   try {
-    const res = await checkOutAction(orderData as any);
+    try {
+      const res = await checkOutAction(orderData as any);
 
-    if (res?.status === 201) {
-      console.log("Order created successfully", res.data?.orderId);
-    } else {
-     throw res?.error
+      if (res?.status === 201) {
+        
+        toast.success('Order created successfully');
+        router.push(`/processing?orderId=${res?.data?.orderId}&paymentMethod=${res?.data?.paymentMethod}`);
+
+      } else {
+        throw res?.error;
+      }
+    } catch (err) {
+      console.log(err);
     }
-
-
-   
-
-   } catch (err) {
-     console.log(err);
-     
-   }
   };
 
   return (

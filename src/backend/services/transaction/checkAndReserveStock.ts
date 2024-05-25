@@ -17,6 +17,11 @@ export const checkAndReserveStock = async (products: any[]) => {
           throw new Error(`Product ${item.name} is out of stock`);
         }
 
+          // Prevent the stock from going negative
+          if (product.stock - item.quantity < 0) {
+            throw new Error(`Insufficient stock for product ${item.name}`);
+          }
+
         product.stock -= item.quantity;
         await product.save({ session });
       }
@@ -24,7 +29,6 @@ export const checkAndReserveStock = async (products: any[]) => {
       await session.commitTransaction();
 
     } catch (err) {
-
       await session.abortTransaction();
       throw err;
 
