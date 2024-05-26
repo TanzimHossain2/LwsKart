@@ -8,7 +8,7 @@ import { producInputSchema } from "@/schemas/product";
 import { adProduct } from "@/app/action/product";
 import * as z from "zod";
 import Image from "next/image";
-import { axiosInstance } from "@/utils/axiosInstance";
+import { axiosInstance } from "@/config/axiosInstance"; 
 
 type ProductFormValues = z.infer<typeof producInputSchema>;
 

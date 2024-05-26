@@ -12,8 +12,7 @@ export const uploadInvoiceToCloudinary = async (filePath: string): Promise<strin
     const result = await cloudinary.uploader.upload(filePath, {
       resource_type: 'raw',
     });
-    console.log("result", result);
-    
+
     await unlink(filePath); // Delete the temporary file
     return result.secure_url;
   } catch (error) {

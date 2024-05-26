@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/utils/axiosInstance";
+import { axiosInstance } from "@/config/axiosInstance"; 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 type WishListItem = {

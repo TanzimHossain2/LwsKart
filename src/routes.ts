@@ -22,7 +22,7 @@ export const publicRoutes = [
  *  These routes 
  *  @ type {string[]}
  */
-export const authRoutes =  ['/profile', '/settings', '/admin', '/cart', '/wishlist', "/checkout",]
+export const authRoutes =  ['/profile', '/settings', '/admin', '/cart', '/wishlist', "/checkout"]
 
 
 /**

@@ -1,60 +1,68 @@
 import { getShippingAddress } from "@/backend/services/user/getShippingAdress";
-import Link from "next/link";
+import Card from "../profile/ProfileCard";
 
 const ShippingAddress = async ({ userId }: { userId: string }) => {
   const shippingAddress: any = await getShippingAddress(userId);
 
   return (
-    <div className="shadow rounded bg-white px-4 pt-6 pb-8">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-medium text-gray-800 text-lg">Shipping address</h3>
-        <Link href={`/address/shipping/${userId}`} className="text-primary">
-          Edit
-        </Link>
-      </div>
-      <div className="space-y-1">
-        {shippingAddress && (
-          <>
+    <Card title="Shipping Address" link={`/address/shipping/${userId}`}>
+      {shippingAddress && (
+        <>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Name:</span>
             {shippingAddress.address.name && (
-              <h4 className="text-gray-700 font-medium">
-                Name: {shippingAddress.address.name}
-              </h4>
+              <span className="text-gray-800">
+                {shippingAddress.address.name}
+              </span>
             )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Address:</span>
+
             {(shippingAddress.address.city ||
               shippingAddress.address.state ||
               shippingAddress.address.postalCode ||
               shippingAddress.address.country) && (
-              <p className="text-gray-800">
-                Address:{" "}
-                {`${shippingAddress.address.city ?? ""} ${
-                  shippingAddress.address.state ?? ""
-                } ${shippingAddress.address.postalCode ?? ""} ${
-                  shippingAddress.address.country ?? ""
-                }`.trim()}
-              </p>
+              <span className="text-gray-800">{`${shippingAddress.address.city} ${shippingAddress.address.state} ${shippingAddress.address.postalCode} ${shippingAddress.address.country}`}</span>
             )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Street Address:</span>
             {shippingAddress.address.streetAddress && (
-              <p className="text-gray-800">
-                Street Address: {shippingAddress.address.streetAddress}
-              </p>
+              <span className="text-gray-800">
+                {shippingAddress.address.streetAddress}
+              </span>
             )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Phone Number:</span>
+
             {shippingAddress.address.phoneNumber && (
-              <p className="text-gray-800">
-                Phone Number: {shippingAddress.address.phoneNumber}
-              </p>
+              <span className="text-gray-800">
+                {shippingAddress.address.phoneNumber}
+              </span>
             )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Email:</span>
+
             {shippingAddress.address.email && (
-              <p className="text-gray-800">Email: {shippingAddress.address.email}</p>
+              <span className="text-gray-800">
+                {shippingAddress.address.email}
+              </span>
             )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Delivery At:</span>
             {shippingAddress.address.deliveryAt && (
-              <p className="text-gray-800">
-                Delivery At: {shippingAddress.address.deliveryAt}
-              </p>
+              <span className="text-gray-800">
+                {shippingAddress.address.deliveryAt}
+              </span>
             )}
-          </>
-        )}
-      </div>
-    </div>
+          </div>
+        </>
+      )}
+    </Card>
   );
 };
 

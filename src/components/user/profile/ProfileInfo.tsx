@@ -10,20 +10,22 @@ import { allTransactionData } from "@/backend/services/transaction";
 const ProfileInfo = async () => {
   const user = await currentUser();
 
-  
   const userId = user?.id || "";
-  // const allTransaction   = await allTransactionData(userId);
 
 
   return (
     <>
       <BreadCamp />
-      {user && <ProfileList user={user} />}
-      <div className="container  items-start gap-6 pt-4 pb-16">
-        <div className="grid grid-cols-3 gap-4 mx-auto max-w-5xl">
-          {user && <PersonalInfo user={user} />}
-          <ShipingAdress userId={userId} />
-          <BillingAdress userId={userId} />
+      <div className="container mx-auto flex flex-col md:flex-row gap-6 pt-4 pb-16">
+        <div className="w-full md:w-1/4">
+          {user && <ProfileList user={user} />}
+        </div>
+        <div className="w-full md:w-3/4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+            {user && <PersonalInfo user={user} />}
+            <ShipingAdress userId={userId} />
+            <BillingAdress userId={userId} />
+          </div>
         </div>
       </div>
     </>
