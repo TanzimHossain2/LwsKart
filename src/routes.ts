@@ -22,9 +22,7 @@ export const publicRoutes = [
  *  These routes 
  *  @ type {string[]}
  */
-export const authRoutes = [
-    "/",
-]
+export const authRoutes =  ['/profile', '/settings', '/admin', '/cart', '/wishlist', "/checkout"]
 
 
 /**
@@ -33,6 +31,7 @@ export const authRoutes = [
  *  @ type {string}
  */
 export const apiAuthPrefix = "/api/auth"
+export const apiPublicPrefix = "/api/products"
 
 
 /**

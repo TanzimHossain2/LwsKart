@@ -79,7 +79,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       //prevent sign in when 2FA is enabled
       if (existingUser?.isTwoFactorEnabled) {
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-          existingUser._id
+          (existingUser._id as unknown as  string)
         );
         if (!twoFactorConfirmation) {
           return false;
@@ -109,6 +109,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           Boolean(token.isTwoFactorEnabled) || false;
         session.user.number = token.number || "";
         session.user.name = token.name;
+        session.user.username = token.username;
         session.user.email = token.email as string;
         session.user.image = token.image as string;
         session.user.isOAuth = token.isOAuth || false;
@@ -127,11 +128,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return token;
       }
 
-      const existingAccount = await getAccountByUserId(existingUser._id);
+      const existingAccount = await getAccountByUserId(existingUser._id as unknown as string);
 
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.image = existingUser.image;
+      token.username = existingUser.username;
       token.isOAuth = existingAccount ? true : false;
 
       token.role =
@@ -155,4 +157,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       );
     },
   },
+  
 });

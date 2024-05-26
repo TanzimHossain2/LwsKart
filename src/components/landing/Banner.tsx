@@ -1,8 +1,12 @@
 
+import { LandingDictionary } from "@/interfaces/lang";
 import Image from "next/image"
 import Link from "next/link"
-
-const Banner = () => {
+interface props {
+    dictionary: LandingDictionary;
+  }
+  
+const Banner : React.FC<props> = ({dictionary}) => {
   return (
     <div className="bg-cover bg-no-repeat bg-center py-36" style={{backgroundImage: "url('/images/banner-bg.jpg')"}}>
     <div className="container">
@@ -13,8 +17,10 @@ const Banner = () => {
             accusantium perspiciatis, sapiente
             magni eos dolorum ex quos dolores odio</p>
         <div className="mt-12">
-            <Link href="#" className="bg-primary border border-primary text-white px-8 py-3 font-medium 
-                rounded-md hover:bg-transparent hover:text-primary">Shop Now</Link>
+            <Link href="/shop" className="bg-primary border border-primary text-white px-8 py-3 font-medium 
+                rounded-md hover:bg-transparent hover:text-primary">
+                    {dictionary.shop_now}
+                </Link>
         </div>
     </div>
 </div>

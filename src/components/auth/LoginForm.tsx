@@ -8,6 +8,7 @@ import FormSuccess from "./FormSuccess";
 import { useState } from "react";
 import { LoginSchema } from "@/schemas";
 import * as z from "zod";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const {
@@ -16,6 +17,7 @@ const LoginForm = () => {
     formState: { errors },
     setError,
     reset,
+    clearErrors,
   } = useForm({
     defaultValues: {
       email: "",
@@ -29,37 +31,69 @@ const LoginForm = () => {
 
   const [showTwoFactor, setShowTwoFactor] = useState<boolean>(false);
 
+  const [message, setMessages] = useState<{
+    success: string | null;
+    error: string;
+  }>({
+    success: "",
+    error: "",
+  });
+
   const searchParams = useSearchParams();
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Your account is already linked with another provider"
       : "";
 
-      const callbackUrl = searchParams.get("callbackUrl");
+  const callbackUrl = searchParams.get("callbackUrl");
 
   const onSubmit: SubmitHandler<z.infer<typeof LoginSchema>> = async (data) => {
     try {
       const res = await login(data, callbackUrl);
-      
-      if (res.success) {
+
+      if (res.status === 203) {
+        toast.success(res?.success, {
+          position: "bottom-right",
+          autoClose: 1500,
+        });
+
+        setMessages({
+          ...message,
+          success: res?.success,
+        });
+
+        return;
+      }
+
+      if (res.status === 200) {
         reset();
-        setError("success", { type: "manual", message: res?.success });
+
+        clearErrors();
+
+        toast.success(res?.success, {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
+
         return;
       }
 
       if (res.twoFactor) {
         setShowTwoFactor(true);
       } else {
-        console.log(res?.error);
         reset();
+        clearErrors();
+
         setError("error", {
           type: "manual",
           message: res?.error,
         });
       }
     } catch (err) {
-      // React Toastify will add here
-      console.log((err as Error).message);
+      toast.error((err as Error).message, {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
     }
   };
 
@@ -174,9 +208,7 @@ const LoginForm = () => {
             <FormError message={errors.error?.message || urlError} />
           ) : null}
 
-          {errors?.success ? (
-            <FormSuccess message={errors.success?.message} />
-          ) : null}
+          {message.success ? <FormSuccess message={message.success} /> : null}
         </div>
 
         <div className="mt-4">

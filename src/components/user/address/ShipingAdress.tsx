@@ -1,22 +1,69 @@
-import React from "react";
+import { getShippingAddress } from "@/backend/services/user/getShippingAdress";
+import Card from "../profile/ProfileCard";
 
-const ShipingAdress = () => {
+const ShippingAddress = async ({ userId }: { userId: string }) => {
+  const shippingAddress: any = await getShippingAddress(userId);
+
   return (
-    <div className="shadow rounded bg-white px-4 pt-6 pb-8">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-medium text-gray-800 text-lg">Shipping address</h3>
-        <a href="#" className="text-primary">
-          Edit
-        </a>
-      </div>
-      <div className="space-y-1">
-        <h4 className="text-gray-700 font-medium">John Doe</h4>
-        <p className="text-gray-800">Medan, North Sumatera</p>
-        <p className="text-gray-800">20371</p>
-        <p className="text-gray-800">0811 8877 988</p>
-      </div>
-    </div>
+    <Card title="Shipping Address" link={`/address/shipping/${userId}`}>
+      {shippingAddress && (
+        <>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Name:</span>
+            {shippingAddress.address.name && (
+              <span className="text-gray-800">
+                {shippingAddress.address.name}
+              </span>
+            )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Address:</span>
+
+            {(shippingAddress.address.city ||
+              shippingAddress.address.state ||
+              shippingAddress.address.postalCode ||
+              shippingAddress.address.country) && (
+              <span className="text-gray-800">{`${shippingAddress.address.city} ${shippingAddress.address.state} ${shippingAddress.address.postalCode} ${shippingAddress.address.country}`}</span>
+            )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Street Address:</span>
+            {shippingAddress.address.streetAddress && (
+              <span className="text-gray-800">
+                {shippingAddress.address.streetAddress}
+              </span>
+            )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Phone Number:</span>
+
+            {shippingAddress.address.phoneNumber && (
+              <span className="text-gray-800">
+                {shippingAddress.address.phoneNumber}
+              </span>
+            )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Email:</span>
+
+            {shippingAddress.address.email && (
+              <span className="text-gray-800">
+                {shippingAddress.address.email}
+              </span>
+            )}
+          </div>
+          <div className="flex justify-between">
+            <span className="font-bold text-gray-700">Delivery At:</span>
+            {shippingAddress.address.deliveryAt && (
+              <span className="text-gray-800">
+                {shippingAddress.address.deliveryAt}
+              </span>
+            )}
+          </div>
+        </>
+      )}
+    </Card>
   );
 };
 
-export default ShipingAdress;
+export default ShippingAddress;

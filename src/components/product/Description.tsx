@@ -1,4 +1,4 @@
-const Description = () => {
+const Description = ({description}: {description: string}) => {
   return (
     <div className="container pb-16">
       <h3 className="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium">
@@ -13,17 +13,9 @@ const Description = () => {
             dolor quisquam, ex ab.
           </p>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum,
-            quae accusantium voluptatem blanditiis sapiente voluptatum. Autem
-            ab, dolorum assumenda earum veniam eius illo fugiat possimus illum
-            dolor totam, ducimus excepturi.
+            {description}
           </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error quia
-            modi ut expedita! Iure molestiae labore cumque nobis quasi fuga,
-            quibusdam rem? Temporibus consectetur corrupti rerum veritatis
-            numquam labore amet.
-          </p>
+       
         </div>
       </div>
     </div>

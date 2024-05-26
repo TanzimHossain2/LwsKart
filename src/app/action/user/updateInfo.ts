@@ -7,6 +7,8 @@ import { currentUser } from "@/lib/authUser";
 import { sendVerificationEmail } from "@/lib/mail";
 import { SettingSchema } from "@/schemas";
 import { generateHash, hashMatched } from "@/utils/hashing";
+import { sanitizeData } from "@/utils/sanitizeData.utils";
+import { revalidatePath } from "next/cache";
 import * as z from "zod";
 
 export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
@@ -37,7 +39,7 @@ export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
   if (values.email && values.email !== user.email) {
     const existingUser = await getUserByEmail(values.email);
 
-    if (existingUser && existingUser._id.toString() !== dbUser._id.toString()) {
+    if (existingUser &&( existingUser._id as unknown as string).toString() !== (dbUser._id as unknown as string).toString()) {
       return {
         error: "Email already exists",
       };
@@ -70,26 +72,19 @@ export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
     values.password = hashedPassword;
     values.newPassword = undefined;
   }
+  
 
-  // sanitize the values object
-  Object.keys(values).forEach((key) => {
-    if (
-      values[key as keyof typeof values] === undefined ||
-      values[key as keyof typeof values] === ""
-    ) {
-      delete values[key as keyof typeof values];
-    }
+  // Sanitize the data
+  const sanitizedValues = sanitizeData(values);
+  //remove newPassword from the sanitized values
+  if (sanitizedValues.newPassword) {
+    delete sanitizedValues.newPassword;
+  }
 
-    if (key === "newPassword") {
-      delete values["newPassword"];
-    }
-  });
-
-  console.log("values", values);
 
   const res = await db.user.findByIdAndUpdate(
     dbUser._id,
-    { $set: values },
+    { $set: sanitizedValues },
     { new: true, runValidators: true }
   );
 
@@ -98,6 +93,8 @@ export const updateInfo = async (values: z.infer<typeof SettingSchema>) => {
       error: "Failed to update user info",
     };
   }
+
+  revalidatePath("/profile");
 
   return {
     success: "User info updated successfully",

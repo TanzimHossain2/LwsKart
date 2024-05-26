@@ -1,6 +1,7 @@
 import { Document, ObjectId } from "mongoose";
 
 export interface IUser extends Document {
+  _id: ObjectId;
   name: string;
   username: string;
   email: string;
@@ -16,6 +17,7 @@ export interface IUser extends Document {
 }
 
 export interface IAccount extends Document {
+  _id: ObjectId;
   userId: ObjectId;
   type: string;
   provider: string;
@@ -41,4 +43,24 @@ export interface IPasswordReset extends IBaseToken {}
 
 export interface ITwoFactorToken extends IBaseToken {
   userId: ObjectId;
+}
+
+
+
+// Adress interface
+
+export type IdeliveryAt = "home" | "office";
+export interface IAddress extends Document {
+  _id: ObjectId;
+  userId: IUser;
+  name: string;
+  country: string;
+  streetAddress: string;
+  city: string;
+  phoneNumber: string;
+  email: string;
+  postalCode?: string;
+  state?: string;
+  additionalInfo?: string;
+  deliveryAt: IdeliveryAt;
 }

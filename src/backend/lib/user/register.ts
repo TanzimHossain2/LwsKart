@@ -45,7 +45,6 @@ export const register = async ({
     
     // Generate verification token
     const verificationToken = await generateVerificationToken(validatedData.email.toLowerCase());
-    console.log(verificationToken);
     
     return {success: "Confirmation email sent!"};
 

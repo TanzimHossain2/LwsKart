@@ -1,8 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { auth, signOut } from "@/auth";
+import { Dictionary } from "@/interfaces/lang";
+interface props {
+  dictionary: Dictionary;
+}
 
-const Navbar = async () => {
+const Navbar : React.FC<props> = async ({dictionary}) => {
   const session = await auth();
   const isLogged = session?.user ? true : false;
 
@@ -13,7 +17,9 @@ const Navbar = async () => {
           <span className="text-white">
             <i className="fa-solid fa-bars"></i>
           </span>
-          <span className="capitalize ml-2 text-white ">All Categories</span>
+          <span className="capitalize ml-2 text-white ">
+            {dictionary.page.allCategories}
+            </span>
 
           <div
             className="absolute left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible w-[600px]"
@@ -100,25 +106,25 @@ const Navbar = async () => {
               href="/"
               className="text-gray-200 hover:text-white transition"
             >
-              Home
+             {dictionary.page.home}
             </Link>
             <Link
               href="/shop"
               className="text-gray-200 hover:text-white transition"
             >
-              Shop
+              {dictionary.page.shop}
             </Link>
             <Link
               href="/about-us"
               className="text-gray-200 hover:text-white transition"
             >
-              About us
+              {dictionary.page.about}
             </Link>
             <Link
               href="/contact-us"
               className="text-gray-200 hover:text-white transition"
             >
-              Contact us
+              {dictionary.page.contact}
             </Link>
           </div>
 
@@ -130,7 +136,7 @@ const Navbar = async () => {
               }}
             >
               <button className="text-gray-200 hover:text-white transition">
-                Logout
+               {dictionary.auth.logout}
               </button>
             </form>
           ) : (
@@ -138,7 +144,7 @@ const Navbar = async () => {
               href="/auth/login"
               className="text-gray-200 hover:text-white transition"
             >
-              Login
+              {dictionary.auth.login}
             </Link>
           )}
         </div>

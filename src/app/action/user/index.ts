@@ -1,3 +1,4 @@
+import { updateBasicInformation } from "./updateBasicInfromation";
 import { updateInfo } from "./updateInfo";
 
-export { updateInfo };
+export { updateInfo , updateBasicInformation};
