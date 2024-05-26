@@ -73,7 +73,9 @@ export const getAllProduct = async ({
     console.log(sortQuery);
 
     // Execute the query
-    const products = await db.product.find(query).sort(sortQuery).lean();
+    const products = await db.product.find(query)
+    .select("name price discountPrice reviewCount images averageRating category")
+    .sort(sortQuery).lean();
 
     return modifyArrayData(products) || null;
   } catch (err) {

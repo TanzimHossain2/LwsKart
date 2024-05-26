@@ -9,6 +9,7 @@ import { useDropzone } from "react-dropzone";
 import { updateBasicInformation } from "@/app/action/user";
 import { toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
+import { convertBase64 } from "@/utils/base64Convert";
 
 function ProfileForm({ user }: { user: IUser }) {
   const {
@@ -40,22 +41,6 @@ function ProfileForm({ user }: { user: IUser }) {
   };
 
 
-  
-
-  const convertBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
 
   const onSubmit = async (data: any) => {
     let base64Image = image;
@@ -64,7 +49,6 @@ function ProfileForm({ user }: { user: IUser }) {
     }
     const updatedUserData = { ...data, image: base64Image };
   const res = await updateBasicInformation(updatedUserData);
-    console.log(updatedUserData);
 
     if (res.error) {
       toast.error(res.error, {

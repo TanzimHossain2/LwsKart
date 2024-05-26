@@ -5,20 +5,21 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const { userId, productId, quantity } = await request.json();
 
+
   try {
     const res = await addToCart(userId, productId, quantity);
 
     if (res.status === 404) {
       return new NextResponse(res.error, {
         status: 404,
-        statusText: "Not found",
+        statusText: res.error,
       });
     }
 
     if (res.status === 500) {
       return new NextResponse(res.error, {
         status: 500,
-        statusText: "Internal server error",
+        statusText: res.error,
       });
     }
     

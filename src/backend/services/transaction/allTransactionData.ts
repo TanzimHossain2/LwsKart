@@ -7,7 +7,9 @@ export const allTransactionData = async (userid: string) => {
 
     const allTransaction = await db.order
       .find({ userId: userid })
+      .select("totalPrice paymentMethod status createdAt products")
       .populate("products")
+      .sort({ createdAt: -1 })
       .exec();
 
     return { success: allTransaction };

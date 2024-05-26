@@ -1,6 +1,7 @@
 import { getSingleProductById } from "@/backend/services/product";
 import ProductInfo from "@/components/product/ProductInfo"
 import BreadCamp from "@/components/shared/breadCamp"
+import { QuantityProvider } from "@/providers/QuantityProvider";
 import { notFound } from "next/navigation";
 
 
@@ -17,7 +18,9 @@ const productDetailsPage =async ({params} : any) => {
   return (
     <>
     <BreadCamp />
+    <QuantityProvider >
     <ProductInfo product={product} />
+    </QuantityProvider>
     </>
   )
 }

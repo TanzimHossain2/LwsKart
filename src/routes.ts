@@ -5,6 +5,8 @@
  */
 export const publicRoutes = [
     "/",
+    "/en",
+    "/bn",
     "/auth/login",
     "/auth/register",
     "/auth/new-verification",
@@ -14,6 +16,9 @@ export const publicRoutes = [
     "/shop",
     "/about-us",
     "/contact-us",
+    "/product:id",
+    "/product/*",
+    "/category/*"
 ]
 
 

@@ -31,13 +31,14 @@ const ProductCard: React.FC<IProductCard> = ({ product }) => {
   };
 
   return (
-    <div className="bg-white shadow rounded overflow-hidden group">
-      <div className="relative">
+    <div className="bg-white shadow rounded overflow-hidden flex flex-col h-full">
+      <div className="relative flex-shrink-0">
         <Image
           src={currentImage || "/placeholder.png"}
           alt={`product ${currentImageIndexRef.current + 1}`}
           width={200}
           height={200}
+          className="w-full"
         />
         <div
           className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
@@ -61,7 +62,7 @@ const ProductCard: React.FC<IProductCard> = ({ product }) => {
         </div>
       </div>
 
-      <div className="pt-4 pb-3 px-4">
+      <div className="pt-4 pb-3 px-4 flex-grow">
         <Link href={`/product/${product?.id}`}>
           <h4 className="uppercase font-medium text-lg mb-2 text-gray-800 hover:text-primary transition">
             {product?.name}
@@ -69,7 +70,7 @@ const ProductCard: React.FC<IProductCard> = ({ product }) => {
         </Link>
         <div className="flex items-baseline mb-1 space-x-2">
           <p className="text-xl text-primary font-semibold">
-            ${product?.price - 1}
+            ${product?.discountPrice ?? product?.price}
           </p>
           <p className="text-sm text-gray-400 line-through">
             $ {product?.price}
@@ -98,7 +99,9 @@ const ProductCard: React.FC<IProductCard> = ({ product }) => {
           </div>
         </div>
       </div>
-      <AddToCart product={product} landingPage={true} />
+      <div className="mt-auto px-4 pb-4">
+        <AddToCart product={product} landingPage={true} />
+      </div>
     </div>
   );
 };

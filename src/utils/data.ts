@@ -16,6 +16,10 @@ const modifyArrayData = (data: any[]): any[] => {
   
   const modifyObjData = (Obj:any ) => {
     const { _id, ...rest } = Obj;
+    if(rest.category) {
+      rest.category = rest.category.toString();
+    }
+    
     return {
       id: Obj._id.toString(),
       ...rest

@@ -7,6 +7,8 @@ interface PersonalInfoProps {
 }
 
 const PersonalInfo = ({ user }: PersonalInfoProps) => {
+  console.log(user.isTwoFactorEnabled);
+  
   
   return (
     <Card title="Personal Profile" link={`/profile/edit?id=${user.id}`}>
@@ -29,10 +31,12 @@ const PersonalInfo = ({ user }: PersonalInfoProps) => {
             <span className="font-bold text-gray-700">Email:</span>
             <span className="text-gray-800">{user?.email}</span>
           </div>
+
           <div className="flex justify-between">
-            <span className="font-bold text-gray-700">ID:</span>
-            <span className="text-gray-800">{user?.id}</span>
+            <span className="font-bold text-gray-700"> Two Factor Auth:</span>
+            <span className="text-gray-800">{user.isTwoFactorEnabled ? "Enabled" : "Disabled" }</span>
           </div>
+
           <div className="flex justify-between">
             <span className="font-bold text-gray-700">Role:</span>
             <span className="text-gray-800">{user?.role}</span>

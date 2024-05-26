@@ -3,7 +3,7 @@ import authConfig from "@/auth.config";
 import NextAuth from "next-auth";
 import { getToken } from "next-auth/jwt";
 import { CustomMiddleware } from "./chain";
-import { apiAuthPrefix, authRoutes } from "@/routes";
+import { apiAuthPrefix, authRoutes, publicRoutes } from "@/routes";
 
 // Helper function to remove the language prefix from the URL path
 function stripLangPrefix(pathname : string) {
@@ -13,6 +13,25 @@ function stripLangPrefix(pathname : string) {
   }
   return pathname;
 }
+
+
+// Function to check if a route is public
+function isPublicRoute(pathname: string): boolean {
+  // Check for exact match
+  if (publicRoutes.includes(pathname)) {
+    return true;
+  }
+  
+  // Check for dynamic routes (e.g., /product/:id)
+  const dynamicRoutes = publicRoutes.filter(route => route.includes('*'));
+  return dynamicRoutes.some(route => {
+    const baseRoute = route.replace('/*', '');
+    return pathname.startsWith(baseRoute);
+  });
+}
+
+
+
 
 export function withAuthMiddleware(middleware: CustomMiddleware) {
   return async (req: NextRequest, event: NextFetchEvent) => {
@@ -28,7 +47,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     const isAuthRoute = authRoutes.includes(pathname);
 
     // @ts-ignore
-    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    const token = !!await getToken({ req, secret: process.env.AUTH_SECRET });
 
     // @ts-ignore
     req.nextauth = req.nextauth || {};
@@ -36,12 +55,15 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     // @ts-ignore
     req.nextauth.token = token;
 
+    
+
     if (isApiAuthRoute) {
       return null;
     }
-
+    
     //uncomment later finsihsing up 
-    // if (isAuthRoute && ["POST", "PATCH", "DELETE"].includes(method)) {
+    // if (["POST", "PATCH", "DELETE"].includes(method)) {
+
     //     if (!isLoggedIn) {
     //         let callbackUrl = nextUrl.pathname;
     //         if (nextUrl.search) {
@@ -54,7 +76,10 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     // }
 
     // If the route is an auth route, and the user is not logged in, redirect them to the login page
-    if (isAuthRoute) {
+
+
+     // If the route is not public, check for authentication
+     if (!isPublicRoute(pathname)) {
       if (!isLoggedIn) {
         let callbackUrl = nextUrl.pathname;
         if (nextUrl.search) {
@@ -68,6 +93,10 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
       return NextResponse.next();
     }
+
+    // If the route is public, continue with the request
+
+      
 
     return middleware(req, event, response);
   };

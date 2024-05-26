@@ -2,11 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { auth, signOut } from "@/auth";
 import { Dictionary } from "@/interfaces/lang";
+import NavbarCategory from "./navbar/NavbarCategory";
 interface props {
   dictionary: Dictionary;
 }
 
-const Navbar : React.FC<props> = async ({dictionary}) => {
+const Navbar: React.FC<props> = async ({ dictionary }) => {
   const session = await auth();
   const isLogged = session?.user ? true : false;
 
@@ -19,85 +20,8 @@ const Navbar : React.FC<props> = async ({dictionary}) => {
           </span>
           <span className="capitalize ml-2 text-white ">
             {dictionary.page.allCategories}
-            </span>
-
-          <div
-            className="absolute left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible w-[600px]"
-            style={{ width: "300px" }}
-          >
-            <Link
-              href="#"
-              className="flex items-center px-6 py-3 hover:bg-gray-100 transition"
-            >
-              <Image
-                src="/images/icons/sofa.svg"
-                alt="sofa"
-                width={20}
-                height={20}
-              />
-              <span className="ml-6 text-gray-600 text-sm">Sofa</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center px-6 py-3 hover:bg-gray-100 transition"
-            >
-              <Image
-                src="/images/icons/terrace.svg"
-                alt="terrace"
-                width={20}
-                height={20}
-              />
-              <span className="ml-6 text-gray-600 text-sm">Living Room</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center px-6 py-3 hover:bg-gray-100 transition"
-            >
-              <Image
-                src="/images/icons/bed.svg"
-                alt="bed"
-                width={20}
-                height={20}
-              />
-              <span className="ml-6 text-gray-600 text-sm">Bedroom</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center px-6 py-3 hover:bg-gray-100 transition"
-            >
-              <Image
-                src="/images/icons/office.svg"
-                alt="Outdoor"
-                width={20}
-                height={20}
-              />
-              <span className="ml-6 text-gray-600 text-sm">Outdoor</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center px-6 py-3 hover:bg-gray-100 transition"
-            >
-              <Image
-                src="/images/icons/outdoor-cafe.svg"
-                alt="outdoor"
-                width={20}
-                height={20}
-              />
-              <span className="ml-6 text-gray-600 text-sm">Outdoor</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center px-6 py-3 hover:bg-gray-100 transition"
-            >
-              <Image
-                src="/images/icons/bed-2.svg"
-                alt="Mattress"
-                width={20}
-                height={20}
-              />
-              <span className="ml-6 text-gray-600 text-sm">Mattress</span>
-            </Link>
-          </div>
+          </span>
+          <NavbarCategory />
         </div>
 
         <div className="flex items-center justify-between flex-grow md:pl-12 py-5">
@@ -106,7 +30,7 @@ const Navbar : React.FC<props> = async ({dictionary}) => {
               href="/"
               className="text-gray-200 hover:text-white transition"
             >
-             {dictionary.page.home}
+              {dictionary.page.home}
             </Link>
             <Link
               href="/shop"
@@ -136,7 +60,7 @@ const Navbar : React.FC<props> = async ({dictionary}) => {
               }}
             >
               <button className="text-gray-200 hover:text-white transition">
-               {dictionary.auth.logout}
+                {dictionary.auth.logout}
               </button>
             </form>
           ) : (

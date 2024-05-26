@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     if (res.status === 404) {
       return new NextResponse(res.error, {
         status: 404,
-        statusText: "Not found",
+        statusText: res.error,
       });
     }
 

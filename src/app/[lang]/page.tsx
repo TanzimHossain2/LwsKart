@@ -22,7 +22,7 @@ export default async function Home({ params: { lang } }: IParams) {
 
       <div className="container pb-16">
         <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
-          {dictionary.landing.top_new_arrival}
+          {dictionary.landing.shopbycategory}
         </h2>
         <CategorieList />
       </div>

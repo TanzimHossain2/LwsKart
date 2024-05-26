@@ -23,6 +23,7 @@ const ShopPage = async ({ searchParams }: any) => {
     size,
   });
 
+
   return (
     <>
       <BreadCamp />
