@@ -1,7 +1,8 @@
 import { addCategory } from "./createCategory";
-import { getAllCategory } from "./getAllCategory";
+import { getAllCategory, getCategoryById } from "./getAllCategory";
 
 export {
     addCategory,
-    getAllCategory
+    getAllCategory,
+    getCategoryById
 }

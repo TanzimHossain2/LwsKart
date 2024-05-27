@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 
 const ProductPage = () => {
 
-    redirect("/shop") // This is a redirect to the shop page
+    redirect("/shop") 
   return (
     <>
      shop

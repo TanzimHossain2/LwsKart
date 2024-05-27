@@ -2,8 +2,13 @@
 
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { FilterDictionary } from "@/interfaces/lang";
 
-const FilterBySize: React.FC = () => {
+type Props = {
+  text: FilterDictionary;
+};
+
+const FilterBySize: React.FC <Props> = ({text}) => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
@@ -35,7 +40,9 @@ const FilterBySize: React.FC = () => {
 
   return (
     <div className="pt-4">
-      <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Size</h3>
+      <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
+        {text.size}
+      </h3>
       <div className="flex items-center gap-2 flex-wrap">
         {["XS", "S", "M", "L", "XL"].map((size) => (
           <div className="size-selector" key={size}>

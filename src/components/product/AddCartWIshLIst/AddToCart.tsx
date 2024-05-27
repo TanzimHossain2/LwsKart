@@ -1,6 +1,7 @@
 "use client";
 import { useQuantity } from "@/context";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { LandingDictionary } from "@/interfaces/lang";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { ShoppingCart } from "lucide-react";
@@ -12,11 +13,13 @@ import { toast } from "react-toastify";
 type AddToCartProps = {
   product: any;
   landingPage?: boolean;
+  text: LandingDictionary
 };
 
 const AddToCartProduct: React.FC<AddToCartProps> = ({
   product,
   landingPage = false,
+  text,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { error, status } = useSelector((state: RootState) => state.cart);
@@ -66,14 +69,14 @@ const AddToCartProduct: React.FC<AddToCartProps> = ({
           onClick={() => handleAddToCart(product)}
           className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
         >
-          Add to cart
+         {text.addtocart}
         </button>
       ) : (
         <button
           onClick={() => handleAddToCart(product)}
           className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
         >
-          <ShoppingCart /> Add to cart
+          <ShoppingCart /> {text.addtocart}
         </button>
       )}
     </>

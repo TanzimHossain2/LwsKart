@@ -2,8 +2,13 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { FilterDictionary } from '@/interfaces/lang';
 
-const FilterByPrice = () => {
+type Props = {
+  text: FilterDictionary
+}
+
+const FilterByPrice = ({text}:Props) => {
   const [minPrice, setMinPrice] = useState<string>('');
   const [maxPrice, setMaxPrice] = useState<string>('');
 
@@ -48,7 +53,7 @@ const FilterByPrice = () => {
     <>
     <div className="pt-4">
           <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
-            Price
+           {text.price}
           </h3>
 
           <div className="mt-4 flex items-center">

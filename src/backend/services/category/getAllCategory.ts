@@ -29,3 +29,24 @@ export const getAllCategory = async (): Promise<Category[] | null> => {
     return null;
   }
 };
+
+export const getCategoryById = async (id: string): Promise<Category | null> => {
+  try {
+    await dbConnect();
+    const category = await db.category.findById(id);
+
+    if (!category) {
+      return null;
+    }
+
+    return {
+      id: String(category._id).toString(),
+      name: category.name,
+      description: category.description || "",
+      image: category.image || "",
+      icon: category.icon || "",
+    };
+  } catch (err) {
+    return null;
+  }
+}

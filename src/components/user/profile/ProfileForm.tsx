@@ -71,7 +71,6 @@ function ProfileForm({ user }: { user: IUser }) {
   
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   
-  console.log(image);
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
       <h2 className="text-xl text-center font-semibold mb-4 text-gray-700">

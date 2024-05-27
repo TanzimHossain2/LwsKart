@@ -10,7 +10,10 @@
       "remember_me": "Remember Me",
       "login": "Login",
       "register": "Register",
-      "logout": "Logout"
+      "logout": "Logout",
+      "register_now": "Register Now",
+      "verify": "Verify",
+      "already_have_account": "Already have an account?"
     },
   
     "page": {
@@ -42,7 +45,7 @@
     },
   
     "filter": {
-      "filter": "Filter",
+      "filters": "Filter",
       "sort": "Sort",
       "price": "Price",
       "color": "Color",
@@ -54,7 +57,9 @@
       "low_to_high": "Low to High",
       "high_to_low": "High to Low",
       "newest": "Newest",
-      "oldest": "Oldest"
+      "oldest": "Oldest",
+      "select": "Select",
+      "categories": "Categories"
     },
   
     "product": {
@@ -68,7 +73,16 @@
       "shipping": "Shipping",
       "payment": "Payment",
       "total": "Total",
-      "place_order": "Place Order"
+      "place_order": "Place Order",
+      "availability":"Availability",
+      "in_stock":"In Stock",
+      "out_of_stock":"Out of Stock",
+      "quantity": "Quantity",
+      "brand" : "Brand",
+      "category" : "Category",
+      "sku" : "SKU",
+      "size" : "Size",
+      "color" : "Color"
     },
   
     "adress": {
@@ -80,6 +94,26 @@
       "street_address": "Street Address",
       "city": "City",
       "company": "Company"
+    },
+
+    "footer":{
+      "solution": "SOLUTIONS",
+      "support": "SUPPORT",
+      "marketing":"Marketing",
+      "price":"Price",
+      "analytics":"Analytics",
+      "commerce":"Commerce",
+      "insights":"Insights",
+      "privacy":"Privacy",
+      "guide":"Guide",
+      "api_status":"API Status"
+    },
+    "banner": {
+      "text":"Best Collection For Home Decoration"
+    },
+    "general": {
+      " welcome_back_customer" : "welcome back customer"
     }
+
   }
   

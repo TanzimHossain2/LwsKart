@@ -1,8 +1,16 @@
 import { addToCart } from "@/backend/services/cart";
 import { modifyCartData } from "@/utils/data";
+import { validateToken } from "@/utils/validateToken";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  
+  const { isValid, token } = await validateToken(request);
+  if (!isValid) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+
   const { userId, productId, quantity } = await request.json();
 
 

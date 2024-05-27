@@ -70,7 +70,6 @@ export const getAllProduct = async ({
         sortQuery[field] = order === "desc" ? -1 : 1;
       }
     }
-    console.log(sortQuery);
 
     // Execute the query
     const products = await db.product.find(query)

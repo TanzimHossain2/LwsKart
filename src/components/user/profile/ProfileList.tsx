@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const ProfileList = ({ user }:any) => {
+const ProfileList = () => {
   return (
     <>
       <ul className="py-4 mx-4 flex flex-col gap-1">

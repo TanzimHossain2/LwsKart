@@ -1,6 +1,7 @@
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
+import jwt from "jsonwebtoken";
 import CredentialProvider from "next-auth/providers/credentials";
 import { getTwoFactorConfirmationByUserId } from "./backend/services/token";
 import { getUserById } from "./backend/services/user";
@@ -8,8 +9,9 @@ import { getAccountByUserId } from "./backend/services/user/account";
 import clientPromise from "./lib/db";
 import { db } from "./backend/schema";
 import { loginUser } from "./backend/lib/user";
+import { refreshAccessToken } from "./backend/lib/token/refreshAccessToken";
 
-
+const secret = process.env.AUTH_SECRET as string;
 
 // Define CredentialProvider separately
 const credentialProvider = CredentialProvider({
@@ -51,8 +53,6 @@ const credentialProvider = CredentialProvider({
 // Merge CredentialProvider with other providers in authConfig
 authConfig.providers = [...authConfig.providers, credentialProvider];
 
-
-
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   pages: {
@@ -64,29 +64,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   callbacks: {
     async signIn({ user, account }) {
-      //Allow OAuth without  email verification
+      //  Allow OAuth sign-in without email verification
       if (account?.provider !== "credentials") {
         return true;
       }
 
       const existingUser = await getUserById(user.id as string);
 
-      //prevent sign in when email is not verified
+      // Prevent sign-in if email is not verified
       if (!existingUser?.emailVerified) {
         return false;
       }
 
-      //prevent sign in when 2FA is enabled
+      // Prevent sign-in if 2FA is enabled and not confirmed
       if (existingUser?.isTwoFactorEnabled) {
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-          (existingUser._id as unknown as  string)
+          existingUser._id as unknown as string
         );
         if (!twoFactorConfirmation) {
           return false;
         }
 
-        //Delete 2FA confirmation  for next sign in
-
+        // Delete 2FA confirmation for next sign-in
         await db.twoFactorConfirmation.deleteOne({
           userId: twoFactorConfirmation._id,
         });
@@ -96,53 +95,112 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async session({ session, token }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
+      if (token) {
+        session.user = {
+          ...session.user,
+          id: token.sub as string,
+          role: token.role || "user",
+          isTwoFactorEnabled: token.isTwoFactorEnabled || false,
+          number: token.number,
+          name: token.name,
+          username: token.username,
+          email: token.email as string,
+          image: token.image as string,
+          isOAuth: token.isOAuth,
+        };
 
-      if (token.role && session.user) {
-        session.user.role = token.role || "user";
-      }
-
-      if (session.user) {
-        session.user.isTwoFactorEnabled =
-          Boolean(token.isTwoFactorEnabled) || false;
-        session.user.number = token.number || "";
-        session.user.name = token.name;
-        session.user.username = token.username;
-        session.user.email = token.email as string;
-        session.user.image = token.image as string;
-        session.user.isOAuth = token.isOAuth || false;
+        session.accessToken = token.accessToken as string;
+        session.refreshToken = token.refreshToken as string;
+        session.accessTokenExpires = token.accessTokenExpires as number;
       }
 
       return session;
     },
 
-    async jwt({ token }) {
+    async jwt({ token, user }) {
       if (!token.sub) {
         return token;
       }
-      const existingUser = await getUserById(token.sub);
 
-      if (!existingUser) {
+      // Initial sign in
+      if (!token.accessToken) {
+        const existingUser = await getUserById(token.sub);
+
+        if (!existingUser) {
+          return token;
+        }
+
+        const existingAccount = await getAccountByUserId(
+          existingUser._id as unknown as string
+        );
+
+        token = {
+          ...token,
+          name: existingUser.name,
+          email: existingUser.email,
+          image: existingUser.image,
+          username: existingUser.username,
+          isOAuth: existingAccount ? true : false,
+          role:
+            existingUser.role === "user" || existingUser.role === "admin"
+              ? existingUser.role
+              : "user",
+          isTwoFactorEnabled: existingUser.isTwoFactorEnabled,
+          number: existingUser.number || "",
+        };
+
+        const accessToken = jwt.sign(
+          {
+            sub: existingUser._id.toString(),
+            email: existingUser.email,
+            name: existingUser.name,
+            role: existingUser.role,
+            isTwoFactorEnabled: existingUser.isTwoFactorEnabled,
+            number: existingUser.number,
+            username: existingUser.username,
+            image: existingUser.image,
+          },
+          secret,
+          { expiresIn: "15m" } // Access token expires in 15 minutes
+        );
+
+        const refreshToken = jwt.sign(
+          {
+            sub: existingUser._id.toString(),
+            email: existingUser.email,
+            role: existingUser.role,
+          },
+          secret,
+          { expiresIn: "7d" } // Refresh token expires in 7 days
+        );
+
+        token.accessToken = accessToken;
+        token.refreshToken = refreshToken;
+        token.accessTokenExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
+      }
+
+      // check if access token has expired;  if not, return token
+      if (Date.now() < (token.accessTokenExpires as number)) {
         return token;
       }
 
-      const existingAccount = await getAccountByUserId(existingUser._id as unknown as string);
+      // Access token has expired, try to update it using refresh token
+      const refreshedTokens = await refreshAccessToken(
+        token.refreshToken as string
+      );
 
-      token.name = existingUser.name;
-      token.email = existingUser.email;
-      token.image = existingUser.image;
-      token.username = existingUser.username;
-      token.isOAuth = existingAccount ? true : false;
+      // If refresh token has expired, return error
+      if (!refreshedTokens) {
+        token.accessToken = null;
+        token.refreshToken = null;
+        token.accessTokenExpires = null;
+        token.error = "RefreshTokenExpired";
+        return token;
+      }
 
-      token.role =
-        existingUser.role === "user" || existingUser.role === "admin"
-          ? existingUser.role
-          : "user";
-
-      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled || false;
-      token.number = existingUser.number || "";
+      token.accessToken = refreshedTokens.accessToken;
+      token.refreshToken = refreshedTokens.refreshToken;
+      token.accessTokenExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
 
       return token;
     },
@@ -157,5 +215,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       );
     },
   },
-  
 });

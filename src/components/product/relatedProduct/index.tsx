@@ -1,11 +1,13 @@
 import { getRelatedProducts } from "@/backend/services/product/getRelatedProducts";
 import ProductList from "../ProductList";
+import { Dictionary } from "@/interfaces/lang";
 
 type props = {
-   id: string
+   id: string,
+   dictionary: Dictionary
 }
 
-const RelatedProductList : React.FC<props> = async ({ id  }) => {
+const RelatedProductList : React.FC<props> = async ({ id, dictionary  }) => {
   const products = await getRelatedProducts(id);
 
   return (
@@ -14,7 +16,7 @@ const RelatedProductList : React.FC<props> = async ({ id  }) => {
         Related products
       </h2>
       <div className="grid grid-cols-4 gap-6">
-        <ProductList products={products} />
+        <ProductList dictionary={dictionary} products={products} />
       </div>
     </div>
   );

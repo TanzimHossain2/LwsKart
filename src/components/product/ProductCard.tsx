@@ -4,12 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import AddToCart from "./AddCartWIshLIst/AddToCart";
+import { Dictionary } from "@/interfaces/lang";
 
 type IProductCard = {
   product: IProductData;
+  dictionary: Dictionary;
 };
 
-const ProductCard: React.FC<IProductCard> = ({ product }) => {
+const ProductCard: React.FC<IProductCard> = ({ product, dictionary }) => {
   const [images, setImages] = useState<string[]>([]);
   const currentImageIndexRef = useRef<number>(0);
   const [currentImage, setCurrentImage] = useState<string>("");
@@ -100,7 +102,7 @@ const ProductCard: React.FC<IProductCard> = ({ product }) => {
         </div>
       </div>
       <div className="mt-auto px-4 pb-4">
-        <AddToCart product={product} landingPage={true} />
+        <AddToCart text={dictionary.landing} product={product} landingPage={true} />
       </div>
     </div>
   );

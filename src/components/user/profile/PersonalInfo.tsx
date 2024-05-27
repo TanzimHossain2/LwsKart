@@ -1,14 +1,13 @@
-import { ExtendedUser } from "@/next-auth";
+
 import Image from "next/image";
 import Card from "./ProfileCard"
+import { ExtendedUser } from "@/types/next-auth";
 
 interface PersonalInfoProps {
   user: ExtendedUser;
 }
 
 const PersonalInfo = ({ user }: PersonalInfoProps) => {
-  console.log(user.isTwoFactorEnabled);
-  
   
   return (
     <Card title="Personal Profile" link={`/profile/edit?id=${user.id}`}>

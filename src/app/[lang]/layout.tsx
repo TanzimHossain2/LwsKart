@@ -12,13 +12,13 @@ import { SessionProvider } from "next-auth/react";
 import GlobalProvider from "@/providers/GlobalProvider";
 import { getDictionary } from "./dictionaries";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Lwskart",
   description:
     "Lwskart is a platform for buying and selling products online. We provide a wide range of products at affordable prices.",
+    
 };
 
 export async function generateStaticParams() {
@@ -44,7 +44,7 @@ export default async function RootLayout({
             <Header dictionary={dictionary.page} />
             <Navbar dictionary={dictionary} />
             {children}
-            <Footer />
+            <Footer dictionary={dictionary.footer}  />
             <Copyright />
           </GlobalProvider>
         </SessionProvider>

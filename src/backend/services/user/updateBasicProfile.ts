@@ -13,10 +13,6 @@ export const updateBasicProfile = async (values: any, userId :string) => {
             { new: true }  
         )
 
-
-
-        console.log(existingUser);
-
         return {
             message: "User updated successfully",
             status: 200,

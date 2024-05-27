@@ -2,8 +2,13 @@
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { FilterDictionary } from "@/interfaces/lang";
 
-const FilterByRating: React.FC = () => {
+type Props = {
+  text: FilterDictionary;
+}
+
+const FilterByRating: React.FC <Props> = ({text}) => {
   const [selectedRatings, setSelectedRatings] = useState<string[]>([]);
 
   const searchParams = useSearchParams();
@@ -40,7 +45,7 @@ const FilterByRating: React.FC = () => {
   return (
     <div className="pt-4">
       <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
-        Rating
+       {text.rating}
       </h3>
       <div className="mt-4 flex flex-col space-y-2">
         {[1, 2, 3, 4, 5].map((rating) => (

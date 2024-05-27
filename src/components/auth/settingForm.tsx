@@ -3,9 +3,8 @@
 import { updateInfo } from "@/app/action/user";
 import { SettingSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from "react-toastify";
@@ -27,7 +26,7 @@ interface SettingFormProps {
 
 const SettingForm: React.FC<SettingFormProps> = ({ user }) => {
   const router = useRouter();
-  const { update, status } = useSession();
+  const { update, status, data } = useSession();
 
   const {
     register,

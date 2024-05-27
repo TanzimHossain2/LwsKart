@@ -1,4 +1,5 @@
 "use client";
+import { AuthDictionary, Dictionary } from "@/interfaces/lang";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -12,7 +13,11 @@ type Inputs = {
   number: string;
 };
 
-const RegistrationForm = () => {
+type Props = {
+  dictionary: Dictionary;
+}
+
+const RegistrationForm = ({dictionary}:Props) => {
   const {
     register,
     handleSubmit,
@@ -69,7 +74,8 @@ const RegistrationForm = () => {
         <div className="space-y-2">
           <div>
             <label htmlFor="name" className="text-gray-600 mb-2 block">
-              Full Name
+            
+              {dictionary.auth.full_name}
             </label>
             <input
               type="text"
@@ -91,7 +97,8 @@ const RegistrationForm = () => {
 
           <div>
             <label htmlFor="email" className="text-gray-600 mb-2 block">
-              Email address
+         
+              {dictionary.auth.email_address}
             </label>
             <input
               type="email"
@@ -116,7 +123,7 @@ const RegistrationForm = () => {
 
           <div>
             <label htmlFor="password" className="text-gray-600 mb-2 block">
-              Password
+              {dictionary.auth.password}
             </label>
             <input
               type="password"
@@ -140,7 +147,7 @@ const RegistrationForm = () => {
 
           <div>
             <label htmlFor="confirm" className="text-gray-600 mb-2 block">
-              Confirm password
+              {dictionary.auth.confirm_password}
             </label>
             <input
               type="password"
@@ -164,7 +171,7 @@ const RegistrationForm = () => {
 
           <div>
             <label htmlFor="number" className="text-gray-600 mb-2 block">
-              Phone number
+              {dictionary.auth.phone_number}
             </label>
 
             <input
@@ -222,7 +229,7 @@ const RegistrationForm = () => {
             type="submit"
             className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
           >
-            create account
+            {dictionary.auth.create_account}
           </button>
         </div>
       </form>

@@ -20,7 +20,9 @@ export const getProductsByCategoryId = async (
 ): Promise<IProductData[] | null> => {
   try {
     await dbConnect();
-    const products = await db.product.find({ category: id }).lean().exec();
+    const products = await db.product.find({ category: id })
+    .select("name price discountPrice reviewCount images averageRating category")
+    .lean().exec();
     return modifyArrayData(products) || null;
   } catch (err) {
     return null;

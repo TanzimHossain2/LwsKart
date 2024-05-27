@@ -4,16 +4,24 @@ import NextAuth from "next-auth";
 import { getToken } from "next-auth/jwt";
 import { CustomMiddleware } from "./chain";
 import { apiAuthPrefix, authRoutes, publicRoutes } from "@/routes";
+import { refreshAccessToken } from "@/backend/lib/token/refreshAccessToken";
+
+// Define the Token interface
+interface Token {
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpires: number;
+  [key: string]: any;
+}
 
 // Helper function to remove the language prefix from the URL path
-function stripLangPrefix(pathname : string) {
-  const parts = pathname.split('/');
+function stripLangPrefix(pathname: string) {
+  const parts = pathname.split("/");
   if (parts.length > 2 && /^[a-z]{2}$/.test(parts[1])) {
-      return '/' + parts.slice(2).join('/');
+    return "/" + parts.slice(2).join("/");
   }
   return pathname;
 }
-
 
 // Function to check if a route is public
 function isPublicRoute(pathname: string): boolean {
@@ -21,17 +29,14 @@ function isPublicRoute(pathname: string): boolean {
   if (publicRoutes.includes(pathname)) {
     return true;
   }
-  
+
   // Check for dynamic routes (e.g., /product/:id)
-  const dynamicRoutes = publicRoutes.filter(route => route.includes('*'));
-  return dynamicRoutes.some(route => {
-    const baseRoute = route.replace('/*', '');
+  const dynamicRoutes = publicRoutes.filter((route) => route.includes("*"));
+  return dynamicRoutes.some((route) => {
+    const baseRoute = route.replace("/*", "");
     return pathname.startsWith(baseRoute);
   });
 }
-
-
-
 
 export function withAuthMiddleware(middleware: CustomMiddleware) {
   return async (req: NextRequest, event: NextFetchEvent) => {
@@ -47,57 +52,101 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     const isAuthRoute = authRoutes.includes(pathname);
 
     // @ts-ignore
-    const token = !!await getToken({ req, secret: process.env.AUTH_SECRET });
+    let token = (await getToken({
+      req,
+      secret: process.env.AUTH_SECRET as string,
+    })) as Token | null;
 
-    // @ts-ignore
-    req.nextauth = req.nextauth || {};
+    if (!token) {
+      // If no token, continue the request if it's a public route
+      if (isPublicRoute(pathname)) {
+        return middleware(req, event, response);
+      }
 
-    // @ts-ignore
-    req.nextauth.token = token;
+      // Redirect to login if not authenticated and trying to access protected routes
+      let callbackUrl = nextUrl.pathname;
+      if (nextUrl.search) {
+        callbackUrl += nextUrl.search;
+      }
 
-    
+      const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+      return NextResponse.redirect(
+        new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+      );
+    }
+
+    const { accessToken, refreshToken, accessTokenExpires } = token;
+    const isAuthLoggedIn = !!accessToken;
 
     if (isApiAuthRoute) {
       return null;
     }
-    
-    //uncomment later finsihsing up 
-    // if (["POST", "PATCH", "DELETE"].includes(method)) {
 
-    //     if (!isLoggedIn) {
-    //         let callbackUrl = nextUrl.pathname;
-    //         if (nextUrl.search) {
-    //             callbackUrl += nextUrl.search;
-    //         }
-    //         const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-    //         return NextResponse.redirect(new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
-    //     }
-    //     return NextResponse.next();
-    // }
+    // Handle authentication for certain methods
+    if (["POST", "PATCH", "DELETE"].includes(method) && !isAuthLoggedIn) {
+      let callbackUrl = nextUrl.pathname;
+      if (nextUrl.search) {
+        callbackUrl += nextUrl.search;
+      }
+      const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+      return NextResponse.redirect(
+        new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+      );
+    }
 
     // If the route is an auth route, and the user is not logged in, redirect them to the login page
+    if (isAuthRoute && !isAuthLoggedIn) {
+      let callbackUrl = nextUrl.pathname;
+      if (nextUrl.search) {
+        callbackUrl += nextUrl.search;
+      }
+      const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+      return NextResponse.redirect(
+        new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+      );
+    }
 
+    // If the route is not public, check for authentication
+    if (!isPublicRoute(pathname)) {
+      // Check if the access token is expired
+      if (accessTokenExpires && Date.now() > accessTokenExpires) {
+        const refreshedTokens = await refreshAccessToken(refreshToken ?? "");
 
-     // If the route is not public, check for authentication
-     if (!isPublicRoute(pathname)) {
-      if (!isLoggedIn) {
-        let callbackUrl = nextUrl.pathname;
-        if (nextUrl.search) {
-          callbackUrl += nextUrl.search;
+        if (!refreshedTokens) {
+          let callbackUrl = nextUrl.pathname;
+          if (nextUrl.search) {
+            callbackUrl += nextUrl.search;
+          }
+          const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+          return NextResponse.redirect(
+            new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+          );
         }
-        const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-        return NextResponse.redirect(
-          new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
-        );
+
+        // Update the token
+        token = {
+          ...token,
+          accessToken: refreshedTokens.accessToken,
+          accessTokenExpires: Date.now() + 15 * 60 * 1000, // 15 minutes
+          refreshToken: refreshedTokens.refreshToken ?? token.refreshToken,
+        };
+
+        // @ts-ignore
+        req.nextauth = req.nextauth || {};
+        // @ts-ignore
+        req.nextauth.token = token;
+      } else {
+        // @ts-ignore
+        req.nextauth = req.nextauth || {};
+        // @ts-ignore
+        req.nextauth.token = token;
       }
 
       return NextResponse.next();
     }
 
-    // If the route is public, continue with the request
-
-      
-
+    // Pass the request down the chain
     return middleware(req, event, response);
   };
 }
