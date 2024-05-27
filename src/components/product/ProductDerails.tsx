@@ -10,7 +10,6 @@ import { Star } from "lucide-react";
 
 interface IProductDerails {
   product: IProductData;
-  lang: ProductDictionary;
   dictionary: Dictionary;
 }
 
