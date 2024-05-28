@@ -1,14 +1,10 @@
 import { handlePaymentProcessing } from "@/backend/lib/transaction";
 import { NextResponse,NextRequest } from "next/server";
 
-// return new NextResponse("Internal server error", {
-//     status: 500,
-//     statusText: "Internal server error",
-//   });
 export async function POST(request: NextRequest) {
-    const { orderId, paymentMethod } = await request.json();
-
-   try {
+    try {
+        
+       const { orderId, paymentMethod } = await request.json();
 
     if (!orderId || !paymentMethod) {
         throw new Error("Invalid data");
@@ -35,6 +31,8 @@ export async function POST(request: NextRequest) {
     }
 
    } catch (err) {
+    console.log("Error in payment-processing route", err );
+    
     return new NextResponse("Internal server error", {
         status: 500,
         statusText: "Internal server error",

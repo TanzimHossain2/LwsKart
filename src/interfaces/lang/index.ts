@@ -21,6 +21,9 @@ export interface AuthDictionary {
   login: string;
   register: string;
   logout: string;
+  register_now: string;
+  verify: string;
+  already_have_account: string;
 }
 
 export interface PageDictionary {
@@ -52,7 +55,7 @@ export interface LandingDictionary {
 }
 
 export interface FilterDictionary {
-  filter: string;
+  filters: string;
   sort: string;
   price: string;
   color: string;
@@ -65,6 +68,8 @@ export interface FilterDictionary {
   high_to_low: string;
   newest: string;
   oldest: string;
+  select: string;
+  categories: string;
 }
 
 export interface ProductDictionary {
@@ -79,6 +84,15 @@ export interface ProductDictionary {
   payment: string;
   total: string;
   place_order: string;
+  availability:string;
+  in_stock:string;
+  out_of_stock:string;
+  quantity: string;
+  brand : string;
+  category : string;
+  sku : string;
+  size : string;
+  color : string
 }
 
 export interface AddressDictionary {
@@ -92,6 +106,29 @@ export interface AddressDictionary {
   company: string;
 }
 
+
+
+
+export interface FooterDictionary {
+  solution: string;
+  support: string;
+  marketing: string;
+  price: string;
+  analytics: string;
+  commerce: string;
+  insights: string;
+  privacy: string;
+  guide: string;
+  api_status: string;
+}
+
+
+
+export interface GeneralDictionary {
+  welcome_back_customer: string;
+}
+
+
 export interface Dictionary {
   auth: AuthDictionary;
   page: PageDictionary;
@@ -99,5 +136,7 @@ export interface Dictionary {
   filter: FilterDictionary;
   product: ProductDictionary;
   address: AddressDictionary;
+  footer: FooterDictionary;
+  general: GeneralDictionary;
 }
 

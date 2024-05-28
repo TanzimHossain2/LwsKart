@@ -18,11 +18,12 @@ const CategorieList = async () => {
                 className="relative rounded-sm overflow-hidden group"
               >
                 <Image
-                  src="/images/category/category-1.jpg"
+                  // src="/images/category/category-1.jpg"
+                  src={category?.image || "/images/category/category-1.jpg"}
                   alt={category?.name}
                   className="w-full"
-                  width={500}
-                  height={500}
+                  width={180}
+                  height={120}
                 />
                 <Link
                   href={`/category/${category?.id}`}

@@ -4,11 +4,13 @@ Lwskart is a professional E-commerce application built with Next.js and Tailwind
 
 ## Table of Contents
 
-- [Challenges & Solutions](#challenges--solutions)
-- [Key Features](#key-features)
-- [Technologies](#technologies)
-- [Installation](#installation)
-- [License](#license)
+- [Lwskart](#lwskart)
+  - [Table of Contents](#table-of-contents)
+  - [Challenges \& Solutions](#challenges--solutions)
+  - [Key Features](#key-features)
+  - [Technologies](#technologies)
+  - [Installation](#installation)
+  - [License](#license)
 
 ## Challenges & Solutions
 
@@ -41,6 +43,7 @@ Lwskart is a professional E-commerce application built with Next.js and Tailwind
   - Add and remove products from the cart (authenticated user)
   - Wishlist management (authenticated user)
 - **Order Management**:
+  - Order Management
   - Protected routes
   - Checkout process
   - Order history
@@ -52,10 +55,16 @@ Lwskart is a professional E-commerce application built with Next.js and Tailwind
   - Stock management
   - Internationalization
   - Product search (by title, tag, description)
-  - Product filtering (by category, price, size)
+  - Product filtering (by category, price)
 - **Extra Features**:
    - BreadCrumb Navigation
   - ...and more to be added soon
+-  **Feature in Progress**:
+   - Admin Panel
+   - Product Management
+   - User Management
+   - Dashboard
+   - ...and more to be added soon
 
 ## Technologies
 

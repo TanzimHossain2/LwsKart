@@ -19,14 +19,13 @@ export const getCart = async (userId: string | number) => {
             return { status: 404, error: "Cart not found" };
         }
 
-        // Extract product IDs from the cart items
         const productIds = cart.items.map((item) => item.productId);
 
         // Fetch product details using product IDs
         const products = await ProductModel.find({ _id: { $in: productIds } });
 
+
         // Map product details to their IDs for quick lookup
-        
         const productMap: Record<string, IProductData> = products.reduce((acc, product) => {
             // @ts-ignore
             acc[product._id.toString()] = product;
@@ -36,12 +35,10 @@ export const getCart = async (userId: string | number) => {
         // Map the cart items with the corresponding product details
         const updatedItems = cart.items.map((item) => ({
             ...item.toObject(),
-            // data : productMap[item.productId.toString()],
             productId: productMap[item.productId.toString()]._id,
             stock: productMap[item.productId.toString()]?.stock || 0,
         })); 
 
-        // Create updated cart data with detailed items
         const updatedCart = {
             ...cart.toObject(),
             items: updatedItems,

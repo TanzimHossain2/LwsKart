@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FilterDictionary } from "@/interfaces/lang";
 
 type Category = {
   Categories: any[];
+  text: FilterDictionary
 };
 
-const CategoryFilter: React.FC<Category> = ({ Categories }) => {
+const CategoryFilter: React.FC<Category> = ({ Categories, text }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   useEffect(() => {
@@ -51,7 +53,7 @@ const CategoryFilter: React.FC<Category> = ({ Categories }) => {
     <>
       <div>
         <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
-          Categories
+          {text.categories}
         </h3>
 
         <div className="space-y-2">

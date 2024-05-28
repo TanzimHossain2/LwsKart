@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 type ProductImagesProps = {
   images: string[];
-    thumbnail: string;
+  thumbnail: string;
 };
 
 const ProductImages: React.FC<ProductImagesProps> = ({ images, thumbnail }) => {
@@ -16,11 +16,9 @@ const ProductImages: React.FC<ProductImagesProps> = ({ images, thumbnail }) => {
     setAllImages(images);
   }, [images]);
 
-
   const handleImageClick = (image: string) => {
     setMainImage(image); // Update the main image on click
   };
- 
 
   return (
     <>
@@ -30,6 +28,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ images, thumbnail }) => {
         className="w-full"
         width={800}
         height={800}
+   
       />
 
       <div className="grid grid-cols-5 gap-4 mt-4">

@@ -1,6 +1,7 @@
-import { ExtendedUser } from "@/next-auth";
+
 import Image from "next/image";
 import Card from "./ProfileCard"
+import { ExtendedUser } from "@/types/next-auth";
 
 interface PersonalInfoProps {
   user: ExtendedUser;
@@ -29,10 +30,12 @@ const PersonalInfo = ({ user }: PersonalInfoProps) => {
             <span className="font-bold text-gray-700">Email:</span>
             <span className="text-gray-800">{user?.email}</span>
           </div>
+
           <div className="flex justify-between">
-            <span className="font-bold text-gray-700">ID:</span>
-            <span className="text-gray-800">{user?.id}</span>
+            <span className="font-bold text-gray-700"> Two Factor Auth:</span>
+            <span className="text-gray-800">{user.isTwoFactorEnabled ? "Enabled" : "Disabled" }</span>
           </div>
+
           <div className="flex justify-between">
             <span className="font-bold text-gray-700">Role:</span>
             <span className="text-gray-800">{user?.role}</span>

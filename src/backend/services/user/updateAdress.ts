@@ -39,9 +39,7 @@ export const createShippingAddress = async (address: any, id: string) => {
     const userId = new mongoose.Types.ObjectId(id);
 
     const data = { ...address, userId };
-    console.log(data);
-    
-
+   
     const newAddress = await db.shippingAddress.create(data);
     return { address: newAddress };
   } catch (err) {

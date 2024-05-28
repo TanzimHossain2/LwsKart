@@ -1,6 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import type { NextAuthConfig } from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
 
 const googleAndFacebookProviders = [
   GoogleProvider({
@@ -18,18 +19,38 @@ const googleAndFacebookProviders = [
         image: profile.image ?? "/images/avatar.png",
         role: profile.role ?? "user",
         emailVerified: profile.email_verified,
+        number: profile.number ?? "xxx-xxx-xxx",
       };
     },
+
   }),
-  FacebookProvider({
-    clientId: process.env.AUTH_FACEBOOK_ID,
-    clientSecret: process.env.AUTH_FACEBOOK_SECRET,
+
+
+  GitHubProvider({
+    clientId: process.env.AUTH_GITHUB_ID,
+    clientSecret: process.env.AUTH_GITHUB_SECRET,
+    allowDangerousEmailAccountLinking: true,
+   profile(profile) {
+    return {
+      id: profile.id.toString(),
+      name: profile.name,
+      username: profile.login,
+      email: profile.email,
+      image: profile.avatar_url,
+      role: profile.role ?? "user",
+      emailVerified: profile.email_verified,
+      number: profile.number ?? "xxx-xxx-xxx",
+    }
+   }
   }),
+
 ];
 
 const nextAuthConfig: NextAuthConfig = {
   providers: googleAndFacebookProviders,
   secret: process.env.AUTH_SECRET,
+  trustHost: true,
+  
   session: {
     strategy: "jwt",
   },

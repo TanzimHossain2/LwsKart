@@ -9,8 +9,14 @@ import { useState } from "react";
 import { LoginSchema } from "@/schemas";
 import * as z from "zod";
 import { toast } from "react-toastify";
+import { Dictionary } from "@/interfaces/lang";
 
-const LoginForm = () => {
+type Props = {
+  dictionary: Dictionary;
+
+}
+
+const LoginForm = ({dictionary}:Props) => {
   const {
     register,
     handleSubmit,
@@ -46,6 +52,8 @@ const LoginForm = () => {
       : "";
 
   const callbackUrl = searchParams.get("callbackUrl");
+  console.log("callbackUrl login form", callbackUrl);
+  
 
   const onSubmit: SubmitHandler<z.infer<typeof LoginSchema>> = async (data) => {
     try {
@@ -133,7 +141,8 @@ const LoginForm = () => {
             <>
               <div>
                 <label htmlFor="email" className="text-gray-600 mb-2 block">
-                  Email address
+                  
+                  {dictionary.auth.email_address}
                 </label>
                 <input
                   type="email"
@@ -158,7 +167,7 @@ const LoginForm = () => {
 
               <div>
                 <label htmlFor="password" className="text-gray-600 mb-2 block">
-                  Password
+                  {dictionary.auth.password}
                 </label>
                 <input
                   type="password"
@@ -192,11 +201,11 @@ const LoginForm = () => {
                     htmlFor="remember"
                     className="text-gray-600 ml-3 cursor-pointer"
                   >
-                    Remember me
+                    {dictionary.auth.remember_me}
                   </label>
                 </div>
                 <Link href="/auth/reset" className="text-primary">
-                  Forgot password
+                  {dictionary.auth.forgot_password}
                 </Link>
               </div>
             </>
@@ -216,7 +225,7 @@ const LoginForm = () => {
             type="submit"
             className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
           >
-            {showTwoFactor ? "Verify" : "Login"}
+            {showTwoFactor ? `${dictionary.auth.verify}` : `${dictionary.auth.login}`}
           </button>
         </div>
       </form>

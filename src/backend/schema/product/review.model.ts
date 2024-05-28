@@ -5,6 +5,7 @@ import mongoose, { Model, Schema } from "mongoose";
 const ReviewSchema = new Schema<IReview>({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
   rating: { type: Number, required: true, min: 0, max: 5 },
+  product: { type: mongoose.Schema.Types.ObjectId, ref: "product", required: true },
   comment: { type: String, required: true },
   date: { type: Date, default: Date.now },
 });

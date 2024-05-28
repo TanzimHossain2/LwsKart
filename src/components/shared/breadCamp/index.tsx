@@ -1,41 +1,20 @@
 "use client";
 
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const BreadCrumb = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
   const pathSegments = pathname.split("/").filter((segment) => segment);
 
   const breadcrumbs = [{ href: "/", text: "Home" }].concat(
-    pathSegments.reduce((acc, segment, index) => {
-      if (segment.toLowerCase() !== "productdetails") {
-        const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
-        const breadcrumbText = segment
-          .replace(/([A-Z])/g, " $1")
-          .replace(/^./, function (str) {
-            return str.toUpperCase();
-          });
-
-        acc.push({
-          href,
-          text: breadcrumbText,
-        });
-      }
-      return acc;
-    }, [] as { href: string; text: string }[])
-  );
-
-  const breadcrumbs1 = [{ href: "/", text: "Home" }].concat(
     pathSegments.map((segment, index) => {
       const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
       const breadcrumbText = segment
         .replace(/([A-Z])/g, " $1")
-        .replace(/^./, function (str) {
-          return str.toUpperCase();
-        });
+        .replace(/^./, (str) => str.toUpperCase());
 
       return {
         href,
@@ -46,22 +25,27 @@ const BreadCrumb = () => {
 
   return (
     <div className="container py-4 flex items-center gap-3">
-      {breadcrumbs.map((crumb, index) => (
-        <li key={crumb.href}>
-          {index < breadcrumbs.length - 1 ? (
-            <Link href={crumb.href} className="text-primary text-base">
-              {crumb.text}
-            </Link>
-          ) : (
-            <span className="text-gray-600 font-medium">{crumb.text}</span>
-          )}
-          {index < breadcrumbs.length - 1 && (
-            <span className="text-sm text-gray-400">
-              <i className="fa-solid fa-chevron-right"></i>
-            </span>
-          )}
-        </li>
-      ))}
+      <nav aria-label="breadcrumb" className="py-4">
+        <ol className="flex items-center space-x-2 text-sm text-gray-500">
+          {breadcrumbs.map((crumb, index) => (
+            <li key={crumb.href} className="flex items-center">
+              {index < breadcrumbs.length - 1 ? (
+                <Link
+                  href={crumb.href}
+                  className="text-blue-600 hover:underline"
+                >
+                  {crumb.text}
+                </Link>
+              ) : (
+                <span className="font-semibold">{crumb.text}</span>
+              )}
+              {index < breadcrumbs.length - 1 && (
+                <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
     </div>
   );
 };

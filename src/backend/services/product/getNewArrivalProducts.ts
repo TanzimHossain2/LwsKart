@@ -6,7 +6,9 @@ export const getNewArrivalProducts = async () => {
   try {
     await dbConnect();
     const newArrivalProducts = await db.product
-      .find({ isNewArrival: true }).sort({ createdAt: -1 }).lean().exec();
+      .find({ isNewArrival: true })
+      .select("name price discountPrice reviewCount images averageRating category")
+      .sort({ createdAt: -1 }).lean().exec();
  
     return modifyArrayData(newArrivalProducts) || null;
   } catch (err) {

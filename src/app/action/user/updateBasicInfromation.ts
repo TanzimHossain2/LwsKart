@@ -5,8 +5,6 @@ import { currentUser } from "@/lib/authUser";
 import { sanitizeData } from "@/utils/sanitizeData.utils";
 import { v2 as cloudinary } from "cloudinary";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-
 
 export const updateBasicInformation = async (values: any) => {
   try {

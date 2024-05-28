@@ -54,7 +54,9 @@ export const getAllProduct = async ({
 
     if (ratings) {
       const ratingsArray = decodeURIComponent(ratings).split("|").map(Number);
-      query.averageRating = { $in: ratingsArray };
+      query.$or = ratingsArray.map(rating => ({
+        averageRating: { $gte: rating, $lt: rating + 1 }
+      }));
     }
 
     if (size) {
@@ -70,10 +72,11 @@ export const getAllProduct = async ({
         sortQuery[field] = order === "desc" ? -1 : 1;
       }
     }
-    console.log(sortQuery);
 
     // Execute the query
-    const products = await db.product.find(query).sort(sortQuery).lean();
+    const products = await db.product.find(query)
+    .select("name price discountPrice reviewCount images averageRating category")
+    .sort(sortQuery).lean();
 
     return modifyArrayData(products) || null;
   } catch (err) {

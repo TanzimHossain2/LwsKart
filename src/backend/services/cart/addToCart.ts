@@ -31,7 +31,7 @@ export const addToCart = async (userId: string, productId: string, quantity: num
             productId: new mongoose.Types.ObjectId(productId),
             quantity,
             name: product.name,
-            price: product.price,
+            price: product.discountPrice || product.price,
             image: product.images[0],
             weight: product.weight || 0,
             stock: product.stock || 0,

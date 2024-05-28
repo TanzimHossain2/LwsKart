@@ -123,8 +123,7 @@ const AddProductForm = () => {
   const fetchCategories = async () => {
     try {
       const response = await axiosInstance.get("/api/categories");
-      console.log(response);
-      
+     
       if (response.status === 200) {
         setCategories(response.data);
       }

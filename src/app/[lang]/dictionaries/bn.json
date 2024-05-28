@@ -10,7 +10,11 @@
       "remember_me": "আমাকে মনে রেখো",
       "login": "লগইন",
       "register": "রেজিস্টার করুন",
-      "logout": "লগআউট"
+      "logout": "লগআউট",
+      "already_have_account": "আপনি ইতিমধ্যে একটি অ্যাকাউন্ট আছেন?",
+      "register_now": "Register Now",
+      
+      "verify": "যাচাই"
     },
   
     "page": {
@@ -42,7 +46,7 @@
     },
   
     "filter": {
-      "filter": "ফিল্টার",
+      "filters": "ফিল্টার",
       "sort": "সাজানো",
       "price": "মূল্য",
       "color": "রং",
@@ -54,7 +58,9 @@
       "low_to_high": "কম থেকে বেশি",
       "high_to_low": "বেশি থেকে কম",
       "newest": "নতুন",
-      "oldest": "পুরাতন"
+      "oldest": "পুরাতন",
+      "select": "নির্বাচন করুন",
+      "categories": "ক্যাটাগরি"
     },
   
     "product": {
@@ -68,7 +74,16 @@
       "shipping": "শিপিং",
       "payment": "পেমেন্ট",
       "total": "মোট",
-      "place_order": "অর্ডার করুন"
+      "place_order": "অর্ডার করুন",
+      "availability":"উপস্থিতি",
+      "in_stock":"স্টকে",
+      "out_of_stock":"স্টকে নেই",
+      "quantity": "পরিমাণ",
+      "brand" : "ব্র্যান্ড",
+      "category" : "ক্যাটাগরি",
+      "sku" : "SKU",
+      "size" : "সাইজ",
+      "color" : "রং"
     },
   
     "adress": {
@@ -80,6 +95,24 @@
       "street_address": "রাস্তার ঠিকানা",
       "city": "শহর",
       "company": "কোম্পানি"
+    },
+    "footer":{
+      "solution": "সমাধান",
+      "support": "সমর্থন",
+      "marketing":"মার্কেটিং",
+      "price":"মূল্য",
+      "analytics":"বিশ্লেষণ",
+      "commerce":"বাণিজ্য",
+      "insights":"উপদেশ",
+      "privacy":"গোপনীয়তা",
+      "guide":"গাইড",
+      "api_status":"API স্থিতি"
+    },
+    "banner": {
+      "text":"বাড়ি সাজসজ্জার জন্য সেরা সংগ্রহ"
+    },
+    "general": {
+      " welcome_back_customer" : "স্বাগতম পুনরায় গ্রাহক"
     }
   }
   

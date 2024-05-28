@@ -2,8 +2,13 @@
 
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { FilterDictionary } from "@/interfaces/lang";
 
-const FilterBySort: React.FC = () => {
+type Props = {
+  text: FilterDictionary
+}
+
+const FilterBySort: React.FC<Props> = ({text}) => {
   const [sortOption, setSortOption] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
@@ -43,12 +48,14 @@ const FilterBySort: React.FC = () => {
           value={sortOption || ""}
           onChange={handleSortChange}
         >
-          <option value="">Select</option>
-          <option value="price-asc">Price: Low to High</option>
-          <option value="price-desc">Price: High to Low</option>
-          <option value="averageRating-asc">Rating: Low to High</option>
-          <option value="averageRating-desc">Rating: High to Low</option>
-          <option value="newest">Newest</option>
+          <option value="">{text.filters}</option>
+          <option value="price-asc">{text.price} : {text.low_to_high} </option>
+          <option value="price-desc">{text.price} : {text.high_to_low}</option>
+          <option value="averageRating-asc">{text.rating}: {text.low_to_high}</option>
+          <option value="averageRating-desc">{text.rating}: {text.high_to_low}</option>
+          <option value="newest">
+            {text.newest}
+          </option>
         </select>
       </div>
     </div>

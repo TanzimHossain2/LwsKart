@@ -1,16 +1,27 @@
 "use client";
 
-import { RootState } from "@/redux/store";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { fetchWishList } from "@/redux/slices/wishListSlice";
+import { AppDispatch, RootState } from "@/redux/store";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const WishListHeader = ({ text }: { text: string }) => {
   const { items: wishListItem, status } = useSelector(
     (state: RootState) => state.wishlist
   );
+  const dispatch = useDispatch<AppDispatch>();
+
+  const user = !!useCurrentUser();
 
   const [length, setLength] = useState(0);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchWishList());
+    }
+  }, [user, dispatch]);
 
   useEffect(() => {
     setLength(wishListItem?.length ?? 0);

@@ -23,14 +23,15 @@ export interface IProductData extends ICommonFields {
   images: string[];
   thumbnail?: string;
   discountPrice?: number;
-  averageRating?: number;
-  reviewCount?: number;
-  reviewIds?: mongoose.Types.ObjectId[];
-  variants?: mongoose.Types.ObjectId[];
+  averageRating: number;
+  reviewCount: number;
+  reviewIds: mongoose.Types.ObjectId[];
+  variants: mongoose.Types.ObjectId[];
   }
 
   // Interface for Review Data
   export interface IReview extends Document {
+    _id: ObjectId;
     user: mongoose.Types.ObjectId;
     product: mongoose.Types.ObjectId;
     rating: number;
