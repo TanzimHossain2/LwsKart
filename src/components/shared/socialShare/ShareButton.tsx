@@ -21,8 +21,6 @@ const ShareButton = ({ product }:any) => {
   
   
   const description = product?.description;
-  console.log(description);
-  
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent | any) => {

@@ -3,6 +3,9 @@ import { getSingleProductById } from "@/backend/services/product";
 import ProductInfo from "@/components/product/ProductInfo";
 import BreadCamp from "@/components/shared/breadCamp";
 import { QuantityProvider } from "@/providers/QuantityProvider";
+import { ReviewsProvider } from "@/providers/ReviewsContext";
+
+import { GetStaticProps } from "next";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params: { id } }: any) {
@@ -41,7 +44,7 @@ export async function generateMetadata({ params: { id } }: any) {
     twitter: {
       site: "@kdptanzim",
       cardType: "summary_large_image",
-        title: product?.name,
+      title: product?.name,
       description: (product.description || "").slice(0, 100),
       images: [
         {
@@ -61,11 +64,16 @@ export async function generateMetadata({ params: { id } }: any) {
   };
 }
 
+
+
+
 const productDetailsPage = async ({ params }: any) => {
   const { id, lang } = params;
   const dictionary = await getDictionary(lang);
 
   const product = await getSingleProductById(id);
+
+
 
   if (!product) {
     notFound();
@@ -75,7 +83,11 @@ const productDetailsPage = async ({ params }: any) => {
     <>
       <BreadCamp />
       <QuantityProvider>
-        <ProductInfo product={product} dictionary={dictionary} />
+        <ReviewsProvider>
+          
+          <ProductInfo product={product} dictionary={dictionary} />
+
+        </ReviewsProvider>
       </QuantityProvider>
     </>
   );

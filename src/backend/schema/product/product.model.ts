@@ -11,7 +11,7 @@ const ProductSchema = new Schema<IProductData>(
     },
     description: { type: String, required: true },
     price: { type: Number, required: true },
-    discountPrice: { type: Number },
+    discountPrice: { type: Number   },
     stock: { type: Number, required: true },
     isTrending: { type: Boolean, default: false, index: true },
     isNewArrival: { type: Boolean, default: false, index: true },

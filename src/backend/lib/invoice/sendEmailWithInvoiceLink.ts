@@ -6,6 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = `lwsKart@${process.env.NEXT_PUBLIC_DOMAIN_NAME}`;
 
 export const sendEmailWithInvoiceLink = async (email: string, invoiceUrl: string) => {
+console.log("email",email, "invoiceUrl",invoiceUrl);
 
   const subject = 'Your Order Invoice';
   const body = `
@@ -27,6 +28,8 @@ export const sendEmailWithInvoiceLink = async (email: string, invoiceUrl: string
       html: body,
     });
   } catch (error) {
+    console.log("Error in sendEmailWithInvoiceLink", error);
+    
     throw new Error(`Failed to send email: ${(error as Error).message}`);
   }
 };

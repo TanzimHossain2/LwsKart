@@ -2,6 +2,8 @@ import { getBillingAddress } from "@/backend/services/user/getBillingAdress";
 import AdressForm from "@/components/user/address/AdressForm";
 import appConfig from "@/config";
 import { Metadata } from "next";
+import BreadCamp from "@/components/shared/breadCamp";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Lwskart - Billing Address",
@@ -30,7 +32,12 @@ const BillingAdressPage = async ({ params }: any) => {
 
   return (
     <div className="container">
+            <BreadCamp />
+
+<Suspense fallback={<div>Loading...</div>}>
       <AdressForm adress={billingAdress?.address} title="Billing" />
+</Suspense>
+
     </div>
   );
 };

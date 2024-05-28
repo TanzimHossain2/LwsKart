@@ -18,7 +18,7 @@ type WishListState = {
 
 const getInitialWishListState = (): WishListItem[] => {
   if (typeof window !== "undefined") {
-    const savedWishList = localStorage.getItem("wishlist");
+    const savedWishList = localStorage.getItem("xLwsWishlist");
     if (savedWishList) {
       try {
         return JSON.parse(savedWishList);
@@ -85,12 +85,12 @@ const initialState: WishListState = {
 };
 
 const wishListSlice = createSlice({
-  name: "wishlist",
+  name: "xLwsWishlist",
   initialState,
   reducers: {
     clearWishList: (state) => {
       state.items = [];
-      localStorage.removeItem("wishlist");
+      localStorage.removeItem("xLwsWishlist");
     },
   },
 
@@ -102,7 +102,7 @@ const wishListSlice = createSlice({
       .addCase(fetchWishList.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
-        localStorage.setItem("wishlist", JSON.stringify(state.items));
+        localStorage.setItem("xLwsWishlist", JSON.stringify(state.items));
       })
       .addCase(fetchWishList.rejected, (state, action) => {
         state.status = "failed";
@@ -114,7 +114,7 @@ const wishListSlice = createSlice({
       .addCase(addWishList.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
-        localStorage.setItem("wishlist", JSON.stringify(state.items));
+        localStorage.setItem("xLwsWishlist", JSON.stringify(state.items));
       })
       .addCase(addWishList.rejected, (state, action) => {
         state.status = "failed";
@@ -126,7 +126,7 @@ const wishListSlice = createSlice({
       .addCase(removeWishList.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
-        localStorage.setItem("wishlist", JSON.stringify(state.items));
+        localStorage.setItem("xLwsWishlist", JSON.stringify(state.items));
       })
       .addCase(removeWishList.rejected, (state, action) => {
         state.status = "failed";

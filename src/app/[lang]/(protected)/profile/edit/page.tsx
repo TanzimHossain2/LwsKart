@@ -2,6 +2,7 @@ import { getUserById } from "@/backend/services/user";
 import ProfileForm from "@/components/user/profile/ProfileForm";
 import appConfig from "@/config";
 import { Metadata } from "next";
+import BreadCamp from "@/components/shared/breadCamp";
 
 export const metadata: Metadata = {
   title: "Lwskart - Edit Profile",
@@ -28,6 +29,7 @@ const EditProfilePage = async ({ searchParams }: any) => {
 
   return (
     <div className="container">
+          <BreadCamp />
       {user && <ProfileForm user={user} />}
     </div>
   );

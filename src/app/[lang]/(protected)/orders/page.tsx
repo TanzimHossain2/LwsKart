@@ -5,6 +5,7 @@ import { ObjectId } from "mongodb";
 import ProfileList from "@/components/user/profile/ProfileList";
 import { Metadata } from "next";
 import appConfig from "@/config";
+import BreadCamp from "@/components/shared/breadCamp";
 
 interface Product {
   name: string;
@@ -75,6 +76,7 @@ const OrderPage = async () => {
 
   return (
     <div className="container py-10">
+          <BreadCamp />
         <h1 className="text-2xl font-bold mb-6 text-center">Order History</h1>
       <div className="container mx-auto flex flex-col md:flex-row gap-6 pt-4 pb-16">
 

@@ -7,14 +7,22 @@ import VariantProduct from "./VariantProduct";
 import ShareButton from "../shared/socialShare/ShareButton";
 import { Dictionary, ProductDictionary } from "@/interfaces/lang";
 import { Star } from "lucide-react";
+import { getCategoryById } from "@/backend/services/category";
 
 interface IProductDerails {
   product: IProductData;
   dictionary: Dictionary;
 }
 
-const ProductDerails: React.FC<IProductDerails> = ({ product, dictionary }) => {
+const ProductDerails: React.FC<IProductDerails> = async ({
+  product,
+  dictionary,
+}) => {
   const lang = dictionary.product;
+
+  const rating = Math.round(product?.averageRating ?? 0);
+  const category = await getCategoryById(String(product?.category));
+  const categoryName = category?.name ?? "No category";
 
   return (
     <>
@@ -33,11 +41,13 @@ const ProductDerails: React.FC<IProductDerails> = ({ product, dictionary }) => {
 
           <div className="flex items-center mb-4">
             <div className="flex gap-1 text-sm text-yellow-400">
-
-              <span>
-              <Star />
-              </span>
-             
+              <>
+                {Array.from({ length: rating }, (_, i) => (
+                  <span key={i}>
+                    <Star size={19} key={i} />
+                  </span>
+                ))}
+              </>
             </div>
 
             <div className="text-xs text-gray-500 ml-3">
@@ -64,7 +74,9 @@ const ProductDerails: React.FC<IProductDerails> = ({ product, dictionary }) => {
               <span className="text-gray-800 font-semibold">
                 {lang.category}:{" "}
               </span>
-              <span className="text-gray-600">Sofa</span>
+              <span className="text-gray-600">
+                {categoryName}
+              </span>
             </p>
             <p className="space-x-2">
               <span className="text-gray-800 font-semibold">{lang.sku}: </span>
@@ -81,7 +93,9 @@ const ProductDerails: React.FC<IProductDerails> = ({ product, dictionary }) => {
             </p>
           </div>
 
-          <p className="mt-4 text-gray-600">{product?.description?.slice(0,150)}</p>
+          <p className="mt-4 text-gray-600">
+            {product?.description?.slice(0, 150)}
+          </p>
 
           <div className="mt-4">
             <h3 className="text-sm text-gray-800 uppercase mb-1">

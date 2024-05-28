@@ -1,9 +1,9 @@
 "use client";
-import { axiosInstance } from "@/config/axiosInstance";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
-import { set } from "mongoose";
+import { toast } from "react-toastify";
+import useAxios from "@/hooks/use-axios";
 
 type ProcessingProps = {
   orderId: string;
@@ -14,6 +14,7 @@ const Processing: React.FC<ProcessingProps> = ({ orderId, method }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { axiosInstance } = useAxios();
 
   useEffect(() => {
     const processPayment = async () => {
@@ -26,13 +27,25 @@ const Processing: React.FC<ProcessingProps> = ({ orderId, method }) => {
           paymentMethod: method,
         });
 
+        console.log(res);
+
         if (res.status === 200) {
-          router.push("/success");
+          toast.success("Success! Sent a Invoice to your email.", {
+            position: "bottom-right",
+            autoClose: 1200,
+          });
+
+          // redirect afer 2 seconds
+          setTimeout(() => {
+            router.push("/orders");
+          }, 1500);
         } else {
           console.log("error in response", res.data.error);
           setError(res.data.error);
         }
       } catch (err: any) {
+        console.log("Error in processing component", err);
+
         if (err.response && err.response.data) {
           setError(err.response.data || "An error occurred");
         }
@@ -42,11 +55,11 @@ const Processing: React.FC<ProcessingProps> = ({ orderId, method }) => {
     };
 
     processPayment();
-  }, [orderId, method, router]);
+  }, [orderId, method, router, axiosInstance]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {loading && (
+      {loading && !error && (
         <div className="flex flex-col items-center">
           <LoadingSpinner />
         </div>
@@ -57,11 +70,10 @@ const Processing: React.FC<ProcessingProps> = ({ orderId, method }) => {
 
           <button
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/orders")}
           >
-            Go back to home
+            Go to Orders
           </button>
-
         </div>
       )}
     </div>

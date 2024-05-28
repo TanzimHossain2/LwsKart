@@ -50,6 +50,7 @@ export const handlePaymentProcessing = async (
       status: 200,
     };
   } catch (err) {
+    console.log("Error in handle  payment-processing", err );
     return {
       error: (err as Error).message,
       status: 400,

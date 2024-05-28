@@ -61,6 +61,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   adapter: MongoDBAdapter(clientPromise),
   ...authConfig,
+  debug: process.env.NODE_ENV === "development",
 
   callbacks: {
     async signIn({ user, account }) {
@@ -122,33 +123,36 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return token;
       }
 
+      // console.log("JWT token", token);
+      
+
+      const existingUser = await getUserById(token.sub);
+
+      if (!existingUser) {
+        return token;
+      }
+
+      const existingAccount = await getAccountByUserId(
+        existingUser._id as unknown as string
+      );
+
+      token = {
+        ...token,
+        name: existingUser.name,
+        email: existingUser.email,
+        image: existingUser.image,
+        username: existingUser.username,
+        isOAuth: existingAccount ? true : false,
+        role:
+          existingUser.role === "user" || existingUser.role === "admin"
+            ? existingUser.role
+            : "user",
+        isTwoFactorEnabled: existingUser.isTwoFactorEnabled,
+        number: existingUser.number || "",
+      };
+
       // Initial sign in
       if (!token.accessToken) {
-        const existingUser = await getUserById(token.sub);
-
-        if (!existingUser) {
-          return token;
-        }
-
-        const existingAccount = await getAccountByUserId(
-          existingUser._id as unknown as string
-        );
-
-        token = {
-          ...token,
-          name: existingUser.name,
-          email: existingUser.email,
-          image: existingUser.image,
-          username: existingUser.username,
-          isOAuth: existingAccount ? true : false,
-          role:
-            existingUser.role === "user" || existingUser.role === "admin"
-              ? existingUser.role
-              : "user",
-          isTwoFactorEnabled: existingUser.isTwoFactorEnabled,
-          number: existingUser.number || "",
-        };
-
         const accessToken = jwt.sign(
           {
             sub: existingUser._id.toString(),
@@ -204,6 +208,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return token;
     },
+  },
+  logger: {
+    error: (message) => console.error("ERROR", message),
+    warn: (message) => console.warn("WARN", message),
+    debug: (message) => console.debug("DEBUG", message),
   },
 
   //read more about events here: https://next-auth.js.org/configuration/events

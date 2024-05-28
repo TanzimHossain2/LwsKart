@@ -3,11 +3,9 @@ import axios, { AxiosError } from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: appConfig.baseUrl,
-  timeout: 5000,
+  timeout: 15000,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
 });
-
 

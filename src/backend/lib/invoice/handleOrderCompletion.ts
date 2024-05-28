@@ -20,6 +20,7 @@ export const handleOrderCompletion = async (orderId: string) => {
     const pdfUrl = await uploadInvoiceToCloudinary(pdfPath);
 
 
+
     // Send Email
     await sendEmailWithInvoiceLink(order.user.email, pdfUrl);
 
@@ -28,7 +29,7 @@ export const handleOrderCompletion = async (orderId: string) => {
       message: "Order completed and invoice sent successfully",
     };
   } catch (error) {
-    console.log("Error", error);
+    console.log("Error inside handleOrderCompletion: ", error);
     
     return {
       status: 500,

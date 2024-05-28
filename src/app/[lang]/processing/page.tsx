@@ -2,10 +2,12 @@ import { handlePaymentProcessing } from "@/backend/lib/transaction";
 import Processing from "@/components/checkout/Processing";
 import appConfig from "@/config";
 import { Metadata } from "next";
+import BreadCamp from "@/components/shared/breadCamp";
 
 export const metadata: Metadata = {
   title: "Lwskart - Processing",
-  description: "Lwskart - Processing Page, where you can see the payment processing status",
+  description:
+    "Lwskart - Processing Page, where you can see the payment processing status",
   openGraph: {
     title: "Lwskart",
     images: [
@@ -34,7 +36,8 @@ const ProcessingPage = async ({ searchParams }: ProcessingPageProps) => {
 
   return (
     <div>
-      <Processing orderId ={orderId} method={paymentMethod} />
+      <BreadCamp />
+      <Processing orderId={orderId} method={paymentMethod} />
     </div>
   );
 };

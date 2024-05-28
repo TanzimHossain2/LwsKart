@@ -6,10 +6,12 @@ import ProfileList from "./ProfileList";
 import { currentUser } from "@/lib/authUser";
 import { Metadata } from "next";
 import appConfig from "@/config";
+import { getUserById } from "@/backend/services/user";
 
 export const metadata: Metadata = {
   title: "Lwskart - Profile",
-  description: "Lwskart - Profile Page, where you can see your profile information",
+  description:
+    "Lwskart - Profile Page, where you can see your profile information",
   openGraph: {
     title: "Lwskart",
     images: [

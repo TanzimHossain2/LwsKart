@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import AddToCart from "./AddCartWIshLIst/AddToCart";
 import { Dictionary } from "@/interfaces/lang";
+import { Star } from "lucide-react";
+import { getBlurData, getBase64ImageUrl } from "@/utils/blur-generator";
 
 type IProductCard = {
   product: IProductData;
@@ -32,6 +34,8 @@ const ProductCard: React.FC<IProductCard> = ({ product, dictionary }) => {
     }
   };
 
+  const averageRating = Math.round(product?.averageRating ?? 0);
+
   return (
     <div className="bg-white shadow rounded overflow-hidden flex flex-col h-full">
       <div className="relative flex-shrink-0">
@@ -41,6 +45,7 @@ const ProductCard: React.FC<IProductCard> = ({ product, dictionary }) => {
           width={200}
           height={200}
           className="w-full"
+        
         />
         <div
           className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
@@ -80,21 +85,11 @@ const ProductCard: React.FC<IProductCard> = ({ product, dictionary }) => {
         </div>
         <div className="flex items-center">
           <div className="flex gap-1 text-sm text-yellow-400">
-            <span>
-              <i className="fa-solid fa-star"></i>
-            </span>
-            <span>
-              <i className="fa-solid fa-star"></i>
-            </span>
-            <span>
-              <i className="fa-solid fa-star"></i>
-            </span>
-            <span>
-              <i className="fa-solid fa-star"></i>
-            </span>
-            <span>
-              <i className="fa-solid fa-star"></i>
-            </span>
+            {Array.from({ length: averageRating }, (_, i) => (
+              <span key={i}>
+                <Star size={18} key={i} />
+              </span>
+            ))}
           </div>
           <div className="text-xs text-gray-500 ml-3">
             ({product?.reviewCount ?? 0})
@@ -102,7 +97,11 @@ const ProductCard: React.FC<IProductCard> = ({ product, dictionary }) => {
         </div>
       </div>
       <div className="mt-auto px-4 pb-4">
-        <AddToCart text={dictionary.landing} product={product} landingPage={true} />
+        <AddToCart
+          text={dictionary.landing}
+          product={product}
+          landingPage={true}
+        />
       </div>
     </div>
   );

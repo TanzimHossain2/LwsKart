@@ -2,6 +2,7 @@ import { getShippingAddress } from "@/backend/services/user/getShippingAdress";
 import AdressForm from "@/components/user/address/AdressForm";
 import appConfig from "@/config";
 import { Metadata } from "next";
+import BreadCamp from "@/components/shared/breadCamp";
 
 export const metadata: Metadata = {
   title: "Lwskart - Shipping Address",
@@ -29,9 +30,12 @@ const ShippingAdressPage = async ({ params } :any) => {
 
   
   return (
+   <>
+        <BreadCamp />
     <div className="container">
       <AdressForm adress={shippingAdress?.address} title="Shipping" />
     </div>
+   </>
   );
 };
 

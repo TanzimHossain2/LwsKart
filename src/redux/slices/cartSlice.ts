@@ -21,7 +21,7 @@ type CartState = {
 
 const getInitialCartState = (): CartItem[] => {
   if (typeof window !== "undefined") {
-    const savedCart = localStorage.getItem("cart");
+    const savedCart = localStorage.getItem("xLwsCart");
     if (savedCart) {
       try {
         return JSON.parse(savedCart);
@@ -97,13 +97,17 @@ export const updateCartItem = createAsyncThunk(
 
 // Cart slice for managing cart state
 const cartSlice = createSlice({
-  name: "cart",
+  name: "xLwsCart",
   initialState,
   reducers: {
     setCart: (state, action: PayloadAction<CartItem[]>) => {
       state.items = action.payload;
-      localStorage.setItem("cart", JSON.stringify(state.items));
+      localStorage.setItem("xLwsCart", JSON.stringify(state.items));
     },
+    clearCart: (state) => {
+      state.items = [];
+      localStorage.removeItem("xLwsCart");
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -115,7 +119,7 @@ const cartSlice = createSlice({
         state.status = "succeeded";
         state.error = null;
         state.items = action.payload;
-        localStorage.setItem("cart", JSON.stringify(state.items));
+        localStorage.setItem("xLwsCart", JSON.stringify(state.items));
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.status = "failed";
@@ -134,7 +138,7 @@ const cartSlice = createSlice({
         state.status = "succeeded";
         state.error = null;
         state.items = action.payload;
-        localStorage.setItem("cart", JSON.stringify(state.items));
+        localStorage.setItem("xLwsCart", JSON.stringify(state.items));
       })
 
       // Remove from cart
@@ -146,7 +150,7 @@ const cartSlice = createSlice({
         state.status = "succeeded";
         state.error = null;
         state.items = action.payload;
-        localStorage.setItem("cart", JSON.stringify(state.items));
+        localStorage.setItem("xLwsCart", JSON.stringify(state.items));
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.status = "failed";
@@ -161,7 +165,7 @@ const cartSlice = createSlice({
         state.status = "succeeded";
         state.error = null;
         state.items = action.payload;
-        localStorage.setItem("cart", JSON.stringify(state.items));
+        localStorage.setItem("xLwsCart", JSON.stringify(state.items));
       })
       .addCase(updateCartItem.rejected, (state, action) => {
         state.status = "failed";
@@ -170,6 +174,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { setCart } = cartSlice.actions;
+export const { setCart , clearCart} = cartSlice.actions;
 
 export default cartSlice.reducer;

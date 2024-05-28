@@ -54,7 +54,9 @@ export const getAllProduct = async ({
 
     if (ratings) {
       const ratingsArray = decodeURIComponent(ratings).split("|").map(Number);
-      query.averageRating = { $in: ratingsArray };
+      query.$or = ratingsArray.map(rating => ({
+        averageRating: { $gte: rating, $lt: rating + 1 }
+      }));
     }
 
     if (size) {

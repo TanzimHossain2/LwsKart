@@ -19,7 +19,7 @@ const Sidebar = async({dictionary}:Props) => {
         <CategoryFilter Categories={Categories} text={dictionary.filter} />
         <FilterByPrice text={dictionary.filter}/>
         <FilterByRating text={dictionary.filter}/>
-        <FilterBySize text={dictionary.filter}/>
+        {/* <FilterBySize text={dictionary.filter}/> */}
       </div>
     </div>
   );

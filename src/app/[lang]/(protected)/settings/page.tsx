@@ -3,6 +3,7 @@ import ProfileList from "@/components/user/profile/ProfileList";
 import appConfig from "@/config";
 import { currentUser } from "@/lib/authUser";
 import { Metadata } from "next";
+import BreadCamp from "@/components/shared/breadCamp";
 
 export const metadata: Metadata = {
   title: "Lwskart - Settings page",
@@ -27,6 +28,7 @@ const SettingsPage = async () => {
   const user = await currentUser();
   return (
     <div className="container py-4">
+          <BreadCamp />
       <h2 className="text-center text-xl font-semibold py-5">
         Update your account Information
       </h2>

@@ -8,7 +8,12 @@ export const getSingleProductById = async (
 ): Promise<IProductData | null> => {
   try {
     await dbConnect();
-    const product = await db.product.findById(id).lean();
+    let product = await db.product.findById(id).select("-__v ").lean();
+
+    if (!product) {
+      return null;
+    }
+    
     return modifyObjData(product) || null;
   } catch (err) {
     return null;

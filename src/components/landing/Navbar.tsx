@@ -1,7 +1,7 @@
-import Link from "next/link";
-import Image from "next/image";
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import { Dictionary } from "@/interfaces/lang";
+import Link from "next/link";
+import LogoutButton from "../auth/LogoutButton";
 import NavbarCategory from "./navbar/NavbarCategory";
 interface props {
   dictionary: Dictionary;
@@ -53,16 +53,9 @@ const Navbar: React.FC<props> = async ({ dictionary }) => {
           </div>
 
           {isLogged ? (
-            <form
-              action={async () => {
-                "use server";
-                await signOut();
-              }}
-            >
-              <button className="text-gray-200 hover:text-white transition">
-                {dictionary.auth.logout}
-              </button>
-            </form>
+            <>
+              <LogoutButton>{dictionary.auth.logout}</LogoutButton>
+            </>
           ) : (
             <Link
               href="/auth/login"

@@ -52,6 +52,8 @@ const LoginForm = ({dictionary}:Props) => {
       : "";
 
   const callbackUrl = searchParams.get("callbackUrl");
+  console.log("callbackUrl login form", callbackUrl);
+  
 
   const onSubmit: SubmitHandler<z.infer<typeof LoginSchema>> = async (data) => {
     try {

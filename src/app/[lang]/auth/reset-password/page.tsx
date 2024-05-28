@@ -3,6 +3,7 @@ import Loading from "@/components/shared/loading";
 import appConfig from "@/config";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import BreadCamp from "@/components/shared/breadCamp";
 
 export const metadata: Metadata = {
   title: "Lwskart - Reset Password",
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
 const VerificationPage = () => {
   return (
     <>
+        <BreadCamp />
       <div className="container contain py-16">
         <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
           <h2 className="text-2xl uppercase font-medium mb-1">

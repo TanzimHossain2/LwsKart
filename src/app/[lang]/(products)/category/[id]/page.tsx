@@ -3,6 +3,8 @@ import { getCategoryById } from "@/backend/services/category";
 import { getProductsByCategoryId } from "@/backend/services/product";
 import ProductList from "@/components/product/ProductList";
 import BreadCamp from "@/components/shared/breadCamp";
+import LoadingFallback from "@/components/shared/loading/LoadingFallback";
+import { Suspense } from "react";
 
 export async function generateMetadata({ params: { id } }: any) {
   const category = await getCategoryById(id);
@@ -28,19 +30,23 @@ export async function generateMetadata({ params: { id } }: any) {
 const CategoryPage = async ({ params }: any) => {
   const { id, lang } = params;
   const products = await getProductsByCategoryId(id);
+  const category = await getCategoryById(id);
+  const categoryTitle = category?.name;
 
   const dictionary = await getDictionary(lang);
-
-  console.log(dictionary);
 
   return (
     <>
       <BreadCamp />
       <div className="container mx-auto py-10 px-4">
         <div className="p-4 border border-gray-200 rounded-lg shadow-sm bg-white">
-          <h3 className="text-2xl font-bold capitalize mb-6">Category Page</h3>
+          <h3 className="text-2xl font-bold  capitalize mb-6">
+            {categoryTitle}
+          </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <ProductList dictionary={dictionary} products={products || []} />
+            <Suspense fallback={<LoadingFallback />}>
+              <ProductList dictionary={dictionary} products={products || []} />
+            </Suspense>
           </div>
         </div>
       </div>

@@ -18,13 +18,14 @@ import { LoginSchema } from "@/schemas";
 import { hashMatched } from "@/utils/hashing";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import * as z from "zod";
 
-export async function login(values: z.infer<typeof LoginSchema>,
-  callbackUrl? : string | null
+export async function login(
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null
 ) {
   try {
-
     // Validate the fields
     const validateFields = LoginSchema.safeParse(values);
 
@@ -38,7 +39,7 @@ export async function login(values: z.infer<typeof LoginSchema>,
 
     // Check if user exists
     const existingUser = await getUserByEmail(email.toLowerCase());
-  
+
     if (!existingUser || !existingUser.email || !existingUser.password) {
       return {
         error: "Invalid Credentials!",
@@ -69,7 +70,7 @@ export async function login(values: z.infer<typeof LoginSchema>,
         verificationToken.token
       );
 
-      revalidatePath("/auth/login"); 
+      revalidatePath("/auth/login");
 
       return {
         success: "Confirmation email sent!",
@@ -80,11 +81,10 @@ export async function login(values: z.infer<typeof LoginSchema>,
     // Check if user has two factor enabled
     if (existingUser.isTwoFactorEnabled && existingUser.email) {
       if (code) {
-
         const twoFactorToken = await getTwoFactorTokenByEmail(
           existingUser.email
         );
-        
+
         if (!twoFactorToken) {
           return {
             error: "Invalid Two Factor Code",
@@ -104,11 +104,10 @@ export async function login(values: z.infer<typeof LoginSchema>,
           };
         }
 
-
         await db.twoFactorToken.deleteOne({ _id: twoFactorToken._id });
 
         const existingConfimation = await getTwoFactorConfirmationByUserId(
-          (existingUser._id as unknown as string).toString() 
+          (existingUser._id as unknown as string).toString()
         );
 
         if (existingConfimation) {
@@ -130,14 +129,17 @@ export async function login(values: z.infer<typeof LoginSchema>,
         };
       }
     }
-    
+
+    console.log(
+      "--------------------callbackUrl------------------",
+      callbackUrl
+    );
 
     const response = await signIn("credentials", {
       email: email.toLowerCase(),
       password: password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      redirect: false,
     });
- 
 
     if (!response) {
       return {
@@ -145,14 +147,22 @@ export async function login(values: z.infer<typeof LoginSchema>,
       };
     }
 
+    if (callbackUrl) {
+      redirect(callbackUrl);
+    } else {
+      redirect("/"); // Default redirect URL
+    }
+
+    revalidatePath("/");
+
     return {
       user: response,
       success: "Logged in!",
       status: 200,
     };
   } catch (err) {
-    console.log(err);
-    
+    console.log("Login Error:- ", err);
+
     if (err instanceof AuthError) {
       switch (err.type) {
         case "CredentialsSignin": {
