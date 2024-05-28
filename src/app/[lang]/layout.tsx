@@ -11,6 +11,7 @@ import { auth } from "@/auth";
 import { getSession, SessionProvider } from "next-auth/react";
 import GlobalProvider from "@/providers/GlobalProvider";
 import { getDictionary } from "./dictionaries";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,6 +49,7 @@ export default async function RootLayout({
             <Copyright />
           </GlobalProvider>
         </SessionProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
