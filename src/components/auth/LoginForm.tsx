@@ -1,7 +1,7 @@
 "use client";
 import { login } from "@/app/action/auth";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import FormError from "./FormError";
 import FormSuccess from "./FormSuccess";
@@ -13,10 +13,9 @@ import { Dictionary } from "@/interfaces/lang";
 
 type Props = {
   dictionary: Dictionary;
+};
 
-}
-
-const LoginForm = ({dictionary}:Props) => {
+const LoginForm = ({ dictionary }: Props) => {
   const {
     register,
     handleSubmit,
@@ -52,8 +51,8 @@ const LoginForm = ({dictionary}:Props) => {
       : "";
 
   const callbackUrl = searchParams.get("callbackUrl");
-  console.log("callbackUrl login form", callbackUrl);
-  
+
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<z.infer<typeof LoginSchema>> = async (data) => {
     try {
@@ -73,7 +72,7 @@ const LoginForm = ({dictionary}:Props) => {
         return;
       }
 
-      if (res.status === 200) {
+      if (res && res.status === 200) {
         reset();
 
         clearErrors();
@@ -83,10 +82,15 @@ const LoginForm = ({dictionary}:Props) => {
           autoClose: 2000,
         });
 
+        if (res?.url) {
+          const url = new URL(res.url);
+          const cbUrl = url.searchParams.get("callbackUrl") || "/";
+          router.push(cbUrl);
+        }
         return;
       }
 
-      if (res.twoFactor) {
+      if (res && res.twoFactor) {
         setShowTwoFactor(true);
       } else {
         reset();
@@ -141,7 +145,6 @@ const LoginForm = ({dictionary}:Props) => {
             <>
               <div>
                 <label htmlFor="email" className="text-gray-600 mb-2 block">
-                  
                   {dictionary.auth.email_address}
                 </label>
                 <input
@@ -225,7 +228,9 @@ const LoginForm = ({dictionary}:Props) => {
             type="submit"
             className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
           >
-            {showTwoFactor ? `${dictionary.auth.verify}` : `${dictionary.auth.login}`}
+            {showTwoFactor
+              ? `${dictionary.auth.verify}`
+              : `${dictionary.auth.login}`}
           </button>
         </div>
       </form>

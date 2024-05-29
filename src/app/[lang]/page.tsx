@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Lwskart",
     images: [
       {
-        url: `${appConfig.baseUrl}/api/og`,
+        url: `/api/og`,
         width: 1200,
         height: 630,
         alt: "Lwskart",

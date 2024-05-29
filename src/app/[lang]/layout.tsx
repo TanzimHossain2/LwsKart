@@ -12,6 +12,7 @@ import { getSession, SessionProvider } from "next-auth/react";
 import GlobalProvider from "@/providers/GlobalProvider";
 import { getDictionary } from "./dictionaries";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import XSessionProvider from "@/providers/XSessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,13 +35,14 @@ export default async function RootLayout({
   params: { lang: Locale };
 }>) {
   await dbConnect();
-  const session = await auth();
   const dictionary = await getDictionary(lang);
+  const session = await auth();
 
   return (
     <html lang={lang}>
       <body className={inter.className}>
         <SessionProvider session={session}>
+          <XSessionProvider propsData={session}>
           <GlobalProvider>
             <Header dictionary={dictionary.page} />
             <Navbar dictionary={dictionary} />
@@ -48,6 +50,7 @@ export default async function RootLayout({
             <Footer dictionary={dictionary.footer}  />
             <Copyright />
           </GlobalProvider>
+          </XSessionProvider>
         </SessionProvider>
         <SpeedInsights />
       </body>

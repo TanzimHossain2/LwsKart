@@ -139,6 +139,7 @@ export async function login(
       email: email.toLowerCase(),
       password: password,
       redirect: false,
+      // redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
     if (!response) {
@@ -147,37 +148,37 @@ export async function login(
       };
     }
 
-    if (callbackUrl) {
-      redirect(callbackUrl);
-    } else {
-      redirect("/"); // Default redirect URL
-    }
-
     revalidatePath("/");
 
+    console.log("Credentials Signin Response:- ", response);
+
     return {
-      user: response,
+      url: response,
       success: "Logged in!",
       status: 200,
     };
+    
   } catch (err) {
-    console.log("Login Error:- ", err);
-
     if (err instanceof AuthError) {
       switch (err.type) {
         case "CredentialsSignin": {
+          console.log("CredentialsSignin Login Error:- ", err);
           return {
             error: "Invalid Credentials!",
           };
         }
 
         default: {
+          console.log("Default Login Error:- ", err);
+
           return {
             error: "Something went wrong!",
           };
         }
       }
     }
+
+    console.log("Login Error:- ", err);
 
     throw err;
   }

@@ -28,6 +28,11 @@ const AddToCartProduct: React.FC<AddToCartProps> = ({
 
 
   const user = useCurrentUser();
+  console.log(user);
+
+  
+  
+  
 
 
   const { getQuantity } = useQuantity();

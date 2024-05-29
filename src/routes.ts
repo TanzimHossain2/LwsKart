@@ -18,7 +18,11 @@ export const publicRoutes = [
     "/contact-us",
     "/product:id",
     "/product/*",
-    "/category/*"
+    "/category/*",
+    "/search/*",
+    "/api/og",
+    "/api/og/*",
+    
 ]
 
 
@@ -27,7 +31,7 @@ export const publicRoutes = [
  *  These routes 
  *  @ type {string[]}
  */
-export const authRoutes =  ['/profile', '/settings', '/admin', '/cart', '/wishlist', "/checkout"]
+export const authRoutes =  ['/profile', '/settings', '/admin', '/cart', '/wishlist', "/checkout" , "/checkout/*", "/order/*", "/order" ]
 
 
 /**

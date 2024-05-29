@@ -15,6 +15,7 @@ const secret = process.env.AUTH_SECRET as string;
 
 // Define CredentialProvider separately
 const credentialProvider = CredentialProvider({
+  
   credentials: {
     email: {},
     password: {},
@@ -45,6 +46,7 @@ const credentialProvider = CredentialProvider({
 
       return resUser;
     } catch (error) {
+      console.log("Error in Credential authorize", error);
       throw error;
     }
   },
@@ -208,7 +210,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return token;
     },
+
+    async redirect({ url, baseUrl }) {
+      // Ensure redirects are only to allowed URLs
+      if (url.startsWith(baseUrl)) {
+        return url;
+      } else if (url.startsWith("/")) {
+        return new URL(url, baseUrl).toString();
+      }
+      return baseUrl;
+    },
+
   },
+
   logger: {
     error: (message) => console.error("ERROR", message),
     warn: (message) => console.warn("WARN", message),
@@ -224,4 +238,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       );
     },
   },
+
 });

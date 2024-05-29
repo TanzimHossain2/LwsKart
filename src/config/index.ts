@@ -14,7 +14,7 @@ const fromEmail = process.env.NODE_ENV === "development" ? "lwsKart@resend.dev" 
 
 
 const appConfig: IAppConfig = {
-    baseUrl: process.env.NODE_ENV === "development" ? "http://localhost:3000" :  process.env.NEXT_PUBLIC_BASE_URL as string,
+    baseUrl: process.env.NODE_ENV === "development" ? "http://localhost:3000" :  "http://localhost:3000",
     fromEmail: fromEmail  as string,
 }
 
