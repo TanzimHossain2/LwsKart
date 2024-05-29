@@ -50,6 +50,8 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
     const response = await axios.get("/api/cart/get");
     return response.data;
   } catch (error: any) {
+    console.log("Error fetching cart", error.response.data);
+    
     throw error.response.data;
   }
 });
@@ -62,6 +64,8 @@ export const addToCart = createAsyncThunk(
       const response = await axios.post("/api/cart/add", cartData);
       return response.data;
     } catch (error: any) {
+      console.log("Error adding to cart", error.response.data);
+      
       throw error.response.data;
     }
   }
@@ -77,6 +81,7 @@ export const removeFromCart = createAsyncThunk(
       });
       return response.data;
     } catch (error: any) {
+      console.log("Error removing from cart", error.response.data);
       throw error.response.data;
     }
   }
@@ -90,6 +95,7 @@ export const updateCartItem = createAsyncThunk(
       const response = await axios.patch("/api/cart/update", cartData);
       return response.data;
     } catch (error: any) {
+      console.log("Error updating cart item", error.response.data);
       throw error.response.data;
     }
   }

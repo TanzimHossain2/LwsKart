@@ -51,6 +51,9 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isAuthRoute = authRoutes.includes(pathname);
 
+    console.log("isAuthRoute", isAuthRoute, "pathname", pathname);
+    console.log("isApiAuthRoute", isApiAuthRoute, "pathname", pathname);
+
     // @ts-ignore
     let token = (await getToken({
       req,
@@ -62,6 +65,9 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       if (isPublicRoute(pathname)) {
         return middleware(req, event, response);
       }
+
+      console.log("No Token", token);
+      
 
       // Redirect to login if not authenticated and trying to access protected routes
       let callbackUrl = nextUrl.pathname;
@@ -78,6 +84,8 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
     const { accessToken, refreshToken, accessTokenExpires } = token;
     const isAuthLoggedIn = !!accessToken;
+    console.log("isAuthLoggedIn Token", isAuthLoggedIn);
+    
 
     if (isApiAuthRoute) {
       return null;
@@ -85,6 +93,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
     // Handle authentication for certain methods
     if (["POST", "PATCH", "DELETE"].includes(method) && !isAuthLoggedIn) {
+
       let callbackUrl = nextUrl.pathname;
       if (nextUrl.search) {
         callbackUrl += nextUrl.search;
@@ -101,6 +110,8 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       if (nextUrl.search) {
         callbackUrl += nextUrl.search;
       }
+      console.log("Insude Middleware Auth Route", callbackUrl);
+      
       const encodedCallbackUrl = encodeURIComponent(callbackUrl);
       return NextResponse.redirect(
         new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
@@ -123,6 +134,8 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
             new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
           );
         }
+
+        console.log("Insude Middleware Auth Route1", refreshedTokens);
 
         // Update the token
         token = {

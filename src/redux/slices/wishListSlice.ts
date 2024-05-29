@@ -39,6 +39,8 @@ export const fetchWishList = createAsyncThunk(
       const response = await axiosInstance.get("/api/wishlist");
       return response.data as WishListItem[];
     } catch (error: any) {
+      console.log("Error fetching wishlist", error);
+      
       return rejectWithValue(
         (error.response?.data?.error || "Failed to fetch wishlist") as string
       );
@@ -54,6 +56,8 @@ export const addWishList = createAsyncThunk(
       const response = await axiosInstance.post("/api/wishlist", { productId });
       return response.data as WishListItem[];
     } catch (error: any) {
+      console.log("Error adding to wishlist", error);
+      
       return rejectWithValue(
         error.response?.data?.error || "Failed to add item to wishlist"
       );
@@ -71,6 +75,7 @@ export const removeWishList = createAsyncThunk(
       });
       return response.data as WishListItem[];
     } catch (error: any) {
+        console.log("Error removing from wishlist", error);
       return rejectWithValue(
         error.response?.data?.error || "Failed to remove item from wishlist"
       );

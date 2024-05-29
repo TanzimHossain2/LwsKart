@@ -27,6 +27,9 @@ const WishListHeader = ({ text }: { text: string }) => {
     setLength(wishListItem?.length ?? 0);
   }, [wishListItem]);
 
+  console.log("WishListHeade wishListItem:", wishListItem);
+  
+
   return (
     <Link
       href="/wishlist"
