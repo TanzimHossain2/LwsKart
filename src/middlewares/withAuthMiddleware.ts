@@ -51,6 +51,10 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isAuthRoute = authRoutes.includes(pathname);
 
+
+    console.log("authuser in middleware ----->", await auth());
+    
+
     console.log("isAuthRoute", isAuthRoute, "pathname", pathname);
     console.log("isApiAuthRoute", isApiAuthRoute, "pathname", pathname);
 
@@ -59,6 +63,9 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       req,
       secret: process.env.AUTH_SECRET as string,
     })) as Token | null;
+
+    console.log("Token  in middleware----------", token);
+    
 
     if (!token) {
       // If no token, continue the request if it's a public route
@@ -76,7 +83,8 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       }
 
       const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-
+      console.log("inside Middleware No Token", encodedCallbackUrl);
+      
       return NextResponse.redirect(
         new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
       );
@@ -99,6 +107,8 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
         callbackUrl += nextUrl.search;
       }
       const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+      console.log("Inside Middleware Auth Route", encodedCallbackUrl);
+      
       return NextResponse.redirect(
         new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
       );
@@ -110,9 +120,11 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       if (nextUrl.search) {
         callbackUrl += nextUrl.search;
       }
-      console.log("Insude Middleware Auth Route", callbackUrl);
       
       const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+      console.log("Insude Middleware Auth Route", callbackUrl);
+
       return NextResponse.redirect(
         new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
       );
@@ -130,6 +142,9 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
             callbackUrl += nextUrl.search;
           }
           const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+          console.log("Inside Middleware Auth Route1x", encodedCallbackUrl);
+          
           return NextResponse.redirect(
             new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
           );

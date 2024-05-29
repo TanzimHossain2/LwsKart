@@ -20,7 +20,7 @@ export const WishListData = async (data: { productIds: ObjectId[] }) => {
       );
       return productDetails;
     } catch (err) {
-      console.error(err);
+      console.log("Error in wishlist data inside lib", err);
       return [];
     }
   };

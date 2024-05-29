@@ -84,6 +84,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
           existingUser._id as unknown as string
         );
+
         if (!twoFactorConfirmation) {
           return false;
         }
@@ -117,6 +118,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.accessTokenExpires = token.accessTokenExpires as number;
       }
 
+      console.log("User Session inside callback-> ", session);
+      
+
       return session;
     },
 
@@ -125,7 +129,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return token;
       }
 
-      // console.log("JWT token", token);
+      console.log("JWT token inside callback", token);
       
 
       const existingUser = await getUserById(token.sub);
@@ -169,6 +173,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           secret,
           { expiresIn: "15m" } // Access token expires in 15 minutes
         );
+
+        console.log("JWT accessToken create ", accessToken);
+        
 
         const refreshToken = jwt.sign(
           {

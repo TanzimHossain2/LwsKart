@@ -24,6 +24,8 @@ export const getWishList = async (userId: string) => {
         };
         
     } catch (err) {
+        console.log("Error in get getWishList service", err);
+        
         return { error: "Internal server error", status: 500 };
     }
 }

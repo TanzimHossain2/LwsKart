@@ -38,6 +38,8 @@ export const addWishList = async (userId: string, idProduct: string) => {
       data: wishlist,
     };
   } catch (err) {
+    console.log("Error in add to wishlist route", err);
+    
     return { error: "Internal server error", status: 500 };
   }
 };

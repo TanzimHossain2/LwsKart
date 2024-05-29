@@ -50,6 +50,8 @@ export const register = async ({
 
 
   } catch (error) {
+    console.log("Error in registerUser", error);
+    
     if (error instanceof z.ZodError) {
       throw new Error(error.errors.map((err) => err.message).join("\n"));
     } else {

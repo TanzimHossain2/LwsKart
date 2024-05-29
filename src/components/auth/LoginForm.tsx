@@ -84,6 +84,8 @@ const LoginForm = ({ dictionary }: Props) => {
 
         if (res?.url) {
           const url = new URL(res.url);
+          console.log("url LoginForm---->", url);
+          
           const cbUrl = url.searchParams.get("callbackUrl") || "/";
           router.push(cbUrl);
         }

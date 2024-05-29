@@ -9,6 +9,7 @@ const RETRY_DELAY = 5000; // 5 seconds
 async function connectWithRetry(attempt = 1): Promise<Connection> {
   const opts = {
     bufferCommands: false,
+    serverSelectionTimeoutMS: 30000
   };
 
   try {

@@ -21,6 +21,8 @@ export const POST = async (req: NextRequest) => {
       return new NextResponse("User could not be created", { status: 400, statusText: "User could not be created"});
     }
   } catch (err) {
+    console.log("Error in register route", err);
+    
     return new NextResponse((err as Error).message, {
       status: 500,
       statusText: (err as Error).message,

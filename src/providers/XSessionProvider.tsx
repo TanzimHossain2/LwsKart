@@ -7,6 +7,7 @@ const XSessionProvider = ({ children, propsData }: { children: ReactNode, propsD
   const [session, setSession] = useState({});
 
   useEffect(() => {
+    
     async function fetcSession() {
         setSession(propsData);
     }

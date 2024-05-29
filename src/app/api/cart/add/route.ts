@@ -35,6 +35,8 @@ export async function POST(request: NextRequest) {
     return Response.json(resData);
 
   } catch (err) {
+    console.log("Error in add to cart route", err);
+    
     return new NextResponse("Internal server error", {
       status: 500,
       statusText: "Internal server error",

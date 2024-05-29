@@ -22,6 +22,11 @@ export const publicRoutes = [
     "/search/*",
     "/api/og",
     "/api/og/*",
+    "/api/wishlist",
+    "/api/wishlist/*",
+    "/api/cart/get",
+    "/api/cart/get/*",
+    "/api/products",
     
 ]
 

@@ -28,6 +28,8 @@ export async function POST(request: Request) {
       return Response.json(data);
     }
   } catch (err) {
+    console.log("Error in add to wishlist route", err);
+    
     return new NextResponse(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
     });
@@ -56,10 +58,14 @@ export async function GET() {
     }
 
     if (res?.data) {
+      console.log("Route get wishlist res.data", res);
+      
       const data = await WishListData(res?.data);
       return Response.json(data);
     }
   } catch (err) {
+    console.log("Error in get wishlist route", err);
+    
     return new NextResponse("Internal server error", {
       status: 500,
       statusText: "Internal server error",
@@ -95,6 +101,7 @@ export async function DELETE(request: Request) {
       return Response.json(data);
     }
   } catch (err) {
+    console.log("Error in remove from wishlist route", err);
     return new NextResponse("Internal server error", {
       status: 500,
       statusText: "Internal server error",

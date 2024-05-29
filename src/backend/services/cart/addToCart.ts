@@ -43,6 +43,8 @@ export const addToCart = async (userId: string, productId: string, quantity: num
         return { message: "Product added to cart", status: 200, data: cart };
 
     } catch (err) {
+      console.log("Error in add to cart service", err);
+      
         return { error: "Internal server error", status: 500 };
     }
 }
