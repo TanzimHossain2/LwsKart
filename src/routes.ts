@@ -27,6 +27,8 @@ export const publicRoutes = [
     "/api/cart/get",
     "/api/cart/get/*",
     "/api/products",
+    "/api/wishlist",
+    "/api/wishlist/*",
     
 ]
 

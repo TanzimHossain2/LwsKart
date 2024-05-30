@@ -15,7 +15,7 @@ const XSessionProvider = ({ children, propsData }: { children: ReactNode, propsD
     fetcSession();
   }, [propsData]);
 
-
+  console.log("---------------------Use currentUser session--------------------", session);
   return (
     <SessionContext.Provider value={session}>
       {children}

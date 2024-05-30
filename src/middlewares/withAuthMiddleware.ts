@@ -61,7 +61,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     // @ts-ignore
     let token = (await getToken({
       req,
-      secret: process.env.AUTH_SECRET as string,
+      secret: process.env.AUTH_SECRET as string, 
     })) as Token | null;
 
     console.log("Token  in middleware----------", token);
@@ -73,7 +73,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
         return middleware(req, event, response);
       }
 
-      console.log("No Token", token);
+      console.log("No Token", token); 
       
 
       // Redirect to login if not authenticated and trying to access protected routes

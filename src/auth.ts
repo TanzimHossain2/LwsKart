@@ -10,6 +10,7 @@ import clientPromise from "./lib/db";
 import { db } from "./backend/schema";
 import { loginUser } from "./backend/lib/user";
 import { refreshAccessToken } from "./backend/lib/token/refreshAccessToken";
+import { profile } from "console";
 
 const secret = process.env.AUTH_SECRET as string;
 
@@ -129,7 +130,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return token;
       }
 
-      console.log("JWT token inside callback", token);
+   
       
 
       const existingUser = await getUserById(token.sub);
@@ -214,6 +215,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       token.accessToken = refreshedTokens.accessToken;
       token.refreshToken = refreshedTokens.refreshToken;
       token.accessTokenExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
+
+      console.log("JWT token inside callback:-", token);
 
       return token;
     },

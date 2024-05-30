@@ -13,7 +13,13 @@ export async function POST(request: Request) {
 
   try {
     const user = await currentUser();
-    const userId = user?.id ?? "664a217f2fbc316c7de071f3";
+    const userId = user?.id ?? ""
+
+    if (!userId) {
+      return new NextResponse(JSON.stringify({ error: "User not found" }), {
+        status: 404,
+      });
+    }
 
     const res = await addWishList(userId, productId);
 
@@ -38,9 +44,18 @@ export async function POST(request: Request) {
 
 export async function GET() {
   const user = await currentUser();
-  const userId = user?.id ?? "664a217f2fbc316c7de071f3";
+  const userId = user?.id ?? "";
 
   try {
+
+    if (!userId) {
+      return new NextResponse("User not found", {
+        status: 404,
+        statusText: "User not found",
+      });
+    }
+
+
     const res = await getWishList(userId);
 
     if (res?.status === 404) {
@@ -61,6 +76,8 @@ export async function GET() {
       console.log("Route get wishlist res.data", res);
       
       const data = await WishListData(res?.data);
+      console.log("Route get wishlist data-----------------", data);
+      
       return Response.json(data);
     }
   } catch (err) {
@@ -78,7 +95,14 @@ export async function DELETE(request: Request) {
 
   try {
     const user = await currentUser();
-    const userId = user?.id ?? "664a217f2fbc316c7de071f3";
+    const userId = user?.id ?? "";
+
+    if (!userId) {
+      return new NextResponse("User not found", {
+        status: 404,
+        statusText: "User not found",
+      });
+    }
 
     const res = await removeWishList(userId, productId);
 

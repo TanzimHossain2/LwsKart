@@ -2,15 +2,17 @@ import { auth } from "@/auth";
 
 export const currentUser = async () => {
   const session = await auth();
+  console.log("---------------------currentUser session--------------------", session);
+  
 
   if (!session?.user) {
     return null;
   }
-  return session?.user;
+  return session?.user; 
 };
 
 export const currentRole= async () => {
   const session = await auth();
 
-  return session?.user?.role;
+  return session?.user?.role; 
 };
