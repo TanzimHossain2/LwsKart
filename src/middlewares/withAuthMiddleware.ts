@@ -58,13 +58,16 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     console.log("isAuthRoute", isAuthRoute, "pathname", pathname);
     console.log("isApiAuthRoute", isApiAuthRoute, "pathname", pathname);
 
-    // @ts-ignore
-    let token = (await getToken({
-      req,
-      secret: process.env.AUTH_SECRET as string, 
-    })) as Token | null;
+ 
+    let token: Token | null = null;
+    try {
+         // @ts-ignore
+      token = (await getToken({ req, secret: process.env.AUTH_SECRET })) as Token | null;
+    } catch (error) {
+      console.error("Error retrieving token:", error);
+    }
 
-    console.log("Token  in middleware----------", token);
+    console.log("Token in middleware----------", token);
     
 
     if (!token) {

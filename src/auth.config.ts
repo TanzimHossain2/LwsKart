@@ -50,10 +50,18 @@ const nextAuthConfig: NextAuthConfig = {
   providers: googleAndFacebookProviders,
   secret: process.env.AUTH_SECRET,
   trustHost: true,
+
   
   session: {
     strategy: "jwt",
   },
+
+  jwt: {
+    // @ts-ignore
+    secret: process.env.AUTH_SECRET as string,
+    encryption: true,
+  }
+
 };
 
 export default nextAuthConfig;

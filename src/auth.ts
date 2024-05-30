@@ -10,7 +10,7 @@ import clientPromise from "./lib/db";
 import { db } from "./backend/schema";
 import { loginUser } from "./backend/lib/user";
 import { refreshAccessToken } from "./backend/lib/token/refreshAccessToken";
-import { profile } from "console";
+
 
 const secret = process.env.AUTH_SECRET as string;
 
