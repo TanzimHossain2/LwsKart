@@ -29,6 +29,7 @@ export const publicRoutes = [
     "/api/products",
     "/api/wishlist",
     "/api/wishlist/*",
+    "/api/auth/callback/*",
     
 ]
 

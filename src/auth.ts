@@ -127,8 +127,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return token;
       }
 
-   
-      
 
       const existingUser = await getUserById(token.sub);
 

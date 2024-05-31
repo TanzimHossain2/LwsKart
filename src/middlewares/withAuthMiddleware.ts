@@ -53,10 +53,9 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
     let token: Token | null = null;
     try {
-
       token = (await getToken({
         req,
-              // @ts-ignore
+        // @ts-ignore
         secret: process.env.AUTH_SECRET,
       })) as Token | null;
     } catch (error) {
