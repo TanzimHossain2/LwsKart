@@ -1,5 +1,6 @@
 import { dbConnect } from "@/backend/db/connectDb";
 import { db } from "@/backend/schema";
+import { modifyObjData } from "@/utils/data";
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -28,7 +29,10 @@ export const getUserById = async (id: string) => {
 
   try {
     await dbConnect();
-    const user = await db.user.findById(id);
+    const user = await db.user.findById(id)
+    .select("-__v")
+
+    ;
     return user;
   } catch (error) {
     throw new Error(String(error));

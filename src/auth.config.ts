@@ -51,7 +51,6 @@ const nextAuthConfig: NextAuthConfig = {
   secret: process.env.AUTH_SECRET,
   trustHost: true,
 
-  
   session: {
     strategy: "jwt",
   },

@@ -1,18 +1,8 @@
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 import authConfig from "@/auth.config";
 import NextAuth from "next-auth";
-import { getToken } from "next-auth/jwt";
 import { CustomMiddleware } from "./chain";
 import { apiAuthPrefix, authRoutes, publicRoutes } from "@/routes";
-import { refreshAccessToken } from "@/backend/lib/token/refreshAccessToken";
-
-// Define the Token interface
-interface Token {
-  accessToken: string;
-  refreshToken: string;
-  accessTokenExpires: number;
-  [key: string]: any;
-}
 
 // Helper function to remove the language prefix from the URL path
 function stripLangPrefix(pathname: string) {
@@ -51,47 +41,12 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isAuthRoute = authRoutes.includes(pathname);
 
-    let token: Token | null = null;
-    try {
-      // @ts-ignore
-      token = (await getToken({
-        req,
-        secret: process.env.AUTH_SECRET,
-      })) as Token | null;
-    } catch (error) {
-      console.error("Error retrieving token:", error);
-    }
-
-    // console.log("Token in middleware----------", token);
-
-    if (!token) {
-      // If no token, continue the request if it's a public route
-      if (isPublicRoute(pathname)) {
-        return middleware(req, event, response);
-      }
-
-      // Redirect to login if not authenticated and trying to access protected routes
-      let callbackUrl = nextUrl.pathname;
-      if (nextUrl.search) {
-        callbackUrl += nextUrl.search;
-      }
-
-      const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-
-      return NextResponse.redirect(
-        new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
-      );
-    }
-
-    const { accessToken, refreshToken, accessTokenExpires } = token;
-    const isAuthLoggedIn = !!accessToken;
-
     if (isApiAuthRoute) {
       return null;
     }
 
     // Handle authentication for certain methods
-    if (["POST", "PATCH", "DELETE"].includes(method) && !isAuthLoggedIn) {
+    if (["POST", "PATCH", "DELETE"].includes(method) && !isLoggedIn) {
       let callbackUrl = nextUrl.pathname;
       if (nextUrl.search) {
         callbackUrl += nextUrl.search;
@@ -104,7 +59,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     }
 
     // If the route is an auth route, and the user is not logged in, redirect them to the login page
-    if (isAuthRoute && !isAuthLoggedIn) {
+    if (isAuthRoute && !isLoggedIn) {
       let callbackUrl = nextUrl.pathname;
       if (nextUrl.search) {
         callbackUrl += nextUrl.search;
@@ -119,41 +74,17 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
     // If the route is not public, check for authentication
     if (!isPublicRoute(pathname)) {
-      // Check if the access token is expired
-      if (accessTokenExpires && Date.now() > accessTokenExpires) {
-        const refreshedTokens = await refreshAccessToken(refreshToken ?? "");
-
-        if (!refreshedTokens) {
-          let callbackUrl = nextUrl.pathname;
-          if (nextUrl.search) {
-            callbackUrl += nextUrl.search;
-          }
-          const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-
-          return NextResponse.redirect(
-            new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
-          );
+      if (!isLoggedIn) {
+        let callbackUrl = nextUrl.pathname;
+        if (nextUrl.search) {
+          callbackUrl += nextUrl.search;
         }
+        const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
-        // Update the token
-        token = {
-          ...token,
-          accessToken: refreshedTokens.accessToken,
-          accessTokenExpires: Date.now() + 15 * 60 * 1000, // 15 minutes
-          refreshToken: refreshedTokens.refreshToken ?? token.refreshToken,
-        };
-
-        // @ts-ignore
-        req.nextauth = req.nextauth || {};
-        // @ts-ignore
-        req.nextauth.token = token;
-      } else {
-        // @ts-ignore
-        req.nextauth = req.nextauth || {};
-        // @ts-ignore
-        req.nextauth.token = token;
+        return NextResponse.redirect(
+          new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+        );
       }
-
       return NextResponse.next();
     }
 

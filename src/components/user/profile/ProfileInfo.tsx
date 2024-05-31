@@ -3,7 +3,7 @@ import BillingAdress from "../address/BillingAdress";
 import ShipingAdress from "../address/ShipingAdress";
 import PersonalInfo from "./PersonalInfo";
 import ProfileList from "./ProfileList";
-import { currentUser } from "@/lib/authUser";
+import { currentUser, currentUserById } from "@/lib/authUser";
 import { Metadata } from "next";
 import appConfig from "@/config";
 import { getUserById } from "@/backend/services/user";
@@ -32,6 +32,10 @@ const ProfileInfo = async () => {
   const user = await currentUser();
   const userId = user?.id || "";
 
+  const Userdata = await currentUserById(userId);
+
+  
+
   return (
     <>
       <BreadCamp />
@@ -41,7 +45,7 @@ const ProfileInfo = async () => {
         </div>
         <div className="w-full md:w-3/4">
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-            {user && <PersonalInfo user={user} />}
+            {Userdata && <PersonalInfo user={Userdata} />}
             <ShipingAdress userId={userId} />
             <BillingAdress userId={userId} />
           </div>

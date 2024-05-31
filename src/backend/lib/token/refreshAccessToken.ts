@@ -2,10 +2,10 @@ import jwt from "jsonwebtoken";
 
 const secret = process.env.AUTH_SECRET as string;
 
-export const refreshAccessToken = async (refreshToken: string) => {
+export const refreshAccessToken = async (refresh_token: string) => {
   try {
     const decode: jwt.JwtPayload = jwt.verify(
-      refreshToken,
+      refresh_token,
       secret
     ) as jwt.JwtPayload;
 
@@ -13,21 +13,23 @@ export const refreshAccessToken = async (refreshToken: string) => {
       return null;
     }
 
-    const accessToken = jwt.sign(
+    const access_token = jwt.sign(
       { sub: decode.sub, email: decode.email, role: decode.role },
       secret,
       {
-        expiresIn: "15m",
+        expiresIn: "1h",
       }
     );
 
     return {
-      accessToken,
-      refreshToken,
+      access_token,
+      refresh_token,
+      expires_in: 3600,
     };
+    
   } catch (err) {
     if ((err as Error).name === "TokenExpiredError") {
-      console.error("Refresh token has expired");
+      console.error("Refresh token has expired", err);
     } else {
       console.error("Error refreshing access token", err);
     }
