@@ -27,7 +27,6 @@ const Processing: React.FC<ProcessingProps> = ({ orderId, method }) => {
           paymentMethod: method,
         });
 
-        console.log(res);
 
         if (res.status === 200) {
           toast.success("Success! Sent a Invoice to your email.", {

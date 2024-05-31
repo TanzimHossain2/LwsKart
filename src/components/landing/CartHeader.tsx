@@ -26,10 +26,6 @@ const CartHeader = ({ text }: { text: string }) => {
   }, [cartItems]);
 
 
-console.log("CartHeader cartItems:", cartItems);
-
-
-
   return (
     <Link
       href="/cart"

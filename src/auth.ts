@@ -47,7 +47,6 @@ const credentialProvider = CredentialProvider({
 
       return resUser;
     } catch (error) {
-      console.log("Error in Credential authorize", error);
       throw error;
     }
   },
@@ -119,8 +118,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.accessTokenExpires = token.accessTokenExpires as number;
       }
 
-      console.log("User Session inside callback-> ", session);
-      
 
       return session;
     },
@@ -175,9 +172,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           { expiresIn: "15m" } // Access token expires in 15 minutes
         );
 
-        console.log("JWT accessToken create ", accessToken);
-        
-
         const refreshToken = jwt.sign(
           {
             sub: existingUser._id.toString(),
@@ -215,8 +209,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       token.accessToken = refreshedTokens.accessToken;
       token.refreshToken = refreshedTokens.refreshToken;
       token.accessTokenExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
-
-      console.log("JWT token inside callback:-", token);
 
       return token;
     },

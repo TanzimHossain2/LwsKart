@@ -8,7 +8,9 @@ export const getNewArrivalProducts = async () => {
     const newArrivalProducts = await db.product
       .find({ isNewArrival: true })
       .select("name price discountPrice reviewCount images averageRating category")
-      .sort({ createdAt: -1 }).lean().exec();
+      .sort({ createdAt: -1 })
+      .limit(4)
+      .lean().exec();
  
     return modifyArrayData(newArrivalProducts) || null;
   } catch (err) {

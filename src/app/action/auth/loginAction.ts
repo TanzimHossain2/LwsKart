@@ -130,11 +130,6 @@ export async function login(
       }
     }
 
-    console.log(
-      "--------------------callbackUrl------------------",
-      callbackUrl
-    );
-
     const response = await signIn("credentials", {
       email: email.toLowerCase(),
       password: password,
@@ -149,8 +144,6 @@ export async function login(
     }
 
     revalidatePath("/");
-
-    console.log("Credentials Signin Response:- ", response);
 
     return {
       url: response,

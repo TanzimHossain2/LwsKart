@@ -6,7 +6,6 @@ import { useState, useEffect, useRef } from "react";
 import AddToCart from "./AddCartWIshLIst/AddToCart";
 import { Dictionary } from "@/interfaces/lang";
 import { Star } from "lucide-react";
-import { getBlurData, getBase64ImageUrl } from "@/utils/blur-generator";
 
 type IProductCard = {
   product: IProductData;
@@ -37,7 +36,7 @@ const ProductCard: React.FC<IProductCard> = ({ product, dictionary }) => {
   const averageRating = Math.round(product?.averageRating ?? 0);
 
   return (
-    <div className="bg-white shadow rounded overflow-hidden flex flex-col h-full">
+    <div className="bg-white shadow rounded overflow-hidden flex flex-col h-full group">
       <div className="relative flex-shrink-0">
         <Image
           src={currentImage || "/placeholder.png"}
@@ -45,8 +44,8 @@ const ProductCard: React.FC<IProductCard> = ({ product, dictionary }) => {
           width={200}
           height={200}
           className="w-full"
-        
         />
+
         <div
           className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
             justify-center gap-2 opacity-0 group-hover:opacity-100 transition"

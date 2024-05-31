@@ -4,7 +4,6 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect,
   ReactNode,
   useCallback,
 } from "react";
@@ -25,8 +24,11 @@ type ReviewsContextType = {
   fetchReviews: (productId: string) => void;
 };
 
+
+// create context
 const ReviewsContext = createContext<ReviewsContextType | undefined>(undefined);
 
+// hook to use reviews
 export const useReviews = () => {
   const context = useContext(ReviewsContext);
   if (!context) {
@@ -39,6 +41,7 @@ type ReviewsProviderProps = {
   children: ReactNode;
 };
 
+// provider
 export const ReviewsProvider = ({ children }: ReviewsProviderProps) => {
   const { axiosInstance } = useAxios();
   const [reviews, setReviews] = useState<Review[]>([]);

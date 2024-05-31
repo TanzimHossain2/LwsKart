@@ -51,33 +51,24 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isAuthRoute = authRoutes.includes(pathname);
 
-
-    console.log("authuser in middleware ----->", await auth());
-    
-
-    console.log("isAuthRoute", isAuthRoute, "pathname", pathname);
-    console.log("isApiAuthRoute", isApiAuthRoute, "pathname", pathname);
-
- 
     let token: Token | null = null;
     try {
-         // @ts-ignore
-      token = (await getToken({ req, secret: process.env.AUTH_SECRET })) as Token | null;
+      // @ts-ignore
+      token = (await getToken({
+        req,
+        secret: process.env.AUTH_SECRET,
+      })) as Token | null;
     } catch (error) {
       console.error("Error retrieving token:", error);
     }
 
-    console.log("Token in middleware----------", token);
-    
+    // console.log("Token in middleware----------", token);
 
     if (!token) {
       // If no token, continue the request if it's a public route
       if (isPublicRoute(pathname)) {
         return middleware(req, event, response);
       }
-
-      console.log("No Token", token); 
-      
 
       // Redirect to login if not authenticated and trying to access protected routes
       let callbackUrl = nextUrl.pathname;
@@ -86,8 +77,7 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       }
 
       const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-      console.log("inside Middleware No Token", encodedCallbackUrl);
-      
+
       return NextResponse.redirect(
         new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
       );
@@ -95,8 +85,6 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
     const { accessToken, refreshToken, accessTokenExpires } = token;
     const isAuthLoggedIn = !!accessToken;
-    console.log("isAuthLoggedIn Token", isAuthLoggedIn);
-    
 
     if (isApiAuthRoute) {
       return null;
@@ -104,14 +92,12 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
 
     // Handle authentication for certain methods
     if (["POST", "PATCH", "DELETE"].includes(method) && !isAuthLoggedIn) {
-
       let callbackUrl = nextUrl.pathname;
       if (nextUrl.search) {
         callbackUrl += nextUrl.search;
       }
       const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-      console.log("Inside Middleware Auth Route", encodedCallbackUrl);
-      
+
       return NextResponse.redirect(
         new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
       );
@@ -123,10 +109,8 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
       if (nextUrl.search) {
         callbackUrl += nextUrl.search;
       }
-      
-      const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
-      console.log("Insude Middleware Auth Route", callbackUrl);
+      const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
       return NextResponse.redirect(
         new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
@@ -146,14 +130,10 @@ export function withAuthMiddleware(middleware: CustomMiddleware) {
           }
           const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
-          console.log("Inside Middleware Auth Route1x", encodedCallbackUrl);
-          
           return NextResponse.redirect(
             new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
           );
         }
-
-        console.log("Insude Middleware Auth Route1", refreshedTokens);
 
         // Update the token
         token = {

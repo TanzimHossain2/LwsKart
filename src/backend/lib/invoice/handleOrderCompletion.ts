@@ -3,8 +3,19 @@ import { db } from "@/backend/schema";
 import { generateInvoicePDF } from "./generateInvoicePDF";
 import { uploadInvoiceToCloudinary } from "./uploadCloudinary";
 import { sendEmailWithInvoiceLink } from "./sendEmailWithInvoiceLink";
+import { currentUser } from "@/lib/authUser";
 
 export const handleOrderCompletion = async (orderId: string) => {
+  const user = await currentUser();
+  if (!user) {
+    return {
+      status: 401,
+      message: "Unauthorized",
+    };
+  }
+
+
+
   
   try {
     await dbConnect();
@@ -20,9 +31,8 @@ export const handleOrderCompletion = async (orderId: string) => {
     const pdfUrl = await uploadInvoiceToCloudinary(pdfPath);
 
 
-
     // Send Email
-    await sendEmailWithInvoiceLink(order.user.email, pdfUrl);
+    await sendEmailWithInvoiceLink(user?.email  || order.user.email, pdfUrl);
 
     return {
       status: 200,

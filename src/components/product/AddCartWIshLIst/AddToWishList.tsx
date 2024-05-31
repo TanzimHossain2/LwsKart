@@ -25,9 +25,6 @@ const AddToWishList: React.FC<AddToWishListProps> = ({ product }) => {
   const user = useCurrentUser();
   const router = useRouter();
 
-  console.log("AddToWishList user:", user);
-  
-
   const [isInWishList, setIsInWishList] = useState(false);
   const initialLoad = useRef(true);
 

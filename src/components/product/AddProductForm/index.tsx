@@ -8,7 +8,8 @@ import { producInputSchema } from "@/schemas/product";
 import { adProduct } from "@/app/action/product";
 import * as z from "zod";
 import Image from "next/image";
-import { axiosInstance } from "@/config/axiosInstance"; 
+import { axiosInstance } from "@/config/axiosInstance";
+import { toast } from "react-toastify";
 
 type ProductFormValues = z.infer<typeof producInputSchema>;
 
@@ -114,16 +115,28 @@ const AddProductForm = () => {
 
     const response = await adProduct(formData);
 
+    if (response?.status === 201) {
+      toast.success(response.message, {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
+    } else {
+      toast.error(" Error adding product", {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
+    }
+
     // Optionally reset the form and state
-    // reset();
-    // setSelectedFiles([]);
-    // setImgsSrc([]);
+    reset();
+    setSelectedFiles([]);
+    setImgsSrc([]);
   };
 
   const fetchCategories = async () => {
     try {
       const response = await axiosInstance.get("/api/categories");
-     
+
       if (response.status === 200) {
         setCategories(response.data);
       }
@@ -135,8 +148,6 @@ const AddProductForm = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
-
-
 
   return (
     <div className="container mx-auto p-4">

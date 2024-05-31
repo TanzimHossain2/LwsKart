@@ -7,12 +7,6 @@ const Description = ({description}: {description: string}) => {
       <div className="w-3/5 pt-6">
         <div className="text-gray-600">
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            necessitatibus deleniti natus dolore cum maiores suscipit optio
-            itaque voluptatibus veritatis tempora iste facilis non aut sapiente
-            dolor quisquam, ex ab.
-          </p>
-          <p>
             {description}
           </p>
        

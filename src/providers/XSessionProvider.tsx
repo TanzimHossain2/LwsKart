@@ -1,8 +1,11 @@
 "use client";
 import React, { useContext } from "react";
 import { createContext, ReactNode, useEffect, useState } from "react";
+
+// create context
 export const SessionContext = createContext<any>({});
 
+// provider
 const XSessionProvider = ({ children, propsData }: { children: ReactNode, propsData: any }) => {
   const [session, setSession] = useState({});
 
@@ -15,7 +18,6 @@ const XSessionProvider = ({ children, propsData }: { children: ReactNode, propsD
     fetcSession();
   }, [propsData]);
 
-  console.log("---------------------Use currentUser session--------------------", session);
   return (
     <SessionContext.Provider value={session}>
       {children}

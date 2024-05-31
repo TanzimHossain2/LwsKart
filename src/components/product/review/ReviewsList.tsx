@@ -18,9 +18,6 @@ const ReviewsList = ({ productId }: any) => {
   }, [productId, fetchReviews]);
 
 
-  console.log("reviews", reviews);
-  
-
   return (
     <div className="mt-8">
       {reviews.length > 0 ? (

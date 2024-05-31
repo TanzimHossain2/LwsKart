@@ -1,3 +1,4 @@
+import LogoutButton from "@/components/auth/LogoutButton";
 import Link from "next/link";
 
 const ProfileList = () => {
@@ -24,7 +25,9 @@ const ProfileList = () => {
         <li className="shadow-md bg-white rounded-md p-4 hover:bg-gray-200">
           <Link href="/orders">Orders</Link> 
           </li>
-        <li className="shadow-md bg-white rounded-md p-4 hover:bg-gray-200">Logout</li>
+        <li className="shadow-md rounded-md p-4 bg-gray-400 ">
+          <LogoutButton>Logout</LogoutButton>
+          </li>
       </ul>
     </>
   );

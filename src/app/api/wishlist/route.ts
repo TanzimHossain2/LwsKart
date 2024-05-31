@@ -73,11 +73,8 @@ export async function GET() {
     }
 
     if (res?.data) {
-      console.log("Route get wishlist res.data", res);
-      
+  
       const data = await WishListData(res?.data);
-      console.log("Route get wishlist data-----------------", data);
-      
       return Response.json(data);
     }
   } catch (err) {
