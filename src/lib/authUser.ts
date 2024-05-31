@@ -25,6 +25,7 @@ export const currentUserById = async (id: string) => {
     return null;
   }
 
+  // @ts-ignore
   return modifyObjData(user._doc);
 
 };

@@ -7,10 +7,10 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     
-    const { isValid, token } = await validateToken(req);
-    if (!isValid) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+    // const { isValid, token } = await validateToken(req);
+    // if (!isValid) {
+    //   return new NextResponse("Unauthorized", { status: 401 });
+    // }
 
     const data = await req.json();
 

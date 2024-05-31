@@ -28,9 +28,9 @@ export async function validateToken(req: NextRequest) {
 
     const updatedToken = {
       ...token,
-      accessToken: refreshedTokens.accessToken,
-      accessTokenExpires: Date.now() + 15 * 60 * 1000, // 15 minutes
-      refreshToken: refreshedTokens.refreshToken ?? token.refreshToken,
+      accessToken: refreshedTokens.access_token,
+      accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
     };
 
     return { isValid: true, token: updatedToken };
