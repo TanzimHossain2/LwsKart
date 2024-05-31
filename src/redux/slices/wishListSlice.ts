@@ -37,12 +37,8 @@ export const fetchWishList = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/api/wishlist");
-      console.log("fetchWishList response slice", response);
-      
       return response.data as WishListItem[];
     } catch (error: any) {
-      console.log("Error fetching wishlist", error);
-      
       return rejectWithValue(
         (error.response?.data?.error || "Failed to fetch wishlist") as string
       );
@@ -56,7 +52,6 @@ export const addWishList = createAsyncThunk(
   async (productId: string, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/api/wishlist", { productId });
-      console.log("addWishList response slice", response);
       return response.data as WishListItem[];
     } catch (error: any) {
       console.log("Error adding to wishlist", error);
