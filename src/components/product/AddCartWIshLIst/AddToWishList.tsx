@@ -12,12 +12,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useRouter } from "next/navigation";
+import { ProductDictionary } from "@/interfaces/lang";
+
 
 type AddToWishListProps = {
   product: any;
+  text: ProductDictionary
 };
 
-const AddToWishList: React.FC<AddToWishListProps> = ({ product }) => {
+const AddToWishList: React.FC<AddToWishListProps> = ({ product, text }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { items: wishListItems, status, error } = useSelector(
     (state: RootState) => state.wishlist
@@ -99,7 +102,7 @@ const AddToWishList: React.FC<AddToWishListProps> = ({ product }) => {
       onClick={() => handleWishList(product)}
     >
       <Heart size={20} />
-      {isInWishList ? "Wishlisted" : "Wishlist"}
+      {isInWishList ? text.wishlisted : text.wishlist}
     </button>
   );
 };

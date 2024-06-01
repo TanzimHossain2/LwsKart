@@ -26,7 +26,7 @@ const ProductInfo: React.FC<IProductInfo> = ({ product, dictionary }) => {
 
 <Suspense fallback={<div>Loading...</div>}>
         <ReviewsList productId={product.id} />
-        <ReviewForm productId={product.id} />
+        <ReviewForm productId={product.id} dictionary={dictionary} />
 </Suspense>
 
       </div>

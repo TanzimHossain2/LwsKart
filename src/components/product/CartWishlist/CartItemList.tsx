@@ -2,8 +2,13 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import CartCard from "./cartCard";
+import { Dictionary } from "@/interfaces/lang";
 
-const CartItemList = () => {
+interface CartItemListProps {
+  dictionary: Dictionary;
+}
+
+const CartItemList = ({dictionary}:CartItemListProps) => {
   const {
     items: cartItems,
     error,
@@ -13,7 +18,7 @@ const CartItemList = () => {
   return (
     <div>
       {cartItems.map((item) => (
-        <CartCard key={item.id} item={item} />
+        <CartCard key={item.id} item={item} dictionary={dictionary} />
       ))}
     </div>
   );

@@ -82,7 +82,29 @@
       "category" : "Category",
       "sku" : "SKU",
       "size" : "Size",
-      "color" : "Color"
+      "color" : "Color",
+      "add_review": "Add a Review",
+      "comment": "Comment",
+      "submit_review": "Submit Review",
+      "share" : "Share",
+      "wishlist": "Wishlist",
+      "wishlisted": "Wishlisted"
+    },
+    "cart": {
+      "cart": "Cart",
+      "your_cart": "Your Cart",
+      "cart_total": "Cart Total" ,
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total":"Total",
+      "continue_to_checkout": "Continue to Checkout",
+      "product": "Product",
+      "price": "Price",
+      "quantity": "Quantity",
+      "weight": "Weight",
+      "cart_text": "We only charge for shipping when you have over 2kg items"
+
     },
   
     "adress": {
@@ -95,7 +117,15 @@
       "city": "City",
       "company": "Company"
     },
-
+    "profile": {
+      "profile": "Profile",
+      "account": "Account",
+      "orders": "Orders",
+      "settings": "Settings",
+      "add_product": "Add Product",
+      "add_category": "Add Category",
+      "logout": "Logout"
+    },
     "footer":{
       "solution": "SOLUTIONS",
       "support": "SUPPORT",
@@ -112,7 +142,9 @@
       "text":"Best Collection For Home Decoration"
     },
     "general": {
-      " welcome_back_customer" : "welcome back customer"
+      " welcome_back_customer" : "welcome back customer",
+      "need_to_login_revew": "You need to be logged in to post a review."
+   
     }
 
   }

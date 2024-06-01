@@ -3,6 +3,7 @@ import BreadCamp from '@/components/shared/breadCamp'
 import appConfig from '@/config';
 import { Metadata } from 'next';
 import { Suspense } from 'react'
+import { getDictionary } from '../../dictionaries';
 
 export const metadata: Metadata = {
   title: "Lwskart -  WishList",
@@ -26,12 +27,15 @@ export const metadata: Metadata = {
 
 
 
-const WishListPage = () => {
+const WishListPage =async ({ params }: any) => {
+  const { lang } = params;
+  const dictionary = await getDictionary(lang);
+
   return (
     <div>
         <BreadCamp />
         <Suspense fallback={<div>Loading...</div>}>
-        <WishlistList />
+        <WishlistList dictionary={dictionary} />
         </Suspense>
     </div>
   )

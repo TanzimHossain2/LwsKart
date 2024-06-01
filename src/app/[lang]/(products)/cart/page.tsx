@@ -3,6 +3,7 @@ import CartItems from "@/components/product/CartWishlist/CartItems"
 import BreadCamp from "@/components/shared/breadCamp"
 import appConfig from "@/config";
 import { Metadata } from "next";
+import { getDictionary } from "../../dictionaries";
 
 export const metadata: Metadata = {
   title: "Lwskart - Cart",
@@ -25,11 +26,13 @@ export const metadata: Metadata = {
 };
 
 
-const CartPage = () => {
+const CartPage = async ({ params }: any) => {
+  const { lang } = params;
+  const dictionary = await getDictionary(lang);
   return (
     <div className="container ">
         <BreadCamp />
-       <CartItems />
+       <CartItems dictionary={dictionary} />
     </div>
   )
 }

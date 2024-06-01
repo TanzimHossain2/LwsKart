@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useReviews } from "@/providers/ReviewsContext";
+import { Dictionary } from "@/interfaces/lang";
 
 const ReviewSchema = z.object({
   rating: z
@@ -23,9 +24,10 @@ const ReviewSchema = z.object({
 type Inputs = z.infer<typeof ReviewSchema>;
 type ReviewFormProps = {
   productId: string;
+  dictionary: Dictionary;
 };
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ productId }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({ productId, dictionary }) => {
   const user = useCurrentUser();
   const { axiosInstance } = useAxios();
   const router = useRouter();
@@ -69,16 +71,16 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId }) => {
     return (
       <div className="bg-white p-6 rounded-lg shadow-md mt-8 text-center">
         <h3 className="text-2xl font-semibold mb-6 text-gray-800">
-          Add a Review
+          {dictionary.product.add_review}
         </h3>
         <p className="mb-4 text-gray-600">
-          You need to be logged in to post a review.
+         {dictionary.general.need_to_login_revew}
         </p>
         <Link
           href="/login"
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
         >
-          Login
+          {dictionary.auth.login}
         </Link>
       </div>
     );
@@ -90,12 +92,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId }) => {
       className="bg-white p-6 rounded-lg shadow-md mt-8"
     >
       <h3 className="text-2xl font-semibold mb-6 text-gray-800">
-        Add a Review
+      {dictionary.product.add_review}
       </h3>
 
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Rating
+          {dictionary.filter.rating}
         </label>
         <input
           type="number"
@@ -113,7 +115,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId }) => {
 
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Comment
+          {dictionary.product.comment}
         </label>
         <textarea
           {...register("comment")}
@@ -131,7 +133,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId }) => {
         type="submit"
         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
       >
-        Submit Review
+        {dictionary.product.submit_review}
       </button>
     </form>
   );

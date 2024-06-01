@@ -106,12 +106,12 @@ const ProductDerails: React.FC<IProductDerails> = async ({
 
           <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
             <AddToCart text={dictionary.landing} product={product} />
-            <AddToWishList product={product} />
+            <AddToWishList product={product}  text={dictionary.product}  />
           </div>
           <div className="flex gap-3 mt-4">
             <VariantProduct />
             <div className="ms-10 py-1">
-              <ShareButton product={product} />
+              <ShareButton product={product} dictionary={dictionary} />
             </div>
           </div>
         </div>

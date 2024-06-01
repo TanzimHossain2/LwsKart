@@ -1,6 +1,7 @@
 "use client";
 
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { Dictionary } from "@/interfaces/lang";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { fetchWishList, removeWishList } from "@/redux/slices/wishListSlice";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -11,7 +12,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const WishlistItem = () => {
+interface WishlistItemProps {
+  dictionary: Dictionary;
+}
+
+const WishlistItem : React.FC<WishlistItemProps> = ({dictionary}) => {
   const {
     items: wishListItem,
     status,
@@ -77,8 +82,9 @@ const WishlistItem = () => {
                     isAvailable ? "text-green-600" : "text-red-600"
                   }`}
                 >
-                  Availability:{" "}
-                  <span>{isAvailable ? "In Stock" : "Out of Stock"}</span>
+                  {dictionary.product.availability}
+                :{" "}
+                  <span>{isAvailable ? dictionary.product.in_stock : dictionary.product.out_of_stock}</span>
                 </p>
               </div>
 
@@ -90,7 +96,7 @@ const WishlistItem = () => {
                 className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
                 onClick={() => handleAddToCart(item)}
               >
-                add to cart
+                {dictionary.landing.addtocart}
               </button>
 
               <div

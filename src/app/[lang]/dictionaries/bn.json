@@ -76,14 +76,35 @@
       "total": "মোট",
       "place_order": "অর্ডার করুন",
       "availability":"উপস্থিতি",
-      "in_stock":"স্টকে",
+      "in_stock":"স্টকে আছে",
       "out_of_stock":"স্টকে নেই",
       "quantity": "পরিমাণ",
       "brand" : "ব্র্যান্ড",
       "category" : "ক্যাটাগরি",
       "sku" : "SKU",
       "size" : "সাইজ",
-      "color" : "রং"
+      "color" : "রং",
+      "add_review": "রিভিউ যোগ করুন",
+      "comment": "মন্তব্য",
+      "submit_review": "রিভিউ জমা দিন",
+      "share": "শেয়ার করুন",
+      "wishlist": "ইচ্ছেতালিকা",
+      "wishlisted": "ইচ্ছেতালিকায় যুক্ত হয়েছে"
+    },
+    "cart": {
+      "cart": "কার্ট",
+      "your_cart": "আপনার কার্ট",
+      "cart_total": "কার্ট মোট", 
+      "subtotal": "উপ-মোট",
+      "shipping": "শিপিং",
+      "tax": "কর",
+      "total":"মোট",
+      "continue_to_checkout": "চেকআউট চালিয়ে যান",
+      "product": "পণ্য",
+      "price": "মূল্য",
+      "quantity": "পরিমাণ",
+      "weight": "ওজন",
+      "cart_text": "আপনার কাছে 2 কেজির বেশি আইটেম থাকলেই আমরা শিপিংয়ের জন্য চার্জ করি"
     },
   
     "adress": {
@@ -96,6 +117,17 @@
       "city": "শহর",
       "company": "কোম্পানি"
     },
+
+    "profile": {
+      "profile": "প্রোফাইল",
+      "account": "অ্যাকাউন্ট",
+      "orders": "অর্ডার",
+      "settings": "সেটিংস",
+      "add_product": "পণ্য যোগ করুন",
+      "add_category": "বিভাগ যোগ করুন",
+      "logout": "লগআউট"
+    },
+
     "footer":{
       "solution": "সমাধান",
       "support": "সমর্থন",
@@ -112,7 +144,9 @@
       "text":"বাড়ি সাজসজ্জার জন্য সেরা সংগ্রহ"
     },
     "general": {
-      " welcome_back_customer" : "স্বাগতম পুনরায় গ্রাহক"
+      " welcome_back_customer" : "স্বাগতম পুনরায় গ্রাহক",
+      "need_to_login_revew": "একটি পর্যালোচনা পোস্ট করতে আপনাকে লগ ইন করতে হবে"
+
     }
   }
   

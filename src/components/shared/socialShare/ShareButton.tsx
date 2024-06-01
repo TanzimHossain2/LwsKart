@@ -14,7 +14,7 @@ import {
   TwitterShareButton,
 } from "react-share";
 
-const ShareButton = ({ product }:any) => {
+const ShareButton = ({ product, dictionary }:any) => {
   const dropdownRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const CurrentPageurl = useCurrentUrl();
@@ -66,7 +66,9 @@ const ShareButton = ({ product }:any) => {
           <path d="M8.7 10.7l6.6 -3.4" />
           <path d="M8.7 13.3l6.6 3.4" />
         </svg>
-        <span>Share</span>
+        <span>
+          {dictionary.product.share}
+        </span>
       </div>
       {showDropdown && (
         <ul

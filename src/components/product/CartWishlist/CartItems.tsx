@@ -2,8 +2,13 @@ import React from "react";
 import CartItemList from "./CartItemList";
 import CartBilling from "./CartBilling";
 import dynamic from "next/dynamic";
+import { Dictionary } from "@/interfaces/lang";
 
-const CartItems = () => {
+interface CartItemsProps {
+  dictionary: Dictionary
+}
+
+const CartItems : React.FC<CartItemsProps> = ({dictionary}) => {
   return (
     <div
       className="px-6 py-8 md:px-20 md:py-16 bg-gray-100"
@@ -11,15 +16,17 @@ const CartItems = () => {
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14">
         <div className="lg:col-span-8">
-          <h2 className="py-2 mb-6 text-2xl">Your Cart</h2>
+          <h2 className="py-2 mb-6 text-2xl">
+            {dictionary.cart.your_cart}
+          </h2>
           <div className="flex items-center justify-between border-b border-slate-400 text-slate-400 pb-3 font-semibold text-sm mb-4"   suppressHydrationWarning={true}>
-            <h2 className="uppercase">Product</h2>
-            <h2 className="uppercase">Quantity</h2>
-            <h2 className="uppercase">Price</h2>
+            <h2 className="uppercase">  {dictionary.cart.product}</h2>
+            <h2 className="uppercase">  {dictionary.cart.quantity}</h2>
+            <h2 className="uppercase">  {dictionary.cart.price}</h2>
           </div>
 
           {/* CART ITEMS */}
-            <CartItemList />
+            <CartItemList dictionary={dictionary} />
        
 
           {/* COUPON FORM */}
@@ -38,7 +45,7 @@ const CartItems = () => {
 
 
         </div>
-        <CartBilling />
+        <CartBilling dictionary={dictionary.cart} />
       </div>
     </div>
   );

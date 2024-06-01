@@ -6,6 +6,7 @@ import { IAddress } from "@/interfaces";
 import { currentUser } from "@/lib/authUser";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { getDictionary } from "../../dictionaries";
 
 export const metadata: Metadata = {
   title: "Lwskart - Checkout",
@@ -26,8 +27,11 @@ export const metadata: Metadata = {
   },
 };
 
-const CheckoutPage = async () => {
+const CheckoutPage = async ({ params }: any) => {
   const user = await currentUser();
+
+  const { lang } = params;
+  const dictionary = await getDictionary(lang);
 
   if (!user) {
     return null;

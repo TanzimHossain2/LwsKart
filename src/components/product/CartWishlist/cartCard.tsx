@@ -14,7 +14,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import { Dictionary } from "@/interfaces/lang";
 
 type CartCardProps = {
   item: {
@@ -27,9 +27,10 @@ type CartCardProps = {
     productId: string;
     stock: number;
   };
+  dictionary: Dictionary;
 };
 
-const CartCard: React.FC<CartCardProps> = ({ item }) => {
+const CartCard: React.FC<CartCardProps> = ({ item, dictionary }) => {
   const user = useCurrentUser();
   const userId = user?.id || "";
   const productId = item.productId;
@@ -77,7 +78,6 @@ const CartCard: React.FC<CartCardProps> = ({ item }) => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-
   return (
     <div
       key={item.id}
@@ -97,13 +97,15 @@ const CartCard: React.FC<CartCardProps> = ({ item }) => {
             <h2 className="text-gray-800 cursor-pointer">{item.name}</h2>
           </Link>
 
-          <small className="text-gray-500">Golden</small>
+          {/* <small className="text-gray-500">Golden</small> */}
 
           {item.stock === 0 || item.quantity >= item.stock ? (
-            <span className="text-red-500 text-xs">Out of Stock</span>
+            <span className="text-red-500 text-xs">
+              {dictionary.product.out_of_stock}
+            </span>
           ) : (
             <span className="text-green-500 text-xs">
-              {item.stock} in stock
+              {item.stock} {dictionary.product.in_stock}
             </span>
           )}
         </div>
