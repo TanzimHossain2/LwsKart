@@ -24,7 +24,6 @@ const userSchema = new mongoose.Schema<IUser>({
   number: {
     type: String,
     required: true,
-    unique: true,
     trim: true,
   },
   image: {
